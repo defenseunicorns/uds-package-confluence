@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/defenseunicorns/zarf/main/zarf.schema.json
+kind: ZarfPackageConfig
+metadata:
+  name: confluence
+  description: "UDS confluence capability deployed via flux"
+  version: "0.0.1"
+  architecture: amd64
+
+variables:
+  - name: CONFLUENCE_DEPENDS_ON
+    default: "[]"
+  - name: CONFLUENCE_CREATE_NAMESPACE
+    default: "true"
+
+components:
+  - name: confluence-values
+    required: true
+    files:
+      - source: values-confluence.yaml
+        target: values-confluence.yaml
+  - name: confluence
+    required: true
+    description: "Deploy confluence via flux"
+    actions:
+      onDeploy:
+        before:
+          - cmd: cat values-confluence.yaml
+            description: Read confluence values into variable.
+            mute: true
+            setVariables:
+            - name: CONFLUENCE_VALUES
+              autoIndent: true
+              sensitive: true
+    charts:
+    # renovate: datasource=helm
+      - name: flux-app
+        url: https://defenseunicorns.github.io/uds-support-charts/
+        version: 1.0.5
+        namespace: confluence
+        valuesFiles:
+          - confluence-flux-values.yaml
+    repos:
+      - https://repo1.dso.mil/big-bang/product/community/confluence.git
+    images:
+      - registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node:8.0.3
+      - registry1.dso.mil/ironbank/big-bang/base:2.0.0
