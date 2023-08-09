@@ -47,11 +47,11 @@ jobs:
           username: ${{ secrets.REGISTRY1_USERNAME }}
           password: ${{ secrets.REGISTRY1_PASSWORD }}
 
-      - name: Build jira package
+      - name: Build confluence package
         run: zarf package create --confirm --no-progress
 
-      - name: Publish jira package
-        run: zarf package publish zarf-package-jira-amd64-*.tar.zst oci://ghcr.io/defenseunicorns/uds-capability --no-progress
+      - name: Publish confluence package
+        run: zarf package publish zarf-package-confluence-amd64-*.tar.zst oci://ghcr.io/defenseunicorns/uds-capability --no-progress
 
-      - name: Publish jira skeleton
+      - name: Publish confluence skeleton
         run: zarf package publish . oci://ghcr.io/defenseunicorns/uds-capability --no-progress
