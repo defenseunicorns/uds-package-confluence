@@ -1,0 +1,7 @@
+namespaces:
+  - name: confluence
+    labels:
+      istio-injection: enabled
+  - name: confluence-db
+    labels:
+      istio-injection: enabled

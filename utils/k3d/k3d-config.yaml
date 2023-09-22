@@ -1,4 +1,4 @@
-apiVersion: k3d.io/v1alpha4
+apiVersion: k3d.io/v1alpha5
 kind: Simple
 metadata:
   name: ci
@@ -9,7 +9,7 @@ options:
     extraArgs:
       - arg: --disable=metrics-server
         nodeFilters:
-            - server:*
+          - server:*
       - arg: --disable=traefik
         nodeFilters:
           - server:*
@@ -24,6 +24,13 @@ options:
           - server:*
   k3d:
     wait: true
+volumes:
+  - volume: /etc/machine-id:/etc/machine-id
+    nodeFilters:
+      - server:*
+  - volume: /sys/fs/bpf:/sys/fs/bpf:shared
+    nodeFilters:
+      - server:*
 ports:
   - port: 80:80
     nodeFilters:

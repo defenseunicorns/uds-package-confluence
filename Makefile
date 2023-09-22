@@ -1,29 +1,27 @@
 # The version of Zarf to use. To keep this repo as portable as possible the Zarf binary will be downloaded and added to
 # the build folder.
 # renovate: datasource=github-tags depName=defenseunicorns/zarf
-ZARF_VERSION := v0.28.4
+ZARF_VERSION := v0.29.2
 
 # The version of the build harness container to use
 BUILD_HARNESS_REPO := ghcr.io/defenseunicorns/build-harness/build-harness
 # renovate: datasource=docker depName=ghcr.io/defenseunicorns/build-harness/build-harness
 BUILD_HARNESS_VERSION := 1.10.2
 # renovate: datasource=docker depName=ghcr.io/defenseunicorns/packages/dubbd-k3d extractVersion=^(?<version>\d+\.\d+\.\d+)
-DUBBD_K3D_VERSION := 0.6.1
+DUBBD_K3D_VERSION := 0.9.0
 
 # Figure out which Zarf binary we should use based on the operating system we are on
 ZARF_BIN := zarf
 UNAME_S := $(shell uname -s)
-UNAME_P := $(shell uname -p)
-ifneq ($(UNAME_S),Linux)
-	ifeq ($(UNAME_S),Darwin)
-		ZARF_BIN := $(addsuffix -mac,$(ZARF_BIN))
-	endif
-	ifeq ($(UNAME_P),i386)
-		ZARF_BIN := $(addsuffix -intel,$(ZARF_BIN))
-	endif
-	ifeq ($(UNAME_P),arm64)
-		ZARF_BIN := $(addsuffix -apple,$(ZARF_BIN))
-	endif
+UNAME_M := $(shell uname -m)
+ifeq ($(UNAME_M),x86_64)
+    ARCH := amd64
+else ifeq ($(UNAME_M),amd64)
+    ARCH := amd64
+else ifeq ($(UNAME_M),arm64)
+    ARCH := arm64
+else
+    $(error Unsupported architecture: $(UNAME_M))
 endif
 
 # Silent mode by default. Run `make VERBOSE=1` to turn off silent mode.
@@ -76,7 +74,7 @@ fix-cache-permissions: ## Fixes the permissions on the pre-commit cache
 ########################################################################
 
 .PHONY: test
-test: ## Run all automated tests. Requires access to an AWS account. Costs money. Requires env vars "REPO_URL", "GIT_BRANCH", "REGISTRY1_USERNAME", "REGISTRY1_PASSWORD", "GHCR_USERNAME", "GHCR_PASSWORD" and standard AWS env vars.
+test: ## Run all automated tests. Requires access to an AWS account. Costs money. Requires env vars "REPO_URL", "GIT_BRANCH", "REGISTRY1_USERNAME", "REGISTRY1_PASSWORD" and standard AWS env vars.
 	mkdir -p .cache/go
 	mkdir -p .cache/go-build
 	echo "Running automated tests. This will take several minutes. At times it does not log anything to the console. If you interrupt the test run you will need to log into AWS console and manually delete any orphaned infrastructure."
@@ -91,8 +89,6 @@ test: ## Run all automated tests. Requires access to an AWS account. Costs money
 	-e GIT_BRANCH \
 	-e REGISTRY1_USERNAME \
 	-e REGISTRY1_PASSWORD \
-	-e GHCR_USERNAME \
-	-e GHCR_PASSWORD \
 	-e AWS_REGION \
 	-e AWS_DEFAULT_REGION \
 	-e AWS_ACCESS_KEY_ID \
@@ -102,6 +98,7 @@ test: ## Run all automated tests. Requires access to an AWS account. Costs money
 	-e AWS_SESSION_EXPIRATION \
 	-e SKIP_SETUP -e SKIP_TEST \
 	-e SKIP_TEARDOWN \
+	-e AWS_AVAILABILITY_ZONE \
 	$(BUILD_HARNESS_REPO):$(BUILD_HARNESS_VERSION) \
 	bash -c 'asdf install && go test -v -timeout 2h -p 1 ./...'
 
@@ -115,17 +112,17 @@ test-ssh: ## Run this if you set SKIP_TEARDOWN=1 and want to SSH into the still-
 # Cluster Section
 ########################################################################
 
-cluster/full: cluster/destroy cluster/create build/all deploy/all ## This will destroy any existing cluster, create a new one, then build and deploy all
+cluster/reset: cluster/destroy cluster/create ## This will destroy any existing cluster and then create a new one
 
 cluster/create: ## Create a k3d cluster with metallb installed
-	k3d cluster create k3d-test-cluster --config utils/k3d/k3d-config.yaml -v /etc/machine-id:/etc/machine-id@server:*
+	K3D_FIX_MOUNTS=1 k3d cluster create k3d-test-cluster --config utils/k3d/k3d-config.yaml
 	k3d kubeconfig merge k3d-test-cluster -o /home/${USER}/cluster-kubeconfig.yaml
 	echo "Installing Calico..."
-	kubectl apply --wait=true -f https://k3d.io/v5.5.2/usage/advanced/calico.yaml 2>&1 >/dev/null
+	kubectl apply --wait=true -f utils/calico/calico.yaml 2>&1 >/dev/null
 	echo "Waiting for Calico to be ready..."
 	kubectl rollout status deployment/calico-kube-controllers -n kube-system --watch --timeout=90s 2>&1 >/dev/null
 	kubectl rollout status daemonset/calico-node -n kube-system --watch --timeout=90s 2>&1 >/dev/null
-	kubectl wait --for=condition=Ready pods --all --all-namespaces 2>&1 >/dev/null
+	kubectl wait --for=condition=Ready pods --all --all-namespaces --timeout=90s 2>&1 >/dev/null
 	echo
 	utils/metallb/install.sh
 	echo "Cluster is ready!"
@@ -137,7 +134,7 @@ cluster/destroy: ## Destroy the k3d cluster
 # Build Section
 ########################################################################
 
-build/all: build build/zarf build/zarf-init.sha256 build/dubbd-pull-k3d.sha256 build/uds-capability-confluence ##
+build/all: build build/zarf build/zarf-init build/dubbd-k3d build/test-pkg-deps build/uds-capability-confluence ##
 
 build: ## Create build directory
 	mkdir -p build
@@ -146,41 +143,56 @@ build: ## Create build directory
 clean: ## Clean up build files
 	rm -rf ./build
 
-build/zarf: | build ## Download the Linux flavor of Zarf to the build dir
-	echo "Downloading zarf"
-	curl -sL https://github.com/defenseunicorns/zarf/releases/download/$(ZARF_VERSION)/zarf_$(ZARF_VERSION)_Linux_amd64 -o build/zarf
+.PHONY: build/zarf
+build/zarf: | build ## Download the Zarf to the build dir
+	if [ -f build/zarf ] && [ "$$(build/zarf version)" = "$(ZARF_VERSION)" ] ; then exit 0; fi && \
+	echo "Downloading zarf" && \
+	curl -sL https://github.com/defenseunicorns/zarf/releases/download/$(ZARF_VERSION)/zarf_$(ZARF_VERSION)_$(UNAME_S)_$(ARCH) -o build/zarf && \
 	chmod +x build/zarf
 
-build/zarf-mac-intel: | build ## Download the Mac (Intel) flavor of Zarf to the build dir
-	echo "Downloading zarf-mac-intel"
-	curl -sL https://github.com/defenseunicorns/zarf/releases/download/$(ZARF_VERSION)/zarf_$(ZARF_VERSION)_Darwin_amd64 -o build/zarf-mac-intel
-	chmod +x build/zarf-mac-intel
-
-build/zarf-init.sha256: | build ## Download the init package
-	echo "Downloading zarf-init-amd64-$(ZARF_VERSION).tar.zst"
+.PHONY: build/zarf-init
+build/zarf-init: | build ## Download the init package
+	if [ -f build/zarf-init-amd64-$(ZARF_VERSION).tar.zst ] ; then exit 0; fi && \
+	echo "Downloading zarf-init-amd64-$(ZARF_VERSION).tar.zst" && \
 	curl -sL https://github.com/defenseunicorns/zarf/releases/download/$(ZARF_VERSION)/zarf-init-amd64-$(ZARF_VERSION).tar.zst -o build/zarf-init-amd64-$(ZARF_VERSION).tar.zst
-	echo "Creating shasum of the init package"
-	shasum -a 256 build/zarf-init-amd64-$(ZARF_VERSION).tar.zst | awk '{print $$1}' > build/zarf-init.sha256
 
-build/dubbd-pull-k3d.sha256: | build ## Download dubbd k3d oci package
-	./build/zarf package pull oci://ghcr.io/defenseunicorns/packages/dubbd-k3d:$(DUBBD_K3D_VERSION)-amd64 --oci-concurrency 9 --output-directory build
-	echo "Creating shasum of the dubbd-k3d package"
-	shasum -a 256 build/zarf-package-dubbd-k3d-amd64-$(DUBBD_K3D_VERSION).tar.zst | awk '{print $$1}' > build/dubbd-pull-k3d.sha256
+.PHONY: build/dubbd-k3d
+build/dubbd-k3d: | build/zarf ## Download dubbd k3d oci package
+	if [ -f build/zarf-package-dubbd-k3d-amd64-$(DUBBD_K3D_VERSION).tar.zst ] ; then exit 0; fi && \
+	cd build && ./zarf package pull oci://ghcr.io/defenseunicorns/packages/dubbd-k3d:$(DUBBD_K3D_VERSION)-amd64 --oci-concurrency 12
+
+build/test-pkg-deps: | build/zarf ## Build package dependencies for testing
+	cd build && ./zarf package create ../utils/pkg-deps/namespaces/ --skip-sbom --confirm
+	cd build && ./zarf package create ../utils/pkg-deps/confluence/postgres/ --skip-sbom --confirm
 
 build/uds-capability-confluence: | build ## Build the confluence capability
-	build/zarf package create . --skip-sbom --confirm --output-directory build
+	cd build && ./zarf package create ../ --skip-sbom --confirm
 
 ########################################################################
 # Deploy Section
 ########################################################################
 
-deploy/all: deploy/init deploy/dubbd-k3d deploy/uds-capability-confluence ##
+deploy/all: deploy/init deploy/dubbd-k3d deploy/test-pkg-deps deploy/uds-capability-confluence ##
 
-deploy/init: ## Deploy the zarf init package
-	./build/zarf init --confirm --components=git-server
+deploy/init: | build/zarf ## Deploy the zarf init package
+	cd build && ./zarf init --confirm --components=git-server
 
-deploy/dubbd-k3d: ## Deploy the k3d flavor of DUBBD
-	cd ./build && ./zarf package deploy zarf-package-dubbd-k3d-amd64-$(DUBBD_K3D_VERSION).tar.zst --confirm
+deploy/dubbd-k3d: | build/zarf ## Deploy the k3d flavor of DUBBD
+	cd build && ./zarf package deploy zarf-package-dubbd-k3d-amd64-$(DUBBD_K3D_VERSION).tar.zst --confirm
+
+deploy/test-pkg-deps: | build/zarf ## Deploy the package dependencies needed for testing the confluence capability
+	cd build && ./zarf package deploy zarf-package-confluence-namespaces-* --confirm
+	cd build && ./zarf package deploy zarf-package-confluence-postgres* --confirm
 
 deploy/uds-capability-confluence: ## Deploy the confluence capability
-	cd ./build && ./zarf package deploy zarf-package-confluence-*.tar.zst --confirm
+	cd build && ./zarf package deploy zarf-package-confluence-amd64-*.tar.zst --confirm
+
+########################################################################
+# Macro Section
+########################################################################
+
+.PHONY: all
+all: build/all cluster/reset deploy/all ## Build and deploy confluence locally
+
+.PHONY: rebuild
+rebuild: clean build/all
