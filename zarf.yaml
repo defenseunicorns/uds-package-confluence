@@ -3,7 +3,7 @@ kind: ZarfPackageConfig
 metadata:
   name: confluence
   description: "UDS confluence capability deployed via flux"
-  version: "0.0.2"
+  version: "0.0.3"
   architecture: amd64
 
 variables:
@@ -34,7 +34,7 @@ components:
         valuesFiles:
           - confluence-flux-values.yaml
     repos:
-      - https://repo1.dso.mil/big-bang/product/community/confluence.git
+      - https://repo1.dso.mil/big-bang/product/community/confluence.git@1.15.0-bb.6
     images:
       - registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node:8.4.0
       - registry1.dso.mil/ironbank/big-bang/base:2.0.0

@@ -6,7 +6,7 @@ application:
   repository: https://repo1.dso.mil/big-bang/product/community/confluence.git
   ref:
     # renovate: datasource=gitlab-tags depName=big-bang/product/community/confluence versioning=loose registryUrl=https://repo1.dso.mil
-    tag: 1.15.0-bb.5
+    tag: 1.15.0-bb.6
   values: |
     ###ZARF_VAR_CONFLUENCE_VALUES###
   dependsOn:
@@ -20,7 +20,7 @@ application:
       enabled: true
       gateways:
         - istio-system/tenant
-    
+
     # When istio injected, add an annotation with the istio version to the manager pods only
     podAnnotations:
       bigbang.dev/istioVersion: ###ZARF_VAR_ISTIO_VERSION###
@@ -64,10 +64,9 @@ application:
           resources:
             requests:
               storage: 1Gi
-      
+
     networkPolicies:
       enabled: true
       ingressLabels:
         app: tenant-ingressgateway
       controlPlaneCidr: 0.0.0.0/0
-      
