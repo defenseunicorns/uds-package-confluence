@@ -3,7 +3,7 @@ kind: ZarfPackageConfig
 metadata:
   name: confluence
   description: "UDS confluence capability deployed via flux"
-  version: "0.0.3"
+  version: "0.0.4"
   architecture: amd64
 
 variables:
@@ -11,6 +11,8 @@ variables:
     default: "[]"
   - name: CONFLUENCE_CREATE_NAMESPACE
     default: "false"
+  - name: CONFLUENCE_DB_USERNAME
+    default: "confluence"
   - name: DOMAIN
     default: "bigbang.dev"
 
@@ -34,9 +36,9 @@ components:
         valuesFiles:
           - confluence-flux-values.yaml
     repos:
-      - https://repo1.dso.mil/big-bang/product/community/confluence.git@1.15.0-bb.6
+      - https://repo1.dso.mil/big-bang/product/community/confluence.git@1.15.0-bb.7
     images:
-      - registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node:8.4.0
+      - registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node:8.6.0
       - registry1.dso.mil/ironbank/big-bang/base:2.0.0
     actions:
       onDeploy:
