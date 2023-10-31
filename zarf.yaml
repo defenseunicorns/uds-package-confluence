@@ -11,6 +11,8 @@ variables:
     default: "[]"
   - name: CONFLUENCE_CREATE_NAMESPACE
     default: "false"
+  - name: CONFLUENCE_DB_NAME
+    default: "confluencedb"
   - name: CONFLUENCE_DB_USERNAME
     default: "confluence"
   - name: DOMAIN

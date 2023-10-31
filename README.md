@@ -15,11 +15,11 @@ Bigbang [Confluence](https://repo1.dso.mil/big-bang/product/community/confluence
 #### Database
 
 - A Postgres database is running on port `5432` and accessible to the cluster
-- This database can be logged into via the username `confluence`
-- The `confluence` user has read/write access to the above mentioned database
-- This database instance has a psql database created named `confluencedb`
+- This database can be logged into via the username configured with the zarf var `CONFLUENCE_DB_USERNAME`. Default is`confluence`
+- This database instance has a psql database created configured with the zarf var `CONFLUENCE_DB_NAME`. Default is `confluencedb`
+- The user has read/write access to the above mentioned database
 - Create `confluence-postgres` service in `confluence` namespace that points to the psql database
-- Create `confluence-postgres` secret in `confluence` namespace with the key `password` that contains the password to the `confluence` user for the psql database
+- Create `confluence-postgres` secret in `confluence` namespace with the key `password` that contains the password to the user for the psql database
 ## Deploy
 
 ### Use zarf to login to the needed registries i.e. registry1.dso.mil
