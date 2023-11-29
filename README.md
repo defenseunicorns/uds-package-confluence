@@ -60,5 +60,5 @@ metadata:
 zarf-packages:
   - name: confluence
     repository: ghcr.io/defenseunicorns/uds-capability/confluence
-    ref: 0.0.2
+    ref: x.x.x
 ```
