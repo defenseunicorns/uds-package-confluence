@@ -73,6 +73,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      ####
+      # Build and publish packages
+      ####
+      - name: Build and publish dev-dependency confluence-postgres package
+        run: cd utils/pkg-deps/confluence/postgres && zarf package create --confirm --no-progress --output oci://ghcr.io/defenseunicorns/uds-capability/confluence/dev-dependency
+
       - name: Publish confluence package
         run: zarf package publish zarf-package-confluence-amd64-*.tar.zst oci://ghcr.io/defenseunicorns/uds-capability --no-progress
 
