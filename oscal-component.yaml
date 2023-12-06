@@ -1,0 +1,321 @@
+component-definition:
+  uuid: ce566550-7e4e-4e1d-aa26-82fd0e529cb3
+  metadata:
+    title: UDS Capability Confluence
+    last-modified: "2023-12-05T18:25:36Z"
+    version: "20231205"
+    oscal-version: 1.1.1
+    parties:
+      - uuid: f3cf70f8-ba44-4e55-9ea3-389ef24847d3
+        type: organization
+        name: Defense Unicorns
+        links:
+          - href: https://defenseunicorns.com
+            rel: website
+  components:
+    - uuid: 9e5c9099-9a4c-450f-bd4d-08d2ba2d0968
+      type: software
+      title: Confluence
+      description: |
+        Confluence is a collaboration tool that organizes and manages work efficiently by enabling teams to create, share, and collaborate on projects in a centralized space. It integrates seamlessly with other 
+        tools and provides a platform for documenting, discussing, and tracking progress, making it ideal for project management and team communication.
+      purpose: Provides users with secure project management, documentation, and issue tracking capabilities.
+      responsible-roles:
+        - role-id: provider
+          party-uuids:
+            - f3cf70f8-ba44-4e55-9ea3-389ef24847d3
+      control-implementations:
+        - uuid: d2afb4c4-2cd8-5305-a6cc-d1bc7b388d0c
+          source: https://raw.githubusercontent.com/GSA/fedramp-automation/93ca0e20ff5e54fc04140613476fba80f08e3c7d/dist/content/rev5/baselines/json/FedRAMP_rev5_HIGH-baseline-resolved-profile_catalog.json
+          description: Controls partially implemented by Confluence for inheritance by applications that adheres to FedRAMP High Baseline and DoD IL 6.
+          implemented-requirements:
+            - uuid: e0b69b26-83b1-4a15-9910-b6db413e50e563db05
+              control-id: ac-1
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 2f3ef038-50a3-4d07-9bd7-d7fda6fe43c4
+              control-id: au-1
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 767b09c3-ab7f-4992-a2a2-100dd863db05
+              control-id: au-2
+              description: >-
+                Confluence creates event logs.  
+            - uuid: 7155ad9a-1a0e-4a37-a75e-45eedb6f8208
+              control-id: au-3
+              description: >-
+                Confluence creates event logs.  
+            - uuid: 25fdbc15-6adf-4c22-941d-791a88489561
+              control-id: au-3.1
+              description: >-
+                Confluence creates event logs.  
+            - uuid: c08883b4-57da-4e2c-8359-600e7fcd0ec2
+              control-id: au-8
+              description: >-
+                Confluence event logs contain NIST compliant timestamps.
+            - uuid: 73e8fb77-a856-4877-886e-ddd1ec1dbb56
+              control-id: at-1
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: c69afe49-3443-4269-b282-50e94ea12999
+              control-id: at-4
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 0858c41b-1fb6-4797-8722-a91c9d4a6c81
+              control-id: ca-1
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 434ab6d5-dd0e-44f0-9e75-2d3eb9c6096b
+              control-id: ca-3
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: b9b390bd-740e-4dfe-94bd-ed7574d178e4
+              control-id: cm-1
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 00163748-590f-421a-94b0-5d768aae7894
+              control-id: cm-9
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 3a4ab35c-f9ed-4291-82a4-2acfd5f765eb
+              control-id: cm-12
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 3de1025c-dd61-498e-ad34-c488b952986e
+              control-id: cp-1
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 4361415b-1868-41e4-b2ef-bd586e22797f
+              control-id: cp-2
+              description: >-
+                Confluence partially addreses this control by aiding in the coordination of the contingency plan, tracking updates, and execution. Also aides in incorporating lessons learned through project management.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: cb6af609-2707-4bf6-9874-a67d82a74cd2
+              control-id: cp-2.1
+              description: >-
+                Confluence partially meets this control by providing a platform for coordination of the contingency plan development.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 0248d6a8-dead-42e0-b388-80aeaaa8fee1
+              control-id: cp-4.1
+              description: >-
+                Confluence partially meets this control by providing a platform for coordination of the contingency plan development.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 5c1762a8-b7bc-4e67-9df3-6708c77107a4
+              control-id: cm-3.6
+              description: >-
+                Confluence utilizes the underlying istio for FIPs encryption in transit. Confluence stores data in an encrypted PostgreSQL database.
+            - uuid: c480bef1-4d53-4d27-831b-84cff57388b2
+              control-id: ia-1
+              description: >-
+               Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 562b2362-0bdc-4d42-b349-6cdd0d110e68
+              control-id: ir-1
+              description: >-
+               Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 9b554527-ba8a-4a8d-9e2c-b54270bca393
+              control-id: ir-3
+              description: >-
+                Confluence partially meets this control by providing a platform for coordination of the incident response process.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: cd73e290-8472-4205-aaa1-0d304e9e7857
+              control-id: ir-5
+              description: >-
+                Confluence partially meets this control by providing a platform for tracking and documenting incidents.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 4fb2701d-6148-4485-9a4e-aec14878819e
+              control-id: ir-8
+              description: >-
+                Confluence partially meets this control by providing a platform for tracking and documenting incidents.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 76448a96-fdf4-4f01-b00f-01be579b40b2
+              control-id: ma-1
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 23ca0c11-df99-4350-b930-41c00915ecd4
+              control-id: ma-2
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 85805644-68d5-42ba-b2f4-8e218472b7ae
+              control-id: ma-2.2
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: f125d514-fa98-4e4a-863e-3588195188f2
+              control-id: mp-1
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: ce3133d6-38e2-447e-a6ee-371b4aa3ccc0
+              control-id: mp-6.1
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: e1da1627-6e28-404e-98ae-afe5ccb8ee5f
+              control-id: pe-1
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 8a49778d-828b-4597-b806-abcb91fcfe72
+              control-id: pl-1
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 4a8cff31-7218-4ceb-9ac4-a43619676bde
+              control-id: pl-4
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 57116dab-6ccb-4978-8d9c-33aa67d1add4
+              control-id: ps-1
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 9674a6f9-5038-485b-8b8b-b350d0a2893a
+              control-id: ps-6
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 4d7e8043-e9f2-4bb9-a057-7daaf7cb784a
+              control-id: ra-1
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 0fed390e-74e5-4621-a41c-f0a06fdad7d8
+              control-id: sa-1
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 33362397-1b6e-427f-9dc6-6a2fc8fb768c
+              control-id: sc-1
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: c70b1242-d834-428a-806f-bb9ad90598d7
+              control-id: si-1
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+            - uuid: 40dd969e-66bc-41a2-a5bc-bd7b767061fb
+              control-id: sr-1
+              description: >-
+                Confluence partially satisfies this control by providing a secure documentation storage, versioning control, and team collaboration platform.
+              props:
+                - name: implemented
+                  ns: https://lula.dev/ns/oscal
+                  value: partially
+  back-matter:
+    resources:
+      - uuid: 55a5f362-8002-4461-8e50-40ac01b2944a
+        title: UDS Capability Confluence
+        rlinks:
+          - href: https://github.com/defenseunicorns/uds-capability-Confluence
