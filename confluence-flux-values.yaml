@@ -6,7 +6,7 @@ application:
   repository: https://repo1.dso.mil/big-bang/product/community/confluence.git
   ref:
     # renovate: datasource=gitlab-tags depName=big-bang/product/community/confluence versioning=loose registryUrl=https://repo1.dso.mil
-    tag: 1.15.0-bb.7
+    tag: 1.16.6-bb.4
   values: |
     ###ZARF_VAR_CONFLUENCE_VALUES###
   dependsOn:
