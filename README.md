@@ -57,7 +57,7 @@ metadata:
   version: 0.0.1
   architecture: amd64
 
-zarf-packages:
+packages:
   - name: confluence
     repository: ghcr.io/defenseunicorns/uds-capability/confluence
     ref: x.x.x
