@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.4](https://github.com/defenseunicorns/uds-capability-confluence/compare/v0.1.3...v0.1.4) (2024-01-09)
+
+
+### Features
+
+* added initial oscal component file ([#15](https://github.com/defenseunicorns/uds-capability-confluence/issues/15)) ([838464d](https://github.com/defenseunicorns/uds-capability-confluence/commit/838464d9168ed229612a4cb798c041e2d4de5018))
+
+
+### Miscellaneous
+
+* Update confluence to 1.17.1-bb.0 ([#18](https://github.com/defenseunicorns/uds-capability-confluence/issues/18)) ([2ccebdf](https://github.com/defenseunicorns/uds-capability-confluence/commit/2ccebdff955a6628fb345a87659d25debf8253ac))
+* Update DUBBD to 0.16.0 ([2ccebdf](https://github.com/defenseunicorns/uds-capability-confluence/commit/2ccebdff955a6628fb345a87659d25debf8253ac))
+* Update Zarf to 0.31.4 ([2ccebdf](https://github.com/defenseunicorns/uds-capability-confluence/commit/2ccebdff955a6628fb345a87659d25debf8253ac))
+
 ## [0.1.3](https://github.com/defenseunicorns/uds-capability-confluence/compare/v0.1.2...v0.1.3) (2023-12-06)
 
 
