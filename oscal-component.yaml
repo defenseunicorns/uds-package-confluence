@@ -1,7 +1,7 @@
 component-definition:
   uuid: ce566550-7e4e-4e1d-aa26-82fd0e529cb3
   metadata:
-    title: UDS Capability Confluence
+    title: UDS Package Confluence
     last-modified: "2023-12-05T18:25:36Z"
     version: "20231205"
     oscal-version: 1.1.1
@@ -316,6 +316,6 @@ component-definition:
   back-matter:
     resources:
       - uuid: 55a5f362-8002-4461-8e50-40ac01b2944a
-        title: UDS Capability Confluence
+        title: UDS Package Confluence
         rlinks:
-          - href: https://github.com/defenseunicorns/uds-capability-Confluence
+          - href: https://github.com/defenseunicorns/uds-package-Confluence
