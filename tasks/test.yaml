@@ -1,0 +1,18 @@
+tasks:
+  - name: health-check
+    actions:
+      - description: confluence StatefulSet Health Check
+        wait:
+          cluster:
+            kind: StatefulSet
+            name: confluence-confluence
+            namespace: confluence
+
+  - name: ingress
+    actions:
+      - description: confluence UI Health Check
+        wait:
+          network:
+            protocol: https
+            address: confluence.uds.dev
+            code: 200

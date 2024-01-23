@@ -1,0 +1,3 @@
+variables:
+  confluence:
+    confluence_db_endpoint: "postgresql.confluence-db.svc.cluster.local"

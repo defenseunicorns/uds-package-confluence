@@ -1,5 +1,5 @@
-# uds-capability-confluence
-Bigbang [Confluence](https://repo1.dso.mil/big-bang/product/community/confluence) deployed via flux by zarf
+# uds-package-confluence
+Bigbang [Confluence](https://repo1.dso.mil/big-bang/product/community/confluence) deployed by uds
 
 ## Deployment Prerequisites
 

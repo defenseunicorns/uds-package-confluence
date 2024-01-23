@@ -2,9 +2,9 @@
 kind: ZarfPackageConfig
 metadata:
   name: confluence
-  description: "UDS confluence capability deployed via flux"
+  description: "UDS confluence package"
   # x-release-please-start-version
-  version: "0.1.4"
+  version: "1.17.1-uds.0"
   # x-release-please-end
   architecture: amd64
 
@@ -18,39 +18,57 @@ variables:
   - name: CONFLUENCE_DB_USERNAME
     default: "confluence"
   - name: DOMAIN
-    default: "bigbang.dev"
+    default: "uds.dev"
+  - name: CONFLUENCE_DB_ENDPOINT
+    default: "postgres"
 
 components:
-  - name: istio-version
-    required: true
-    actions:
-      onDeploy:
-        before:
-          - cmd: kubectl get deployment -n monitoring monitoring-monitoring-kube-operator -o=jsonpath='{.spec.template.metadata.annotations.bigbang\.dev/istioVersion}'
-            setVariable: ISTIO_VERSION
   - name: confluence
     required: true
-    description: "Deploy confluence via flux"
+    description: "Deploy confluence"
+    only:
+      flavor: registry1
     charts:
     # renovate: datasource=helm
-      - name: flux-app
-        url: https://defenseunicorns.github.io/uds-support-charts/
-        version: 1.0.7
+      - name: confluence
         namespace: confluence
+        url: https://repo1.dso.mil/big-bang/product/community/confluence.git
+        gitPath: chart
+        version: 1.17.1-bb.0
         valuesFiles:
-          - confluence-flux-values.yaml
-    repos:
-      - https://repo1.dso.mil/big-bang/product/community/confluence.git@1.17.1-bb.0
+          - values/confluence-values.yaml
+      - name: uds-confluence-config
+        namespace: confluence
+        version: 0.1.0
+        localPath: chart
     images:
       - registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node:8.7.1
-    actions:
-      onDeploy:
-        after:
-          - wait:
-              cluster:
-                kind: helmRelease
-                name: confluence
-                condition: Ready
-                namespace: bigbang
-            maxTotalSeconds: 900
-            description: Confluence HelmRelease to be Ready
+      - registry1.dso.mil/ironbank/big-bang/base:2.1.0
+
+  # Note: upstream-ce flavor is experimental
+  - name: confluence
+    required: true
+    description: "Deploy confluence"
+    only:
+      flavor: upstream-ce
+    charts:
+      - name: confluence
+        #helm repo add atlassian-data-center https://atlassian.github.io/data-center-helm-charts
+        #helm search repo atlassian-data-center/confluence -l
+        version: 1.17.1
+        namespace: confluence
+        url: https://atlassian.github.io/data-center-helm-charts
+        repoName: confluence
+        releaseName: confluence
+        valuesFiles:
+          - values/confluence-values.yaml
+          - values/upstream.yaml
+          - values/ce.yaml
+      - name: uds-confluence-config
+        namespace: confluence
+        version: 0.1.0
+        localPath: chart
+    images:
+      - alpine:latest
+      - atlassian/confluence:8.5.4
+      - debian:stable-slim

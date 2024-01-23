@@ -1,0 +1,37 @@
+variables:
+  - name: FLAVOR
+    default: "registry1"
+
+tasks:
+  - name: confluence-test-bundle
+    description: Create the UDS bundle with confluence and its dependencies
+    actions:
+      - task: confluence-package-no-sbom
+      - task: dependency-package-no-sbom
+      - cmd: uds create bundle --confirm --no-progress --architecture=${UDS_ARCH}
+
+  - name: confluence-package
+    description: Create the UDS confluence Zarf Package
+    actions:
+      - cmd: zarf package create --confirm --no-progress --architecture=${ZARF_ARCHITECTURE} --flavor ${FLAVOR}
+
+  - name: dependency-package
+    description: Create the Dependency Zarf Package(s)
+    actions:
+      - cmd: |
+          for dependency in postgres; do
+            zarf package create test/${dependency}/ --confirm --no-progress --architecture=${UDS_ARCH} --skip-sbom
+          done
+
+  - name: confluence-package-no-sbom
+    description: Create the UDS confluence Zarf Package
+    actions:
+      - cmd: zarf package create --confirm --skip-sbom --no-progress --architecture=${ZARF_ARCHITECTURE} --flavor ${FLAVOR}
+
+  - name: dependency-package-no-sbom
+    description: Create the Dependency Zarf Package(s)
+    actions:
+      - cmd: |
+          for dependency in postgres; do
+            zarf package create test/${dependency}/ --confirm --skip-sbom --no-progress --architecture=${UDS_ARCH} --skip-sbom
+          done
