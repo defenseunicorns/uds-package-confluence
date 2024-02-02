@@ -10,7 +10,7 @@ packages:
   - name: confluence-postgres
     path: ../
     ref: 12.6.6-0
-  
+
   - name: confluence
     path: ../
     # x-release-please-start-version

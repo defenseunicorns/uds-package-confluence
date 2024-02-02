@@ -17,7 +17,7 @@ component-definition:
       type: software
       title: Confluence
       description: |
-        Confluence is a collaboration tool that organizes and manages work efficiently by enabling teams to create, share, and collaborate on projects in a centralized space. It integrates seamlessly with other 
+        Confluence is a collaboration tool that organizes and manages work efficiently by enabling teams to create, share, and collaborate on projects in a centralized space. It integrates seamlessly with other
         tools and provides a platform for documenting, discussing, and tracking progress, making it ideal for project management and team communication.
       purpose: Provides users with secure project management, documentation, and issue tracking capabilities.
       responsible-roles:
@@ -48,15 +48,15 @@ component-definition:
             - uuid: 767b09c3-ab7f-4992-a2a2-100dd863db05
               control-id: au-2
               description: >-
-                Confluence creates event logs.  
+                Confluence creates event logs.
             - uuid: 7155ad9a-1a0e-4a37-a75e-45eedb6f8208
               control-id: au-3
               description: >-
-                Confluence creates event logs.  
+                Confluence creates event logs.
             - uuid: 25fdbc15-6adf-4c22-941d-791a88489561
               control-id: au-3.1
               description: >-
-                Confluence creates event logs.  
+                Confluence creates event logs.
             - uuid: c08883b4-57da-4e2c-8359-600e7fcd0ec2
               control-id: au-8
               description: >-

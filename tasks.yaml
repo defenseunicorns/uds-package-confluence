@@ -9,7 +9,7 @@ tasks:
   - name: setup-cluster
     actions:
       - task: setup:k3d-test-cluster
-  
+
   - name: create-package
     actions:
       - task: create:confluence-package
@@ -17,7 +17,7 @@ tasks:
   - name: create-test-bundle
     actions:
       - task: create:confluence-test-bundle
-  
+
   - name: deploy-package
     actions:
       - task: deploy:confluence-package
