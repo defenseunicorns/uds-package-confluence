@@ -12,9 +12,10 @@ spec:
         gateway: tenant
         host: confluence
         port: 80
+        targetPort: 8090
     allow:
       # Todo: wide open for hitting in-cluster or external postgres
       - direction: Egress
         podLabels:
-          app: confluence
+          app.kubernetes.io/name: confluence
         remoteGenerated: Anywhere
