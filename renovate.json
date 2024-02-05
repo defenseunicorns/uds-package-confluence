@@ -83,6 +83,14 @@
       "extractVersionTemplate": "{{#if extractVersion}}{{{extractVersion}}}{{else}}^(?<version>.*)${{/if}}"
     },
     {
+      "fileMatch": [".*\\.ya?ml$"],
+      "matchStrings": [
+        "# renovate: repo-file depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\n.*\\/(?<currentValue>v.*?)\\/"
+      ],
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver-coerced{{/if}}",
+      "datasourceTemplate": "github-tags"
+    },
+    {
       "fileMatch": ["^Makefile$"],
       "matchStrings": [
         "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?( extractVersion=(?<extractVersion>.*?))?( registryUrl=(?<registryUrl>.*?))?\\s.*?=\\s*['\"]?(?<currentValue>.*?)['\"]?\\s"
