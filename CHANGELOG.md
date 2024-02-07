@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.17.0-uds.1](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.17.1-uds.0...v1.17.0-uds.1) (2024-02-05)
+
+
+### Features
+
+* add initial lula lint action ([#20](https://github.com/defenseunicorns/uds-package-confluence/issues/20)) ([90b30c7](https://github.com/defenseunicorns/uds-package-confluence/commit/90b30c74d83f0aa4ec404a840b92a5956f921195))
+* added initial oscal component file ([#15](https://github.com/defenseunicorns/uds-package-confluence/issues/15)) ([838464d](https://github.com/defenseunicorns/uds-package-confluence/commit/838464d9168ed229612a4cb798c041e2d4de5018))
+* Initial release updates ([7bfa454](https://github.com/defenseunicorns/uds-package-confluence/commit/7bfa4544f3b5595ea50ad8e16c16289a54379f55))
+
+
+### Bug Fixes
+
+* istio ingress ([2b67e25](https://github.com/defenseunicorns/uds-package-confluence/commit/2b67e259519e65942764b77428f54110c9f44db6))
+
+
+### Miscellaneous
+
+* add renovate for zarf ([3d9f20c](https://github.com/defenseunicorns/uds-package-confluence/commit/3d9f20c2aab1f524253ebf61266e00a0315bebfb))
+* lint ([992ea2f](https://github.com/defenseunicorns/uds-package-confluence/commit/992ea2fb04b0d13dc000c18e4a6020a570cf3118))
+* **main:** release 0.1.1 ([#11](https://github.com/defenseunicorns/uds-package-confluence/issues/11)) ([455ab11](https://github.com/defenseunicorns/uds-package-confluence/commit/455ab119e9b0bc677b60ee964dc99ff7b7d66599))
+* **main:** release 0.1.2 ([#12](https://github.com/defenseunicorns/uds-package-confluence/issues/12)) ([4b72a6d](https://github.com/defenseunicorns/uds-package-confluence/commit/4b72a6d260e6bca592b062a06669ba0b27bed05a))
+* **main:** release 0.1.3 ([#14](https://github.com/defenseunicorns/uds-package-confluence/issues/14)) ([9a78222](https://github.com/defenseunicorns/uds-package-confluence/commit/9a782226ac4c5f1e8c5dfd22d81bf7f313288aa7))
+* **main:** release 0.1.4 ([#16](https://github.com/defenseunicorns/uds-package-confluence/issues/16)) ([655d73e](https://github.com/defenseunicorns/uds-package-confluence/commit/655d73ee9f8261220d32f747346e7acf3e707f41))
+* pre-commit all files ([b94915b](https://github.com/defenseunicorns/uds-package-confluence/commit/b94915bb79252b2abc0661688ae5c8b1b76c6ab1))
+* Sync dev dep versions with release ([e830b6a](https://github.com/defenseunicorns/uds-package-confluence/commit/e830b6a4c085307b920629d058de6f7f550a920e))
+* Update confluence to 1.17.1-bb.0 ([#18](https://github.com/defenseunicorns/uds-package-confluence/issues/18)) ([2ccebdf](https://github.com/defenseunicorns/uds-package-confluence/commit/2ccebdff955a6628fb345a87659d25debf8253ac))
+* Update DUBBD to 0.16.0 ([2ccebdf](https://github.com/defenseunicorns/uds-package-confluence/commit/2ccebdff955a6628fb345a87659d25debf8253ac))
+* Update release config ([48d5542](https://github.com/defenseunicorns/uds-package-confluence/commit/48d5542694806908a1e806d9ae645e9d8e39e3f7))
+* Update Zarf to 0.31.4 ([2ccebdf](https://github.com/defenseunicorns/uds-package-confluence/commit/2ccebdff955a6628fb345a87659d25debf8253ac))
+* Upgrade confluence to 1.16.6-bb.4 ([#13](https://github.com/defenseunicorns/uds-package-confluence/issues/13)) ([2abf589](https://github.com/defenseunicorns/uds-package-confluence/commit/2abf58998a1297775a0154122e3fa18eb88cc0fa))
+* Upgrade DUBBD to 0.14.0 ([2abf589](https://github.com/defenseunicorns/uds-package-confluence/commit/2abf58998a1297775a0154122e3fa18eb88cc0fa))
+* Upgrade Zarf to v0.31.3 ([2abf589](https://github.com/defenseunicorns/uds-package-confluence/commit/2abf58998a1297775a0154122e3fa18eb88cc0fa))
+
 ## [0.1.4](https://github.com/defenseunicorns/uds-capability-confluence/compare/v0.1.3...v0.1.4) (2024-01-09)
 
 
