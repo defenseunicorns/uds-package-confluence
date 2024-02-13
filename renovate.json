@@ -97,6 +97,13 @@
       ],
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver-coerced{{/if}}",
       "extractVersionTemplate": "{{#if extractVersion}}{{{extractVersion}}}{{else}}^(?<version>.*)${{/if}}"
+    },
+    {
+      "fileMatch": ["^\\.github/workflows/commitlint\\.yaml$"],
+      "matchStrings": [
+        "npm install --save-dev (?<depName>@?.*?)@(?<currentValue>.+)"
+      ],
+      "datasourceTemplate": "npm"
     }
   ],
   "packageRules": [
