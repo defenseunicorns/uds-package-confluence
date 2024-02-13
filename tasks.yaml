@@ -2,7 +2,7 @@ includes:
   - cleanup: ./tasks/cleanup.yaml
   - create: ./tasks/create.yaml
   - deploy: ./tasks/deploy.yaml
-  - setup: ./tasks/setup.yaml
+  - setup: https://raw.githubusercontent.com/defenseunicorns/uds-common-tasks/main/tasks/setup.yaml
   - test: ./tasks/test.yaml
 
 tasks:
