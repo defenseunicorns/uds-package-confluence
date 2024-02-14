@@ -1,5 +1,5 @@
 includes:
-  - cleanup: ./tasks/cleanup.yaml
+  - clean: ./tasks/cleanup.yaml
   - create: ./tasks/create.yaml
   - deploy: ./tasks/deploy.yaml
   - setup: https://raw.githubusercontent.com/defenseunicorns/uds-common-tasks/main/tasks/setup.yaml
@@ -33,4 +33,4 @@ tasks:
 
   - name: cleanup
     actions:
-      - task: cleanup:destroy
+      - task: clean:destroy
