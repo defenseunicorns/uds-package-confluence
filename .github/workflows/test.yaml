@@ -48,7 +48,7 @@ jobs:
 
       - name: Cleanup
         if: always()
-        run: uds run cleanup
+        run: uds run cleanup-cluster
 
       - name: Save logs
         if: always()
