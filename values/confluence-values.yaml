@@ -34,7 +34,7 @@ confluence:
         secretKeyRef:
           name: "confluence-postgres"
           key: "password"
-
+volumes:
   localHome:
     persistentVolumeClaim:
       create: true
@@ -43,8 +43,3 @@ confluence:
         requests:
           storage: 1Gi
 
-# networkPolicies:
-#   enabled: true
-#   ingressLabels:
-#     app: tenant-ingressgateway
-#   controlPlaneCidr: 0.0.0.0/0

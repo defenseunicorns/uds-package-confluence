@@ -31,6 +31,6 @@ tasks:
       - task: test:health-check
       - task: test:ingress
 
-  - name: cleanup
+  - name: cleanup-cluster
     actions:
       - task: cleanup:destroy
