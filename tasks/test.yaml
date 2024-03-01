@@ -5,7 +5,7 @@ tasks:
         wait:
           cluster:
             kind: StatefulSet
-            name: confluence-confluence
+            name: confluence
             namespace: confluence
 
   - name: ingress
