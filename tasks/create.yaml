@@ -15,23 +15,12 @@ tasks:
     actions:
       - cmd: zarf package create --confirm --no-progress --architecture=${ZARF_ARCHITECTURE} --flavor ${FLAVOR}
 
-  - name: dependency-package
+  - name: dependency-package-no-sbom
     description: Create the Dependency Zarf Package(s)
     actions:
-      - cmd: |
-          for dependency in postgres; do
-            zarf package create test/${dependency}/ --confirm --no-progress --architecture=${UDS_ARCH} --skip-sbom
-          done
+      - cmd: zarf package create src/dev-secrets/ --confirm --no-progress --architecture=${UDS_ARCH} --skip-sbom
 
   - name: confluence-package-no-sbom
     description: Create the UDS confluence Zarf Package
     actions:
       - cmd: zarf package create --confirm --skip-sbom --no-progress --architecture=${ZARF_ARCHITECTURE} --flavor ${FLAVOR}
-
-  - name: dependency-package-no-sbom
-    description: Create the Dependency Zarf Package(s)
-    actions:
-      - cmd: |
-          for dependency in postgres; do
-            zarf package create test/${dependency}/ --confirm --skip-sbom --no-progress --architecture=${UDS_ARCH} --skip-sbom
-          done

@@ -14,5 +14,5 @@ tasks:
         wait:
           network:
             protocol: https
-            address: confluence.uds.dev
+            address: confluence.uds.dev/setup/setuplicense.action
             code: 200
