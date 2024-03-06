@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.17.0-uds.2](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.17.0-uds.1...v1.17.0-uds.2) (2024-03-06)
+
+
+### Bug Fixes
+
+* add missing volumes value for pvc config ([1731400](https://github.com/defenseunicorns/uds-package-confluence/commit/17314006c50b65c599173ea0822ded8917b58579))
+* add values to fix upstream flavor ([e1d3f60](https://github.com/defenseunicorns/uds-package-confluence/commit/e1d3f60a80ad8785f7b7f1d1d3c85af30d47fdf5))
+
 ## [1.17.0-uds.1](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.17.1-uds.0...v1.17.0-uds.1) (2024-02-05)
 
 
