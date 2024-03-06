@@ -1,3 +1,37 @@
 # image:
 #   repository: confluence
 #   tag: 9.9.3-{{ .Values.edition }}
+
+confluence:
+  # -- Whether to apply security context to pod.
+  #
+  securityContextEnabled: true
+
+  securityContext:
+
+    # -- The GID used by the Confluence docker image
+    # GID will default to 2002 if not supplied and securityContextEnabled is set to true.
+    # This is intended to ensure that the shared-home volume is group-writeable by the GID used by the Confluence container.
+    # However, this doesn't appear to work for NFS volumes due to a K8s bug: https://github.com/kubernetes/examples/issues/260
+    fsGroup: 2002
+    runAsUser: 2002
+    runAsGroup: 2002
+    runAsNonRoot: true
+
+  # -- Standard K8s field that holds security configurations that will be applied to a container.
+  # https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+  #
+  containerSecurityContext:
+    runAsUser: 2002
+    runAsGroup: 2002
+    runAsNonRoot: true
+
+   # -- Boolean to define whether to set local home directory permissions on startup
+  # of Confluence container. Set to 'false' to disable this behaviour.
+  #
+  setPermissions: true
+
+volumes:
+  sharedHome:
+    nfsPermissionFixer:
+      enabled: false

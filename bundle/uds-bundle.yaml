@@ -7,9 +7,13 @@ metadata:
   # x-release-please-end
 
 packages:
-  - name: confluence-postgres
+  - name: dev-postgres
+    repository: ghcr.io/defenseunicorns/packages/uds/dev-postgres
+    ref: 0.0.2
+
+  - name: dev-secrets
     path: ../
-    ref: 12.6.6-0
+    ref: 0.1.0
 
   - name: confluence
     path: ../
