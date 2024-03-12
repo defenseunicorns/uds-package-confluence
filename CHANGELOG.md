@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.18.0-uds.0](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.17.0-uds.2...v1.18.0-uds.0) (2024-03-12)
+
+
+### Features
+
+* add sso secret ([#6](https://github.com/defenseunicorns/uds-package-confluence/issues/6)) ([395e0fa](https://github.com/defenseunicorns/uds-package-confluence/commit/395e0fae81a11a1a67f5f797bd81906e2e30520e))
+
 ## [1.17.0-uds.2](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.17.0-uds.1...v1.17.0-uds.2) (2024-03-06)
 
 
