@@ -29,20 +29,20 @@ components:
     only:
       flavor: registry1
     charts:
+      - name: uds-confluence-config
+        namespace: confluence
+        version: 0.1.0
+        localPath: chart
     # renovate: datasource=helm
       - name: confluence
         namespace: confluence
         url: https://repo1.dso.mil/big-bang/product/community/confluence.git
         gitPath: chart
-        version: 1.17.1-bb.0
+        version: 1.18.0-bb.0
         valuesFiles:
           - values/confluence-values.yaml
-      - name: uds-confluence-config
-        namespace: confluence
-        version: 0.1.0
-        localPath: chart
     images:
-      - registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node:8.7.1
+      - registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node:8.8.0
       - registry1.dso.mil/ironbank/big-bang/base:2.1.0
 
   # Note: upstream-ce flavor is experimental
@@ -52,10 +52,14 @@ components:
     only:
       flavor: upstream-ce
     charts:
+      - name: uds-confluence-config
+        namespace: confluence
+        version: 0.1.0
+        localPath: chart
       - name: confluence
         #helm repo add atlassian-data-center https://atlassian.github.io/data-center-helm-charts
         #helm search repo atlassian-data-center/confluence -l
-        version: 1.17.1
+        version: "1.18"
         namespace: confluence
         url: https://atlassian.github.io/data-center-helm-charts
         repoName: confluence
@@ -64,11 +68,7 @@ components:
           - values/confluence-values.yaml
           - values/upstream.yaml
           - values/ce.yaml
-      - name: uds-confluence-config
-        namespace: confluence
-        version: 0.1.0
-        localPath: chart
     images:
       - alpine:latest
-      - atlassian/confluence:8.5.4
+      - atlassian/confluence:8.5.6
       - debian:stable-slim

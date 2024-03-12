@@ -1,9 +1,11 @@
 # uds-package-confluence
+
 Bigbang [Confluence](https://repo1.dso.mil/big-bang/product/community/confluence) deployed by uds
 
 ## Deployment Prerequisites
 
 ### Resources
+
 - Minimum compute requirements for single node deployment are at LEAST 64 GB RAM and 32 virtual CPU threads (aws `m6i.8xlarge` instance type should do)
 - k3d installed on machine
 
@@ -20,6 +22,7 @@ Bigbang [Confluence](https://repo1.dso.mil/big-bang/product/community/confluence
 - The user has read/write access to the above mentioned database
 - Create `confluence-postgres` service in `confluence` namespace that points to the psql database
 - Create `confluence-postgres` secret in `confluence` namespace with the key `password` that contains the password to the user for the psql database
+
 ## Deploy
 
 ### Use zarf to login to the needed registries i.e. registry1.dso.mil
@@ -47,6 +50,7 @@ make all
 ```
 
 ## Declare This Package In Your UDS Bundle
+
 Below is an example of how to use this projects zarf package in your UDS Bundle
 
 ```yaml
@@ -62,3 +66,9 @@ packages:
     repository: ghcr.io/defenseunicorns/uds-capability/confluence
     ref: x.x.x
 ```
+
+### Add OIDC
+
+The following is a guide for connecting confluence to Keycloak for OpenID Connect:
+
+- [OpenID Connect for Atlassian Data Center applications](https://confluence.atlassian.com/enterprise/openid-connect-for-atlassian-data-center-applications-987142159.html)
