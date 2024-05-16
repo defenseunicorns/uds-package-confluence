@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Create release tag
         id: tag
-        uses: google-github-actions/release-please-action@v4.0.1
+        uses: google-github-actions/release-please-action@a37ac6e4f6449ce8b3f7607e4d97d0146028dc0b # v4.1.0
       - id: release-flag
         run: echo "release_created=${{ steps.tag.outputs.release_created || false }}" >> $GITHUB_OUTPUT
 
@@ -26,31 +26,27 @@ jobs:
     name: Publish package
     strategy:
       matrix:
-        flavor: [upstream-ce, registry1]
+        flavor: [registry1]
 
     permissions:
       contents: read
       packages: write
 
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
 
       - name: Environment setup
-        uses: ./.github/actions/setup
+        uses: defenseunicorns/uds-common/.github/actions/setup@b2e8b25930c953ef893e7c787fe350f0d8679ee2 # v0.4.2
         with:
-          download-init-package: false
-          install-k3d: false
-          install-node: false
-
-      - name: Iron Bank Login
-        run: zarf tools registry login -u "${{secrets.IRON_BANK_ROBOT_USERNAME}}" -p "${{secrets.IRON_BANK_ROBOT_PASSWORD}}" registry1.dso.mil
-
-      - name: Login to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: dummy
-          password: ${{ secrets.GITHUB_TOKEN }}
+          registry1Username: ${{ secrets.IRON_BANK_ROBOT_USERNAME }}
+          registry1Password: ${{ secrets.IRON_BANK_ROBOT_PASSWORD }}
+          ghToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish Package
         run: uds run -f tasks/publish.yaml package --set FLAVOR=${{ matrix.flavor }}
+
+      - name: Save logs
+        if: always()
+        uses: defenseunicorns/uds-common/.github/actions/save-logs@b2e8b25930c953ef893e7c787fe350f0d8679ee2 # v0.4.2
+        with:
+          suffix: '${{ matrix.flavor }}-${{ github.run_id }}-${{ github.run_attempt }}'

@@ -1,6 +1,18 @@
 variables:
-  dev-postgres:
-    db_username: "confluence"
-    db_name: "confluencedb"
   confluence:
-    confluence_db_endpoint: "postgresql.dev-postgres.svc.cluster.local"
+    confluence_db_endpoint: "pg-cluster.postgres.svc.cluster.local"
+    CONFLUENCE_DB_USERNAME: "confluence.confluence"
+  postgres-operator:
+    postgresql:
+      enabled: true  # Set to false to not create the PostgreSQL resource
+      teamId: "uds"
+      volume:
+        size: "10Gi"
+      numberOfInstances: 2
+      users:
+        confluence.confluence: []  # database owner
+      databases:
+        confluencedb: confluence.confluence
+      version: "13"
+      ingress:
+        remoteGenerated: Anywhere

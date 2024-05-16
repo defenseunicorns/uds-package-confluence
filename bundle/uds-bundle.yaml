@@ -7,9 +7,20 @@ metadata:
   # x-release-please-end
 
 packages:
-  - name: dev-postgres
-    repository: ghcr.io/defenseunicorns/packages/uds/dev-postgres
-    ref: 0.0.2
+  - name: dev-namespace
+    path: ../
+    ref: 0.1.0
+
+  - name: postgres-operator
+    repository: ghcr.io/defenseunicorns/packages/uds/postgres-operator
+    ref: 1.10.1-uds.4-upstream
+    overrides:
+      postgres-operator:
+        uds-postgres-config:
+          variables:
+            - name: POSTGRESQL
+              description: "Configure postgres using CRs via the uds-postgres-config chart"
+              path: postgresql
 
   - name: dev-secrets
     path: ../

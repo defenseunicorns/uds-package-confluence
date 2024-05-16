@@ -1,36 +1,67 @@
 includes:
-  - clean: ./tasks/cleanup.yaml
-  - create: ./tasks/create.yaml
-  - deploy: ./tasks/deploy.yaml
-  - setup: https://raw.githubusercontent.com/defenseunicorns/uds-common-tasks/main/tasks/setup.yaml
+  - cleanup: ./tasks/cleanup.yaml
+  - dependencies: ./tasks/dependencies.yaml
   - test: ./tasks/test.yaml
+  - create: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.4.2/tasks/create.yaml
+  - lint: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.4.2/tasks/lint.yaml
+  - pull: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.4.2/tasks/pull.yaml
+  - deploy: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.4.2/tasks/deploy.yaml
+  - setup: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.4.2/tasks/setup.yaml
 
 tasks:
+  - name: default
+    description: Create K3D Cluster with UDS-Core + Confluence
+    actions:
+      - task: create-test-bundle
+      - task: setup:k3d-test-cluster
+      - task: deploy:test-bundle
+
+  - name: create-package
+    description: Create UDS Confluence Package, No dependencies included
+    actions:
+      - task: create:package
+        with:
+          options: "--skip-sbom"
+
+  - name: create-test-bundle
+    description: Create a local UDS Confluence bundle with dependencies
+    actions:
+      - task: create-package
+      - task: dependencies:create
+      - task: create:test-bundle
+
+  - name: create-latest-release-bundle
+    description: Create UDS Confluence bundle with dependencies based on the latest release
+    actions:
+      - task: pull:latest-package-release
+        with:
+          spoof_release: "true"
+      - task: dependencies:create
+      - task: create:test-bundle
+
   - name: setup-cluster
+    description: Setup a K3D cluster with UDS-Core-Slim
     actions:
       - task: setup:k3d-test-cluster
 
-  - name: create-package
-    actions:
-      - task: create:confluence-package
-
-  - name: create-test-bundle
-    actions:
-      - task: create:confluence-test-bundle
-
-  - name: deploy-package
-    actions:
-      - task: deploy:confluence-package
-
-  - name: deploy-test-bundle
-    actions:
-      - task: deploy:confluence-test-bundle
+# CI will execute the following (via uds-common/.github/actions/test) so they need to be here with these names
 
   - name: test-package
+    description: Test the Confluence package from the current branch
     actions:
+      - task: create-test-bundle
+      - task: setup:k3d-test-cluster
+      - task: deploy:test-bundle
       - task: test:health-check
       - task: test:ingress
 
-  - name: cleanup
+  - name: test-upgrade
+    description: Test an upgrade from the latest released package to the current branch
     actions:
-      - task: clean:destroy
+      - task: create-latest-release-bundle
+      - task: setup:k3d-test-cluster
+      - task: deploy:test-bundle
+      - task: create-test-bundle
+      - task: deploy:test-bundle
+      - task: test:health-check
+      - task: test:ingress
