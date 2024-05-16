@@ -42,4 +42,3 @@ volumes:
       resources:
         requests:
           storage: 1Gi
-

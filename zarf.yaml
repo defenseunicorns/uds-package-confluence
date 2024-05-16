@@ -40,35 +40,7 @@ components:
         gitPath: chart
         version: 1.18.0-bb.0
         valuesFiles:
-          - values/confluence-values.yaml
+          - values/registry1-values.yaml
     images:
       - registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node:8.8.0
       - registry1.dso.mil/ironbank/big-bang/base:2.1.0
-
-  # Note: upstream-ce flavor is experimental
-  - name: confluence
-    required: true
-    description: "Deploy confluence"
-    only:
-      flavor: upstream-ce
-    charts:
-      - name: uds-confluence-config
-        namespace: confluence
-        version: 0.1.0
-        localPath: chart
-      - name: confluence
-        #helm repo add atlassian-data-center https://atlassian.github.io/data-center-helm-charts
-        #helm search repo atlassian-data-center/confluence -l
-        version: "1.18"
-        namespace: confluence
-        url: https://atlassian.github.io/data-center-helm-charts
-        repoName: confluence
-        releaseName: confluence
-        valuesFiles:
-          - values/confluence-values.yaml
-          - values/upstream.yaml
-          - values/ce.yaml
-    images:
-      - alpine:latest
-      - atlassian/confluence:8.5.6
-      - debian:stable-slim

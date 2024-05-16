@@ -1,7 +1,7 @@
 tasks:
   - name: health-check
     actions:
-      - description: confluence StatefulSet Health Check
+      - description: Confluence StatefulSet Health Check
         wait:
           cluster:
             kind: StatefulSet
@@ -10,9 +10,9 @@ tasks:
 
   - name: ingress
     actions:
-      - description: confluence UI Health Check
+      - description: Confluence UI Health Check
         wait:
           network:
             protocol: https
-            address: confluence.uds.dev/setup/setuplicense.action
+            address: confluence.uds.dev
             code: 200
