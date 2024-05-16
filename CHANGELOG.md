@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.20.0-uds.0](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.18.0-uds.0...v1.20.0-uds.0) (2024-05-16)
+
+
+### Features
+
+* migrate to new repo setup ([6abae18](https://github.com/defenseunicorns/uds-package-confluence/commit/6abae18f4ef9a0285a022d7504dfe202c3e887c8))
+
+
+### Bug Fixes
+
+* remove old values file ([e579444](https://github.com/defenseunicorns/uds-package-confluence/commit/e579444ba575ec8b0cc8b33409179e89f2a84317))
+* specify image in values ([3b35fcb](https://github.com/defenseunicorns/uds-package-confluence/commit/3b35fcb01f367a82c18e7e2fe5ee99768547f81c))
+
+
+### Miscellaneous
+
+* **deps:** update confluence package dependencies ([f3664ea](https://github.com/defenseunicorns/uds-package-confluence/commit/f3664ea6921a0cf70f5892eae52c4aee7031a1da))
+* **deps:** update confluence support dependencies ([585d0c4](https://github.com/defenseunicorns/uds-package-confluence/commit/585d0c4766f0b9d57213b07f37b5024c37a76104))
+* release 1.20.0-uds.0 ([df5b0da](https://github.com/defenseunicorns/uds-package-confluence/commit/df5b0dac17c46d7532977bfd639c3de5d4753239))
+
 ## [1.18.0-uds.0](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.17.0-uds.2...v1.18.0-uds.0) (2024-03-12)
 
 
