@@ -3,6 +3,10 @@ hostname: ###ZARF_VAR_DOMAIN###
 ingress:
   nginx: false
 
+image:
+  repository: registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node
+  tag: "8.8.0"
+
 #Turn off collaborative editing
 synchrony:
   enabled: false
