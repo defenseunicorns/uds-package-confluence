@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.20.0-uds.1](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.20.0-uds.0...v1.20.0-uds.1) (2024-06-13)
+
+
+### Miscellaneous
+
+* **deps:** update confluence package dependencies ([#15](https://github.com/defenseunicorns/uds-package-confluence/issues/15)) ([a601bc9](https://github.com/defenseunicorns/uds-package-confluence/commit/a601bc9d63e8ba4776d235a40d4761c7b605b27f))
+* **deps:** update confluence support dependencies ([#14](https://github.com/defenseunicorns/uds-package-confluence/issues/14)) ([d6df5fd](https://github.com/defenseunicorns/uds-package-confluence/commit/d6df5fd8063faf54a5d2eabb8dfccef106bc0653))
+
 ## [1.20.0-uds.0](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.18.0-uds.0...v1.20.0-uds.0) (2024-05-16)
 
 
