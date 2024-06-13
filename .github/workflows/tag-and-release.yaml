@@ -33,10 +33,10 @@ jobs:
       packages: write
 
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
       - name: Environment setup
-        uses: defenseunicorns/uds-common/.github/actions/setup@b2e8b25930c953ef893e7c787fe350f0d8679ee2 # v0.4.2
+        uses: defenseunicorns/uds-common/.github/actions/setup@d50b4ebe3712fea4114289db0c36da61a5f60eb5 # v0.5.1
         with:
           registry1Username: ${{ secrets.IRON_BANK_ROBOT_USERNAME }}
           registry1Password: ${{ secrets.IRON_BANK_ROBOT_PASSWORD }}
@@ -47,6 +47,6 @@ jobs:
 
       - name: Save logs
         if: always()
-        uses: defenseunicorns/uds-common/.github/actions/save-logs@b2e8b25930c953ef893e7c787fe350f0d8679ee2 # v0.4.2
+        uses: defenseunicorns/uds-common/.github/actions/save-logs@d50b4ebe3712fea4114289db0c36da61a5f60eb5 # v0.5.1
         with:
           suffix: '${{ matrix.flavor }}-${{ github.run_id }}-${{ github.run_attempt }}'
