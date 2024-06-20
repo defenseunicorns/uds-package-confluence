@@ -10,11 +10,6 @@ This package is designed to be deployed on [UDS Core](https://github.com/defense
 
 The Confluence Package expects to be deployed on top of [UDS Core](https://github.com/defenseunicorns/uds-core) with the dependencies listed below being configured prior to deployment.
 
-> [!IMPORTANT]
-> **NOTE**: Many features are locked behind a license. Some notable features include:
-> - In place upgrades
-> - Single sign-on capabilities
-
 Confluence is configured by default to assume the internal dependencies that are used for testing (see postgres in the [bundle](bundle/uds-bundle.yaml)).
 
 #### Database
