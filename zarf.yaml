@@ -38,7 +38,7 @@ components:
         namespace: confluence
         url: https://repo1.dso.mil/big-bang/product/community/confluence.git
         gitPath: chart
-        version: 1.20.0-bb.6
+        version: 1.20.0-bb.9
         valuesFiles:
           - values/registry1-values.yaml
     images:
