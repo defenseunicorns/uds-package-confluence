@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.20.0-uds.2](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.20.0-uds.1...v1.20.0-uds.2) (2024-06-27)
+
+
+### Features
+
+* update uds-common tasks and added a local-all task ([#19](https://github.com/defenseunicorns/uds-package-confluence/issues/19)) ([7f06bd3](https://github.com/defenseunicorns/uds-package-confluence/commit/7f06bd3df7b22d10ccfd657f2dc385d4c79e22e2))
+
+
+### Miscellaneous
+
+* release 1.20.0-uds.2 ([add90ff](https://github.com/defenseunicorns/uds-package-confluence/commit/add90ff4ce5e25b284ba281609ef8fff7654a8cc))
+
 ## [1.20.0-uds.1](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.20.0-uds.0...v1.20.0-uds.1) (2024-06-13)
 
 
