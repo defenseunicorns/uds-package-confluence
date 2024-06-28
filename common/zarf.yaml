@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/defenseunicorns/zarf/main/zarf.schema.json
+kind: ZarfPackageConfig
+metadata:
+  name: confluence-common
+  description: "UDS confluence Common Package"
+
+components:
+  - name: confluence
+    required: true
+    charts:
+      - name: uds-confluence-config
+        namespace: confluence
+        version: 0.1.0
+        localPath: ../chart
+      # renovate: datasource=helm
+      - name: confluence
+        namespace: confluence
+        url: https://repo1.dso.mil/big-bang/product/community/confluence.git
+        version: "1.20.0-bb.6"
+        gitPath: chart
+        repoName: confluence
+        releaseName: confluence
