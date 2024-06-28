@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.20.0-uds.3](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.20.0-uds.2...v1.20.0-uds.3) (2024-06-28)
+
+
+### Features
+
+* add common file structure ([18f41df](https://github.com/defenseunicorns/uds-package-confluence/commit/18f41dfd4cd5e58963a653d5e46b7669c09fb2b4))
+* add common file structure ([563a746](https://github.com/defenseunicorns/uds-package-confluence/commit/563a7464ff019f8ce9928237507390f3da032cc5))
+* add common file structure ([dcd5735](https://github.com/defenseunicorns/uds-package-confluence/commit/dcd57356f6869ae373ac52a629936a1eb1f3b9a4))
+* add common file structure ([4a0dcc1](https://github.com/defenseunicorns/uds-package-confluence/commit/4a0dcc1b052c7c6f4f4896bab30e4aeb7bcef9d1))
+* add common file structure ([5e073f9](https://github.com/defenseunicorns/uds-package-confluence/commit/5e073f9e252012feb6aa5759f12a08f20767b327))
+
 ## [1.20.0-uds.2](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.20.0-uds.1...v1.20.0-uds.2) (2024-06-27)
 
 

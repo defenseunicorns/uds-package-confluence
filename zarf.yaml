@@ -4,7 +4,7 @@ metadata:
   name: confluence
   description: "UDS confluence package"
   # x-release-please-start-version
-  version: "1.20.0-uds.2"
+  version: "1.20.0-uds.3"
   # x-release-please-end
   architecture: amd64
 
