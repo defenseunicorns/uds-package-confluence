@@ -26,21 +26,18 @@ components:
   - name: confluence
     required: true
     description: "Deploy confluence"
+    import:
+      path: common
     only:
       flavor: registry1
+      cluster:
+        architecture: amd64
     charts:
-      - name: uds-confluence-config
-        namespace: confluence
-        version: 0.1.0
-        localPath: chart
-    # renovate: datasource=helm
       - name: confluence
-        namespace: confluence
-        url: https://repo1.dso.mil/big-bang/product/community/confluence.git
-        gitPath: chart
-        version: 1.20.0-bb.6
         valuesFiles:
           - values/registry1-values.yaml
     images:
       - registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node:8.9.3
       - registry1.dso.mil/ironbank/big-bang/base:2.1.0
+
+
