@@ -1,4 +1,6 @@
-# 🚚 UDS Confluence Package
+<img width="387" alt="UDS logo white" src="https://github.com/defenseunicorns/uds-package-confluence/assets/92826525/825dad3b-e5c4-40e0-b1dd-74d0c78078ae">
+
+# UDS Package - Confluence
 
 [![Latest Release](https://img.shields.io/github/v/release/defenseunicorns/uds-package-confluence)](https://github.com/defenseunicorns/uds-package-confluence/releases)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/defenseunicorns/uds-package-confluence/tag-and-release.yaml)](https://github.com/defenseunicorns/uds-package-confluence/actions/workflows/tag-and-release.yaml)
