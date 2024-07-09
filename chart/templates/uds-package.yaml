@@ -6,8 +6,8 @@ metadata:
 spec:
   {{- if .Values.sso }}
   sso:
-    - name: Confluence SSO
-      clientId: uds-core-confluence
+    - name: Confluence Login
+      clientId: uds-package-confluence
       redirectUris:
         - "https://confluence.{{ .Values.domain }}/plugins/servlet/oidc/callback"
   {{- end }}
