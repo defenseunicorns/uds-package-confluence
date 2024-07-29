@@ -4,7 +4,7 @@
 [![Build Status](https://img.shields.io/github/actions/workflow/status/defenseunicorns/uds-package-confluence/tag-and-release.yaml)](https://github.com/defenseunicorns/uds-package-confluence/actions/workflows/tag-and-release.yaml)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/defenseunicorns/uds-package-confluence/badge)](https://api.securityscorecards.dev/projects/github.com/defenseunicorns/uds-package-confluence)
 
-This package is designed to be deployed on [UDS Core](https://github.com/defenseunicorns/uds-core), and is based on the upstream [Confluence](https://github.com/jfrog/charts/tree/master/stable/confluence) chart.
+This package is designed to be deployed on [UDS Core](https://github.com/defenseunicorns/uds-core), and is based on the registry1 [Confluence](https://repo1.dso.mil/big-bang/product/community/confluence/-/tree/main/chart?ref_type=heads) chart.
 
 ## Pre-requisites
 
@@ -44,3 +44,17 @@ The released packages can be found in [ghcr](https://github.com/defenseunicorns/
 ## Contributing
 
 Please see the [CONTRIBUTING.md](./CONTRIBUTING.md)
+
+## TODO
+
+       •  Processing helm chart uds-confluence-config:0.1.0 from chart                                                                                                                                                                                                               
+       •  Processing helm chart uds-confluence-config:0.1.0 from chart                                                                                                                                                                                                               
+       •  Processing helm chart confluence                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                     
+      WARNING  no repository definition for https://atlassian.github.io/data-center-helm-charts,                                                                                                                                                                                     
+               https://charts.bitnami.com/bitnami, https://opensearch-project.github.io/helm-charts.                                                                                                                                                                                 
+               Please add the missing repo(s) via the following:                                                                                                                                                                                                                     
+     $ zarf tools helm repo add <your-repo-name> https://atlassian.github.io/data-center-helm-charts                                                                                                                                                                                 
+     $ zarf tools helm repo add <your-repo-name> https://charts.bitnami.com/bitnami                                                                                                                                                                                                  
+     $ zarf tools helm repo add <your-repo-name> https://opensearch-project.github.io/helm-charts                                                                                                                                                                                    
+                                                                                                                          
