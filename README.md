@@ -18,7 +18,6 @@ Confluence is configured by default to assume the internal dependencies that are
 - This database can be logged into via the username configured with the Zarf var `CONFLUENCE_DB_USERNAME`. Default is `confluence.confluence`
 - This database instance has a psql database created matching what is defined in the Zarf var `CONFLUENCE_DB_NAME`. Default is `confluencedb`
 - The user has read/write access to the above mentioned database
-- Create `confluence-postgres` service in `confluence` namespace that points to the psql database
 - Create `confluence-postgres` secret in `confluence` namespace with the key `password` that contains the password to the user for the psql database
 
 ## Flavors
