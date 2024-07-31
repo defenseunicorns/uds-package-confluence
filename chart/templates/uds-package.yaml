@@ -9,8 +9,9 @@ spec:
     - name: Confluence Login
       clientId: uds-package-confluence
       redirectUris:
-        - "https://confluence.{{ .Values.domain }}/plugins/servlet/oidc/callback"
+        - "https://{{ .Values.subdomain }}.{{ .Values.domain }}/plugins/servlet/oidc/callback"
   {{- end }}
+  # Customize network policies and expose services via istio
   network:
     expose:
       - service: confluence
@@ -22,19 +23,58 @@ spec:
         targetPort: 8090
     allow:
       - direction: Ingress
-        remoteGenerated: IntraNamespace
-      - direction: Egress
-        remoteGenerated: IntraNamespace
-      - direction: Egress
-        podLabels:
+        selector:
           app.kubernetes.io/name: confluence
-        port: 443
-        description: "SSO"
-      - direction: Egress
-        # todo: this is over permissive, need to scope it down
-        remoteGenerated: KubeAPI
-      # Todo: wide open for hitting in-cluster or external postgres
-      - direction: Egress
-        podLabels:
+        remoteSelector:
           app.kubernetes.io/name: confluence
+        remoteNamespace: {{ .Release.Namespace }}
+        port: 5801  # Hazelcast (used by nodes to form cluster)
+      - direction: Egress
+        selector:
+          app.kubernetes.io/name: confluence
+        remoteSelector:
+          app.kubernetes.io/name: confluence
+        remoteNamespace: {{ .Release.Namespace }}
+        port: 5801  # Hazelcast (used by nodes to form cluster)
+        # TODO: Add 5701 for Synchrony once enabled.
+
+      - direction: Egress
+        selector:
+          app.kubernetes.io/name: confluence
+        port: {{ .Values.postgres.port }}
+      {{- if .Values.postgres.internal }}
+        remoteNamespace: {{ .Values.postgres.namespace }}
+        remoteSelector:
+          {{ .Values.postgres.selector | toYaml | indent 10 }}
+      {{- else }}
+        # TODO: Once https://github.com/defenseunicorns/uds-core/issues/558 is resolved, this should instead be taking the external Postgres IP or domain
+        # And only permitting access to that service. Right now, it permits egress to anyone, on the right port.
         remoteGenerated: Anywhere
+      {{- end }}
+
+      ### Allow monitoring to export metrics ###
+      - direction: Ingress
+        remoteNamespace: monitoring
+        remoteSelector:
+          app: prometheus
+        selector:
+          app: confluence
+          app.kubernetes.io/component: exporter
+        port: 8001 # TODO: this port number needs verified.
+        description: "Confluence Exporter Monitor"
+
+      # Custom rules for unanticipated scenarios
+      {{- range .Values.custom }}
+      - direction: {{ .direction }}
+        selector:
+          {{ .selector | toYaml | nindent 10 }}
+        {{- if not .remoteGenerated }}
+        remoteNamespace: {{ .remoteNamespace }}
+        remoteSelector:
+          {{ .remoteSelector | toYaml | nindent 10 }}
+        port: {{ .port }}
+        {{- else }}
+        remoteGenerated: {{ .remoteGenerated }}
+        {{- end }}
+        description: {{ .description }}
+      {{- end }}

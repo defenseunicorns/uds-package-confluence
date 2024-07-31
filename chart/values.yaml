@@ -1,2 +1,14 @@
 domain: "###ZARF_VAR_DOMAIN###"
+subdomain: "confluence"
 sso: true
+
+postgres:
+  # Set to false to use external postgres
+  internal: true
+  selector:  # Ignored if external
+    cluster-name: pg-cluster
+  namespace: postgres  # Ignored if external
+  port: 5432
+
+# Custom network policies
+custom: []

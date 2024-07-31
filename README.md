@@ -12,7 +12,7 @@ The Confluence Package expects to be deployed on top of [UDS Core](https://githu
 
 Confluence is configured by default to assume the internal dependencies that are used for testing (see postgres in the [bundle](bundle/uds-bundle.yaml)).
 
-#### Database
+### Database
 
 - A Postgres database is running on port `5432` and accessible to the cluster via the `CONFLUENCE_DB_ENDPOINT` Zarf var.
 - This database can be logged into via the username configured with the Zarf var `CONFLUENCE_DB_USERNAME`. Default is `confluence.confluence`
@@ -38,7 +38,7 @@ The released packages can be found in [ghcr](https://github.com/defenseunicorns/
 *For local dev, this requires you install [uds-cli](https://github.com/defenseunicorns/uds-cli?tab=readme-ov-file#install)
 
 > [!TIP]
-> To get a list of tasks to run you can use `uds run --list`!
+> To get a list of tasks to run you can use `uds run --list`! To set your flavor try `--set FLAVOR=<your choice>`, example: `uds run --set FLAVOR=registry1`.
 
 ## Contributing
 
