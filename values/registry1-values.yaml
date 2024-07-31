@@ -11,7 +11,7 @@ image:
 synchrony:
   enabled: false
 
-replicaCount: 2
+replicaCount: 1
 
 confluence:
   resources:
