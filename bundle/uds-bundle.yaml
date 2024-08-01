@@ -7,13 +7,9 @@ metadata:
   # x-release-please-end
 
 packages:
-  - name: dev-namespace
-    path: ../
-    ref: 0.1.0
-
   - name: postgres-operator
     repository: ghcr.io/defenseunicorns/packages/uds/postgres-operator
-    ref: 1.10.1-uds.4-upstream
+    ref: 1.12.2-uds.1-upstream
     overrides:
       postgres-operator:
         uds-postgres-config:
@@ -21,10 +17,6 @@ packages:
             - name: POSTGRESQL
               description: "Configure postgres using CRs via the uds-postgres-config chart"
               path: postgresql
-
-  - name: dev-secrets
-    path: ../
-    ref: 0.1.0
 
   - name: confluence
     path: ../

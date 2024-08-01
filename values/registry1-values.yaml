@@ -36,7 +36,7 @@ confluence:
     - name: ATL_JDBC_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: "confluence-postgres"
+          name: "confluence.confluence.pg-cluster.credentials.postgresql.acid.zalan.do"
           key: "password"
 volumes:
   localHome:
