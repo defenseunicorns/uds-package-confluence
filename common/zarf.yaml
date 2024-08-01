@@ -16,7 +16,7 @@ components:
       - name: confluence
         namespace: confluence
         url: https://repo1.dso.mil/big-bang/product/community/confluence.git
-        version: "1.20.0-bb.6"
+        version: "1.20.1-bb.3"
         gitPath: chart
         repoName: confluence
         releaseName: confluence
