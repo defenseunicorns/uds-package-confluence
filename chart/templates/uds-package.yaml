@@ -39,7 +39,7 @@ spec:
   monitor:
     - selector:
         app.kubernetes.io/name: confluence
-      targetPort: 8090
+      targetPort: 9999
       portName: http
       path: /metrics
       description: Metrics
