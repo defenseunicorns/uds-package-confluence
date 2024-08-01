@@ -4,17 +4,50 @@ metadata:
   name: confluence
   namespace: {{ .Release.Namespace }}
 spec:
-  {{- if .Values.sso }}
+  {{- if .Values.sso.enabled }}
   sso:
     - name: Confluence Login
-      clientId: uds-package-confluence
+    {{- if eq .Values.sso.protocol "saml" }}
+      clientId: uds-package-confluence-saml
+      protocol: saml
+
       redirectUris:
         - "https://confluence.{{ .Values.domain }}/plugins/servlet/oidc/callback"
+
+      defaultClientScopes:
+        - "mapper-saml-email-email"
+        - "mapper-saml-firstname-first_name"
+        - "mapper-saml-lastname-last_name"
+        - "mapper-saml-grouplist-groups"
+        - "mapper-saml-username-name"
+    {{- else if eq .Values.sso.protocol "openid_connect"  }}
+      clientId: uds-package-confluence-openid-connect
+      protocol: openid-connect
+
+      defaultClientScopes:
+        - mapper-oidc-username-username
+        - openid
+        - profile
+        - roles
+        - groups
+
+      redirectUris:
+        - "https://confluence.{{ .Values.domain }}/plugins/servlet/oidc/callback"
+    {{- end }}
   {{- end }}
+
+  monitor:
+    - selector:
+        app.kubernetes.io/name: confluence
+      targetPort: 8090
+      portName: http
+      path: /metrics
+      description: Metrics
+
   network:
     expose:
       - service: confluence
-        podLabels:
+        selector:
           app.kubernetes.io/name: confluence
         gateway: tenant
         host: confluence
@@ -23,18 +56,51 @@ spec:
     allow:
       - direction: Ingress
         remoteGenerated: IntraNamespace
+
       - direction: Egress
         remoteGenerated: IntraNamespace
+
       - direction: Egress
-        podLabels:
+        remoteNamespace: keycloak
+        remoteSelector:
+          app.kubernetes.io/name: keycloak
+        selector:
+          app.kubernetes.io/name: confluence
+        port: 8080
+        description: "SSO Internal"
+
+      - direction: Egress
+        remoteGenerated: Anywhere
+        selector:
           app.kubernetes.io/name: confluence
         port: 443
-        description: "SSO"
+        description: "SSO External"
+
       - direction: Egress
-        # todo: this is over permissive, need to scope it down
-        remoteGenerated: KubeAPI
-      # Todo: wide open for hitting in-cluster or external postgres
-      - direction: Egress
-        podLabels:
+        selector:
           app.kubernetes.io/name: confluence
+        {{- if .Values.postgres.internal }}
+        remoteNamespace: {{ .Values.postgres.namespace | quote }}
+        remoteSelector:
+          {{ .Values.postgres.selector | toYaml | nindent 10 }}
+        port: {{ .Values.postgres.port }}
+        {{- else }}
         remoteGenerated: Anywhere
+        {{- end }}
+        description: "Confluence Postgres"
+
+      # Custom rules for unanticipated scenarios
+      {{- range .Values.custom }}
+      - direction: {{ .direction }}
+        selector:
+          {{ .selector | toYaml | nindent 10 }}
+        {{- if not .remoteGenerated }}
+        remoteNamespace: {{ .remoteNamespace }}
+        remoteSelector:
+          {{ .remoteSelector | toYaml | nindent 10 }}
+        port: {{ .port }}
+        {{- else }}
+        remoteGenerated: {{ .remoteGenerated }}
+        {{- end }}
+        description: {{ .description }}
+      {{- end }}

@@ -9,10 +9,6 @@ metadata:
   architecture: amd64
 
 variables:
-  - name: CONFLUENCE_DEPENDS_ON
-    default: "[]"
-  - name: CONFLUENCE_CREATE_NAMESPACE
-    default: "false"
   - name: CONFLUENCE_DB_NAME
     default: "confluencedb"
   - name: CONFLUENCE_DB_USERNAME
@@ -29,6 +25,23 @@ components:
     import:
       path: common
     only:
+      flavor: upstream
+      cluster:
+        architecture: amd64
+    charts:
+      - name: confluence
+        valuesFiles:
+          - values/upstream-values.yaml
+    images:
+      - atlassian/confluence:8.5.12
+      - bitnami/jmx-exporter:0.18.0
+
+  - name: confluence
+    required: true
+    description: "Deploy confluence"
+    import:
+      path: common
+    only:
       flavor: registry1
       cluster:
         architecture: amd64
@@ -38,4 +51,5 @@ components:
           - values/registry1-values.yaml
     images:
       - registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node:8.9.3
-      - registry1.dso.mil/ironbank/big-bang/base:2.1.0
+      # Pending an upstream pr to fix jar file location to not be hardcoded:
+      # - registry1.dso.mil/ironbank/opensource/prometheus/jmx-exporter:0.18.0
