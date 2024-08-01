@@ -1,2 +1,4 @@
 domain: "###ZARF_VAR_DOMAIN###"
 sso: true
+
+# Dummy change to trigger full pipeline
