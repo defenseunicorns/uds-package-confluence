@@ -24,13 +24,6 @@ spec:
       clientId: uds-package-confluence-openid-connect
       protocol: openid-connect
 
-      defaultClientScopes:
-        - mapper-oidc-username-username
-        - openid
-        - profile
-        - roles
-        - groups
-
       redirectUris:
         - "https://confluence.{{ .Values.domain }}/plugins/servlet/oidc/callback"
     {{- end }}
@@ -40,8 +33,8 @@ spec:
     - selector:
         app.kubernetes.io/name: confluence
       targetPort: 9999
-      portName: http
-      path: /metrics/
+      portName: jmx
+      path: /metrics
       description: Metrics
 
   network:
