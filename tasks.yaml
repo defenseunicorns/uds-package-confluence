@@ -1,5 +1,6 @@
 includes:
   - cleanup: ./tasks/cleanup.yaml
+  - dependencies: ./tasks/dependencies.yaml
   - test: ./tasks/test.yaml
   - create: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.6.0/tasks/create.yaml
   - lint: https://raw.githubusercontent.com/defenseunicorns/uds-common/v0.6.0/tasks/lint.yaml
@@ -23,17 +24,19 @@ tasks:
           options: "--skip-sbom"
 
   - name: create-test-bundle
-    description: Create a local UDS Confluence bundle
+    description: Create a local UDS Confluence bundle with dependencies
     actions:
       - task: create-package
+      - task: dependencies:create
       - task: create:test-bundle
 
   - name: create-latest-release-bundle
-    description: Create UDS Confluence bundle based on the latest release
+    description: Create UDS Confluence bundle with dependencies based on the latest release
     actions:
       - task: pull:latest-package-release
         with:
           spoof_release: "true"
+      - task: dependencies:create
       - task: create:test-bundle
 
   - name: setup-cluster
