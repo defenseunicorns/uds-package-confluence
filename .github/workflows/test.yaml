@@ -34,7 +34,7 @@ permissions:
 jobs:
   run-test:
     name: ${{ matrix.type }} ${{ matrix.flavor }}
-    runs-on: uds-marketplace-ubuntu-big-boy-4-core
+    runs-on: ubuntu-latest
     timeout-minutes: 25
     strategy:
       matrix:
@@ -57,7 +57,7 @@ jobs:
         with:
           flavor: ${{ matrix.flavor }}
           type: ${{ matrix.type }}
-      
+
       - name: Debug Cluster
         if: always()
         uses: defenseunicorns/uds-common/.github/actions/debug-output@bec4fc330d720673f645bda7e56006218ec96aad # v0.6.0
