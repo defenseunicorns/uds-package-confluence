@@ -38,4 +38,3 @@ components:
           - values/registry1-values.yaml
     images:
       - registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node:8.9.3
-      - registry1.dso.mil/ironbank/big-bang/base:2.1.0
