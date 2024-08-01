@@ -57,6 +57,13 @@ jobs:
         with:
           flavor: ${{ matrix.flavor }}
           type: ${{ matrix.type }}
+      
+      - name: Debug Cluster
+        if: always()
+        uses: defenseunicorns/uds-common/.github/actions/debug-output@bec4fc330d720673f645bda7e56006218ec96aad # v0.6.0
+        with:
+          flavor: ${{ matrix.flavor }}
+          type: ${{ matrix.type }}
 
       - name: Save logs
         if: always()
