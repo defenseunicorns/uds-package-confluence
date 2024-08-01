@@ -41,7 +41,7 @@ spec:
         app.kubernetes.io/name: confluence
       targetPort: 9999
       portName: http
-      path: /metrics
+      path: /metrics/
       description: Metrics
 
   network:
