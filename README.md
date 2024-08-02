@@ -4,7 +4,7 @@
 [![Build Status](https://img.shields.io/github/actions/workflow/status/defenseunicorns/uds-package-confluence/tag-and-release.yaml)](https://github.com/defenseunicorns/uds-package-confluence/actions/workflows/tag-and-release.yaml)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/defenseunicorns/uds-package-confluence/badge)](https://api.securityscorecards.dev/projects/github.com/defenseunicorns/uds-package-confluence)
 
-This package is designed to be deployed on [UDS Core](https://github.com/defenseunicorns/uds-core), and is based on the upstream [Confluence](https://github.com/jfrog/charts/tree/master/stable/confluence) chart.
+This package is designed to be deployed on [UDS Core](https://github.com/defenseunicorns/uds-core), and is based on the upstream [Confluence](https://github.com/atlassian/data-center-helm-charts/tree/main/src/main/charts/confluence) chart.
 
 ## Pre-requisites
 
@@ -12,7 +12,7 @@ The Confluence Package expects to be deployed on top of [UDS Core](https://githu
 
 Confluence is configured by default to assume the internal dependencies that are used for testing (see postgres in the [bundle](bundle/uds-bundle.yaml)).
 
-#### Database
+### Database
 
 - A Postgres database is running on port `5432` and accessible to the cluster via the `CONFLUENCE_DB_ENDPOINT` Zarf var.
 - This database can be logged into via the username configured with the Zarf var `CONFLUENCE_DB_USERNAME`. Default is `confluence.confluence`
