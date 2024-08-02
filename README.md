@@ -23,8 +23,9 @@ Confluence is configured by default to assume the internal dependencies that are
 
 ## Flavors
 
-| Flavor | Description | Example Creation |
-| ------ | ----------- | ---------------- |
+| Flavor    | Description                                            | Example Creation                     |
+| --------- | ------------------------------------------------------ | ------------------------------------ |
+| upstream  | Uses images from docker.io within the package.         | `zarf package create . -f upstream`  |
 | registry1 | Uses images from registry1.dso.mil within the package. | `zarf package create . -f registry1` |
 
 > [!IMPORTANT]
