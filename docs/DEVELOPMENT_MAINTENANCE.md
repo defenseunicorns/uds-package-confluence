@@ -1,39 +1,22 @@
-# UDS Capability Confluence
+# UDS Confluence Package
 
-## How to upgrade this capability
+This package is pulling in the [upstream confluence chart](https://github.com/atlassian/data-center-helm-charts/tree/main/src/main/charts/confluence)
 
-This package is pulling in the [bigbang confluence chart](https://repo1.dso.mil/big-bang/product/community/confluence)
+## How to upgrade this package
 
-The [confluence-flux-values.yaml](../confluence-flux-values.yaml) file contains values used when creating the flux resources for this capability. This includes the version of the chart and the base values used for this capability.
+To upgrade:
 
-To upgrade
 1) Point `application.ref.tag` to the updated version of the chart.
-1) Update any base values if necessary.
-1) Update the `confluence` component in the [zarf.yaml](../zarf.yaml) file to pull in the correct images needed for the updated version of the chart.
+2) Update any base values if necessary.
+3) Update the `confluence` component in the [zarf.yaml](../zarf.yaml) file to pull in the correct images needed for the updated version of the chart.
 
-## How to test this capability on your own cluster
+## How to test this package on your own cluster
 
-1) With docker running and while connected to an aws account.
-2) Set these env variables.
-```bash
-export REPO_URL=https://github.com/defenseunicorns/uds-capability-confluence.git
-export GIT_BRANCH=<REPLACE_ME>
-export REGISTRY1_USERNAME=<REPLACE_ME>
-export REGISTRY1_PASSWORD=<REPLACE_ME>
-export AWS_AVAILABILITY_ZONE=a
-```
-
- 3) At the root of this repository, you can run `make test`. This will provision an ec2 instance, build and deploy all dependencies and packages, and run an e2e test to insure the capability is deploying successfully, available and ready.
-
-You can also follow the bread crumbs of the Makefile to manually create the cluster as well as build and deploy all the necessary packages.
-
-## How to manually trigger e2e tests in a github PR
-
-This project uses [slash command dispatch](https://github.com/peter-evans/slash-command-dispatch). To use this, add a comment in your PR that says `/test all`. This will trigger the e2e tests for this repo.
-
-## Auto e2e tests
-
-This project will automatically run e2e tests on pushes to `main`
+1) Have a cluster running that has [UDS-Core](https://github.com/defenseunicorns/uds-core) and you have access to it
+2) Clone this repo to your local machine
+3) Migrate to the cloned repo
+4) Using `uds-cli` run the `dev` task in the repo. The task will build the current configuration in the repo and then deploy it to the cluster
+    - Example command: `uds run dev --set FLAVOR=<your-desired-flavor-here>`
 
 ## Creating Releases
 
@@ -56,6 +39,6 @@ When changes are merged to the `main` branch, the Release Please will evaluate a
 > TIP: Merging a PR should be done via a branch **"Squash and merge"**; this means that the commit message seen on this PR merge is what Release Please will use to determine a version bump.
 
 When the auto generated Release Please PR is merged the following steps will automatically happen.
+
 1) A new release will be created and tagged
-1) An e2e test will be triggered
-1) If e2e passes, a new capability artifact will be published to the OCI registry
+2) New artifact(s) will be published to the OCI registry

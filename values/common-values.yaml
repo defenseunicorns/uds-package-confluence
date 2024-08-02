@@ -1,0 +1,57 @@
+database:
+  type: postgresql
+  url: "jdbc:postgresql://###ZARF_VAR_CONFLUENCE_DB_ENDPOINT###:5432/###ZARF_VAR_CONFLUENCE_DB_NAME###"
+  driver: org.postgresql.Driver
+  credentials:
+    secretName: confluence-postgres
+    usernameSecretKey: username
+    passwordSecretKey: password
+
+monitoring:
+  exposeJmxMetrics: true
+  jmxExporterInitContainer:
+    runAsRoot: false
+
+volumes:
+  localHome:
+    persistentVolumeClaim:
+      create: true
+      # storageClassName: your-storage-class-here
+      resources:
+        requests:
+          storage: 10Gi
+  sharedHome:
+    nfsPermissionFixer:
+      enabled: false
+
+ingress:
+  nginx: false
+
+confluence:
+  tomcatConfig:
+    generateByHelm: true
+  seraphConfig:
+    generateByHelm: true
+  resources:
+    container:
+      requests:
+        cpu: "500m"
+        memory: "2Gi"
+      limits:
+        cpu: "6"
+        memory: "6Gi"
+    jvm:
+      maxHeap: "4g"
+  securityContext:
+    fsGroup: 2002
+    runAsNonRoot: true
+    runAsUser: 2002
+    runAsGroup: 2002
+  containerSecurityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    runAsUser: 2002
+    runAsGroup: 2002

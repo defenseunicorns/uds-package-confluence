@@ -1,48 +1,9 @@
-proxyName: confluence.###ZARF_VAR_DOMAIN###
-hostname: ###ZARF_VAR_DOMAIN###
-ingress:
-  nginx: false
-
 image:
   repository: registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node
   tag: "8.9.4"
 
-#Turn off collaborative editing
-synchrony:
-  enabled: false
-
-confluence:
-  resources:
-    container:
-      requests:
-        cpu: "100m"
-        memory: "1Mi" # demo value
-        # memory: "6Gi" # recommended production value
-      limits:
-        cpu: "10"
-        memory: "6Gi"
-    jvm:
-      maxHeap: "3g"
-
-  additionalEnvironmentVariables:
-    - name: ATL_DB_TYPE
-      value: "postgresql"
-    - name: ATL_DB_DRIVER
-      value: "org.postgresql.Driver"
-    - name: ATL_JDBC_URL
-      value: "jdbc:postgresql://###ZARF_VAR_CONFLUENCE_DB_ENDPOINT###:5432/###ZARF_VAR_CONFLUENCE_DB_NAME###"
-    - name: ATL_JDBC_USER
-      value: ###ZARF_VAR_CONFLUENCE_DB_USERNAME###
-    - name: ATL_JDBC_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: "confluence-postgres"
-          key: "password"
-volumes:
-  localHome:
-    persistentVolumeClaim:
-      create: true
-      # storageClassName: your-storage-class-here
-      resources:
-        requests:
-          storage: 1Gi
+monitoring:
+  # TODO: Pending an upstream pr to fix jar file location to not be hardcoded:
+  exposeJmxMetrics: false
+  # jmxExporterImageRepo: registry1.dso.mil/ironbank/opensource/prometheus/jmx-exporter
+  # jmxExporterImageTag: 0.18.0

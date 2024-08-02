@@ -15,8 +15,20 @@ components:
       # renovate: datasource=helm
       - name: confluence
         namespace: confluence
-        url: https://repo1.dso.mil/big-bang/product/community/confluence.git
-        version: "1.20.1-bb.3"
-        gitPath: chart
+        url: https://atlassian.github.io/data-center-helm-charts
+        version: "1.20.0"
         repoName: confluence
         releaseName: confluence
+        valuesFiles:
+          - ../values/common-values.yaml
+    actions:
+      onDeploy:
+        after:
+          - description: Validate Confluence Package
+            maxTotalSeconds: 300
+            wait:
+              cluster:
+                kind: Packages
+                name: confluence
+                namespace: confluence
+                condition: "'{.status.phase}'=Ready"
