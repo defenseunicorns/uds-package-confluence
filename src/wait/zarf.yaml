@@ -1,0 +1,19 @@
+kind: ZarfPackageConfig
+metadata:
+  name: dev-wait
+  description: "Wait for database to be ready to accept connections"
+  version: 0.1.0
+
+components:
+  - name: wait-for-database
+    required: true
+    actions:
+      onDeploy:
+        after:
+          - wait:
+              cluster:
+                kind: postgresql
+                name: pg-cluster
+                condition: "'{.status.PostgresClusterStatus}'=Running"
+                namespace: postgres
+          - cmd: sleep 10s

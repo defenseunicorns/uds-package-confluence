@@ -1,7 +1,9 @@
+shared:
+  CONFLUENCE_DB_USERNAME: "confluence.confluence"
+
 variables:
   confluence:
     confluence_db_endpoint: "pg-cluster.postgres.svc.cluster.local"
-    CONFLUENCE_DB_USERNAME: "confluence.confluence"
   postgres-operator:
     postgresql:
       enabled: true  # Set to false to not create the PostgreSQL resource
