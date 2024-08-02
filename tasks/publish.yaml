@@ -12,11 +12,6 @@ tasks:
         with:
           architecture: amd64
 
-      - description: Create the ARM64 package
-        task: create:package
-        with:
-          architecture: arm64
-
       - description: Publish the packages
         task: publish:package
         with:
