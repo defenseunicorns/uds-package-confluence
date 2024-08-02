@@ -21,8 +21,12 @@ volumes:
         requests:
           storage: 10Gi
   sharedHome:
+    persistentVolumeClaim:
+      create: true # To enable clustering
     nfsPermissionFixer:
       enabled: false
+    # mountPath: "/var/atlassian/application-data/shared-home" # for reference, that's the mountPath for the shared home
+    # you'll put that in the first screen after selecting clustered.
 
 ingress:
   nginx: false
@@ -55,3 +59,9 @@ confluence:
         - ALL
     runAsUser: 2002
     runAsGroup: 2002
+
+# Clustering related components
+# replicaCount: 1 - bring this up manually, one-by-one. TODO: prove it breaks to have all nodes up unclustered before joining them. They certainly must be joined 0, 1, 2, etc.
+
+
+# TODO: get Synchrony's clustering setup too
