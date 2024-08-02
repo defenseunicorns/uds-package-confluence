@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.20.0-uds.3](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.20.0-uds.2...v1.20.0-uds.3) (2024-08-02)
+
+
+### Features
+
+* add common file structure ([18f41df](https://github.com/defenseunicorns/uds-package-confluence/commit/18f41dfd4cd5e58963a653d5e46b7669c09fb2b4))
+* add common file structure ([563a746](https://github.com/defenseunicorns/uds-package-confluence/commit/563a7464ff019f8ce9928237507390f3da032cc5))
+* add common file structure ([dcd5735](https://github.com/defenseunicorns/uds-package-confluence/commit/dcd57356f6869ae373ac52a629936a1eb1f3b9a4))
+* add common file structure ([4a0dcc1](https://github.com/defenseunicorns/uds-package-confluence/commit/4a0dcc1b052c7c6f4f4896bab30e4aeb7bcef9d1))
+* add common file structure ([5e073f9](https://github.com/defenseunicorns/uds-package-confluence/commit/5e073f9e252012feb6aa5759f12a08f20767b327))
+* update sso name and clientid in uds package yaml ([4f75693](https://github.com/defenseunicorns/uds-package-confluence/commit/4f75693819ca46386074fe161f510e33d141a0a4))
+
+
+### Bug Fixes
+
+* removed big bang base image - not relevant to confluence ([b16758b](https://github.com/defenseunicorns/uds-package-confluence/commit/b16758bf764580b8294d456775af0f8464440cd5))
+* updated chart version too ([ef70814](https://github.com/defenseunicorns/uds-package-confluence/commit/ef70814961bdb87827ce2ef3526573bac156273c))
+* updated confluence to 8.9.4 from 8.9.3 ([1de763f](https://github.com/defenseunicorns/uds-package-confluence/commit/1de763fab6b5a8bc227f7a315e459118decf6ee6))
+* Updated version of uds-common actions in use ([48c4a36](https://github.com/defenseunicorns/uds-package-confluence/commit/48c4a367a3dca2b063400be900e06f5e27885521))
+
+
+### Miscellaneous
+
+* **deps:** update confluence support dependencies ([14432cb](https://github.com/defenseunicorns/uds-package-confluence/commit/14432cbd011281d91a627b92062f7d814b9e16bb))
+* **deps:** update support-deps to v38.18.8 ([97b4b0d](https://github.com/defenseunicorns/uds-package-confluence/commit/97b4b0d4b8536fa86029ff8255ffb3b5eca2381d))
+* release 1.20.0-uds.3 ([085c64c](https://github.com/defenseunicorns/uds-package-confluence/commit/085c64c537637dc36181fdd69eeec6aea6b38476))
+
 ## [1.20.0-uds.2](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.20.0-uds.1...v1.20.0-uds.2) (2024-06-27)
 
 
