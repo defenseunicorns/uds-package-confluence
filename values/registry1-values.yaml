@@ -3,7 +3,7 @@ image:
   tag: "8.9.4"
 
 monitoring:
-  # Pending an upstream pr to fix jar file location to not be hardcoded:
+  # TODO: Pending an upstream pr to fix jar file location to not be hardcoded:
   exposeJmxMetrics: false
   # jmxExporterImageRepo: registry1.dso.mil/ironbank/opensource/prometheus/jmx-exporter
   # jmxExporterImageTag: 0.18.0

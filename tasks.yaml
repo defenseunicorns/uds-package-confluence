@@ -17,7 +17,7 @@ tasks:
       - task: deploy:test-bundle
 
   - name: default-full
-    description: Create K3D Cluster with UDS-Core + Jenkins
+    description: Create K3D Cluster with UDS-Core + Confluence
     actions:
       - task: create-test-bundle
       - task: setup:k3d-full-cluster
