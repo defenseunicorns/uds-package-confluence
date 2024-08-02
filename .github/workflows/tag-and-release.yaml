@@ -43,7 +43,7 @@ jobs:
           ghToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish Package
-        run: uds run -f tasks/publish.yaml package --set FLAVOR=${{ matrix.flavor }} --set --no-progress
+        run: uds run -f tasks/publish.yaml package --set FLAVOR=${{ matrix.flavor }} --no-progress
 
       - name: Save logs
         if: always()
