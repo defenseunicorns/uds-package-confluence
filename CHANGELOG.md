@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.20.0-uds.4](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.20.0-uds.3...v1.20.0-uds.4) (2024-08-05)
+
+
+### Bug Fixes
+
+* removes arm copy pasta ([ec21af7](https://github.com/defenseunicorns/uds-package-confluence/commit/ec21af7c061ac89de9b8837a7f051a7be48238e0))
+
 ## [1.20.0-uds.3](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.20.0-uds.3...v1.20.0-uds.3) (2024-08-02)
 
 
