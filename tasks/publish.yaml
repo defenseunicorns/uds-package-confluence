@@ -22,25 +22,15 @@ tasks:
   - name: test-bundle
     description: Build and publish the test bundles
     actions:
-      - description: Create the ARM64 deps package
+      - description: Create the AMD64 deps package
         task: dependencies:create
         with:
           architecture: amd64
-
-      - description: Create the ARM64 deps package
-        task: dependencies:create
-        with:
-          architecture: arm64
 
       - description: Create the AMD64 bundle
         task: create:test-bundle
         with:
           architecture: amd64
-
-      - description: Create the ARM64 bundle
-        task: create:test-bundle
-        with:
-          architecture: arm64
 
       - description: Publish the bundles
         task: publish:test-bundle
