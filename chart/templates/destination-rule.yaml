@@ -1,0 +1,18 @@
+# This destination rule is required to make it so clients continue to contact the same
+# pod over the course of any session. This is required because Confluence is a statefulset,
+# if you change pods mid-process the new pod will be back at the home-page.
+
+# This requires the the k8s service to be headless or traffic still won't route correctly.
+
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: confluence-destination-rule-for-stateful-balancing
+spec:
+  host: confluence.{{ .Release.Namespace }}.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: {{ .Values.sessionAffinity.cookieName }}
+          ttl: {{ .Values.sessionAffinity.TTL }}

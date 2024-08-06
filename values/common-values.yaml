@@ -32,6 +32,9 @@ ingress:
   nginx: false
 
 confluence:
+  service:
+    type: ClusterIP  # Use this whether doing a standalone server or a clustered setup
+
   tomcatConfig:
     generateByHelm: true
   seraphConfig:
