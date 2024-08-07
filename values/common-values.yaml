@@ -22,11 +22,12 @@ volumes:
           storage: 10Gi
   sharedHome:
     persistentVolumeClaim:
-      create: true # To enable clustering
+      create: true  # To enable clustering
+      resources:
+        requests:
+          storage: 10Gi
     nfsPermissionFixer:
       enabled: false
-    # mountPath: "/var/atlassian/application-data/shared-home" # for reference, that's the mountPath for the shared home
-    # you'll put that in the first screen after selecting clustered.
 
 ingress:
   nginx: false
@@ -57,9 +58,9 @@ confluence:
   service:
     type: ClusterIP  # Use this whether doing a standalone server or a clustered setup
   hazelcastService:
-    enabled: true  # Required for clustering
+    enabled: true
   clustering:
-    enabled: true  # Also required to get this stuff to work
+    enabled: true 
   license:  # Convenience to reduce clickops
     secretName: "confluence-license"
     secretKey: "license-key"
@@ -91,15 +92,9 @@ confluence:
     runAsUser: 2002
     runAsGroup: 2002
 
-# Clustering related components
-# replicaCount: 1 - bring this up manually, one-by-one. TODO: prove it breaks to have all nodes up unclustered before joining them. They certainly must be joined 0, 1, 2, etc.
-
+# replicaCount: 1 - bring this up manually, one-by-one.
 
 # TODO: get Synchrony's clustering setup too
 
-# At minimum we support v1.2, may change to support only v1.3: https://github.com/defenseunicorns/uds-core/blob/main/src/istio/chart/values.yaml#L28
+  # At minimum we support v1.2, may change to support only v1.3: https://github.com/defenseunicorns/uds-core/blob/main/src/istio/chart/values.yaml#L28
   additionalJvmArgs: [ "-Dhttps.protocols=TLSv1.2,TLSv1.3" ]
-
-  additionalCertificates:
-    secretName:
-    customCmd:

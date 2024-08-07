@@ -86,7 +86,7 @@ spec:
         selector:
           app.kubernetes.io/name: confluence
         remoteGenerated: KubeAPI
-        description: "Access to k8s API"
+        description: "Provides Hazelcast with access to K8s API"
 
       # Custom rules for unanticipated scenarios
       {{- range .Values.custom }}
