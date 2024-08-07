@@ -31,10 +31,38 @@ volumes:
 ingress:
   nginx: false
 
+serviceAccount:
+  create: true
+  name: confluence
+  role:
+    create: true
+
+   # Define permissions
+   # https://kubernetes.io/docs/reference/access-authn-authz/rbac/#role-and-clusterrole
+   #
+  clusterRole:
+
+    # -- Set to 'true' if a ClusterRole should be created, or 'false' if it
+    # already exists.
+    #
+    create: true
+
+    # -- The name of the ClusterRole to be used. If not specified, but
+    # the "serviceAccount.clusterRole.create" flag is set to 'true',
+    # then the ClusterRole name will be auto-generated.
+    #
+    name: confluence
+
 confluence:
   service:
     type: ClusterIP  # Use this whether doing a standalone server or a clustered setup
-
+  hazelcastService:
+    enabled: true  # Required for clustering
+  clustering:
+    enabled: true  # Also required to get this stuff to work
+  license:  # Convenience to reduce clickops
+    secretName: "confluence-license"
+    secretKey: "license-key"
   tomcatConfig:
     generateByHelm: true
   seraphConfig:
@@ -68,3 +96,10 @@ confluence:
 
 
 # TODO: get Synchrony's clustering setup too
+
+# At minimum we support v1.2, may change to support only v1.3: https://github.com/defenseunicorns/uds-core/blob/main/src/istio/chart/values.yaml#L28
+  additionalJvmArgs: [ "-Dhttps.protocols=TLSv1.2,TLSv1.3" ]
+
+  additionalCertificates:
+    secretName:
+    customCmd:
