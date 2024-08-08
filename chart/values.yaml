@@ -15,6 +15,12 @@ sso:
   # Options: "saml", "openid_connect"
   protocol: "saml"
 
+# Session Affinity settings for Istio Destination Rule
+sessionAffinity:
+  cookieName: seraph.confluence  # https://confluence.atlassian.com/doc/confluence-cookies-160794071.html
+  TTL: 0s  # Ignored unless you substitute in a custom named cookie (that Istio creates)
+
+
 # custom:
 #    # Notice no `remoteGenerated` field here on custom internal rule
 #   - direction: Ingress

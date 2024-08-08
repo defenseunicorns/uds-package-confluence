@@ -21,13 +21,49 @@ volumes:
         requests:
           storage: 10Gi
   sharedHome:
+    persistentVolumeClaim:
+      create: true  # To enable clustering
+      resources:
+        requests:
+          storage: 10Gi
     nfsPermissionFixer:
       enabled: false
 
 ingress:
   nginx: false
 
+serviceAccount:
+  create: true
+  name: confluence
+  role:
+    create: true
+
+   # Define permissions
+   # https://kubernetes.io/docs/reference/access-authn-authz/rbac/#role-and-clusterrole
+   #
+  clusterRole:
+
+    # -- Set to 'true' if a ClusterRole should be created, or 'false' if it
+    # already exists.
+    #
+    create: true
+
+    # -- The name of the ClusterRole to be used. If not specified, but
+    # the "serviceAccount.clusterRole.create" flag is set to 'true',
+    # then the ClusterRole name will be auto-generated.
+    #
+    name: confluence
+
 confluence:
+  service:
+    type: ClusterIP  # Use this whether doing a standalone server or a clustered setup
+  hazelcastService:
+    enabled: true
+  clustering:
+    enabled: true 
+  license:  # Convenience to reduce clickops
+    secretName: "confluence-license"
+    secretKey: "license-key"
   tomcatConfig:
     generateByHelm: true
   seraphConfig:
@@ -41,7 +77,9 @@ confluence:
         cpu: "6"
         memory: "6Gi"
     jvm:
+      minHeap: "2g"
       maxHeap: "4g"
+
   securityContext:
     fsGroup: 2002
     runAsNonRoot: true
@@ -55,3 +93,20 @@ confluence:
         - ALL
     runAsUser: 2002
     runAsGroup: 2002
+
+# replicaCount: 1 - bring this up manually, one-by-one.
+
+# TODO: get Synchrony's clustering setup too
+
+  # At minimum we support v1.2, may change to support only v1.3: https://github.com/defenseunicorns/uds-core/blob/main/src/istio/chart/values.yaml#L28
+  additionalJvmArgs:
+    # Prevent TLS reduction to v1.1
+    - "-Dhttps.protocols=TLSv1.2,TLSv1.3"
+    # These additional Args avoid warnings from Hazelcast.
+    - "--add-modules java.se"
+    - "--add-exports java.base/jdk.internal.ref=ALL-UNNAMED"
+    - "--add-opens java.base/java.lang=ALL-UNNAMED"
+    - "--add-opens java.base/java.nio=ALL-UNNAMED"
+    - "--add-opens java.base/sun.nio.ch=ALL-UNNAMED"
+    - "--add-opens java.management/sun.management=ALL-UNNAMED"
+    - "--add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED"
