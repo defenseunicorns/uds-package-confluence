@@ -41,10 +41,11 @@ option because we're in Kubernetes. Confluence uses [HazelCast](https://docs.haz
 
 Hazelcast comes as a Java dependency baked into Confluence. If enabled, it runs as a parallel service in the container. To turn it on:
 
+1. Set the sharedHome PVC to be created
 1. Enable the creation of a service account. Hazelcast needs that to talk to the k8s API to discover nodes.
-2. Enable the hazelcast service
-3. Enable clustering
-4. Set the sharedHome PVC to be created
+1. Enable the hazelcast service
+1. Enable clustering
+
 
 Here's the relevant excerpt from a values.yaml file:
 
