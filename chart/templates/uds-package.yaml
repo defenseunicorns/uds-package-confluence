@@ -88,6 +88,14 @@ spec:
         remoteGenerated: KubeAPI
         description: "Provides Hazelcast with access to K8s API"
 
+      - direction: Egress
+        selector:
+          app.kubernetes.io/name: confluence
+        remoteSelector:
+          app.kubernetes.io/name: confluence
+        remoteNamespace: {{ .Release.Namespace }}
+        port: 5701 # To enable Hazelcast clustering
+
       # Custom rules for unanticipated scenarios
       {{- range .Values.custom }}
       - direction: {{ .direction }}
