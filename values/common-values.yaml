@@ -77,7 +77,9 @@ confluence:
         cpu: "6"
         memory: "6Gi"
     jvm:
+      minHeap: "2g"
       maxHeap: "4g"
+
   securityContext:
     fsGroup: 2002
     runAsNonRoot: true
@@ -97,4 +99,14 @@ confluence:
 # TODO: get Synchrony's clustering setup too
 
   # At minimum we support v1.2, may change to support only v1.3: https://github.com/defenseunicorns/uds-core/blob/main/src/istio/chart/values.yaml#L28
-  additionalJvmArgs: [ "-Dhttps.protocols=TLSv1.2,TLSv1.3" ]
+  additionalJvmArgs:
+    # Prevent TLS reduction to v1.1
+    - "-Dhttps.protocols=TLSv1.2,TLSv1.3"
+    # These additional Args avoid warnings from Hazelcast.
+    - "--add-modules java.se"
+    - "--add-exports java.base/jdk.internal.ref=ALL-UNNAMED"
+    - "--add-opens java.base/java.lang=ALL-UNNAMED"
+    - "--add-opens java.base/java.nio=ALL-UNNAMED"
+    - "--add-opens java.base/sun.nio.ch=ALL-UNNAMED"
+    - "--add-opens java.management/sun.management=ALL-UNNAMED"
+    - "--add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED"
