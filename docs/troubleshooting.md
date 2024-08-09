@@ -35,9 +35,9 @@ This confluence document explains the potential causes: <https://confluence.atla
 
 ### Incident Aug 8, 2024
 
-I deployed the bundle, saw it succeeded but was missing the clusterrole, so I added the clusterrole and binding then restarted the pod. That caused this error.
+I deployed the bundle, saw it succeeded but was missing the clusterrole, so I added the clusterrole and binding and then restarted the pod. That caused this error.
 
-I suspected error #12, restarting part way through the Setup Wizard so erased the namespaces for Confluence and the Postgre DB, then redeployed. 
+I suspected error #12, _restarting part way through the Setup Wizard_ so erased the namespaces for Confluence and the Postgre DB, then redeployed.
 
 ## Set up error
 
@@ -91,3 +91,37 @@ I added the java args Hazelcast was requesting and while that prevented that war
 
 [This guy](https://github.com/atlassian/data-center-helm-charts/issues/224) seemed to have exactly the same problem. Atlassian's guess was that it was an issue with the cluster.
 
+It is unknown what is causing this at present.
+
+#### Checking cause of these logs
+
+Perhaps this warning is the predecessor to the problem.
+
+```
+2024-08-08 20:03:12,224 WARN [Catalina-utility-1] [atlassian.hazelcast.micrometer.JmxBinder] bind No objects found for pattern com.hazelcast:type=HazelcastInstance.ConnectionManager,*
+2024-08-08 20:03:12,224 WARN [Catalina-utility-1] [atlassian.hazelcast.micrometer.JmxBinder] bind No objects found for pattern com.hazelcast:type=HazelcastInstance.EventService,*
+2024-08-08 20:03:12,224 WARN [Catalina-utility-1] [atlassian.hazelcast.micrometer.JmxBinder] bind No objects found for pattern com.hazelcast:type=HazelcastInstance.OperationService,*
+2024-08-08 20:03:12,225 WARN [Catalina-utility-1] [atlassian.hazelcast.micrometer.JmxBinder] bind No objects found for pattern com.hazelcast:type=HazelcastInstance.PartitionServiceMBean,*
+2024-08-08 20:03:12,225 WARN [Catalina-utility-1] [atlassian.hazelcast.micrometer.JmxBinder] bind No objects found for pattern com.hazelcast:type=HazelcastInstance.ManagedExecutorService,*
+```
+
+- https://jira.atlassian.com/browse/CONFSERVER-81025  The problem but w/o any help
+
+---
+
+I wonder if my problem is that I'm not explicitly giving permission on the hazelcast port.
+Added that and it still breaks.
+
+https://docs.hazelcast.com/hazelcast/5.5/kubernetes/kubernetes-auto-discovery#hide-nav is where you can get info on Hazelcast's setup for K8s autodiscover. I've tried running Hazelcast solo
+and it works - so it's less likely it's a cluster problem, and more likely it has to do with how it's included in Confluence.
+
+## Warning Logs That Don't Matter
+
+```txt
+Cannot fetch the current zone, ZONE_AWARE feature is disabled
+```
+
+Not an issue: https://github.com/hazelcast/hazelcast-kubernetes/issues/196 - it should've been downgraded to "info" not "warning".
+
+If you attempt to fix it per these instructions: <https://confluence.atlassian.com/confkb/confluence-unable-to-locate-hazelcast-members-after-adding-outbound-http-https-proxy-to-kubernetes-deployment-1387866874.html>
+by adding `-Dhttp.nonProxyHosts='confluence.uds.dev|kubernetes.default.svc'` to the java args it'll make no difference. We don't have a proxy issue causing this.

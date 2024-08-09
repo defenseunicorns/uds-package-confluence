@@ -31,6 +31,14 @@ Confluence is configured by default to assume the internal dependencies that are
 > [!IMPORTANT]
 > **NOTE:** To create the registry1 flavor you will need to be logged into Iron Bank - you can find instructions on how to do this in the [Big Bang Zarf Tutorial](https://docs.zarf.dev/tutorials/6-big-bang/#setup).
 
+Note, when starting up Confluence for the first time, Confluence will not be ready for traffic until these sorts of entries show up in the logs:
+
+```
+Running Changeset: META-INF/db-changelog/71-add-canceled-timestamp-to-assessment.xml::71-add-canceled-timestamp-to-gr-response-group::MPT
+Running Changeset: META-INF/db-changelog/72-add-migration-space-status-table.xml::72-add-migration-space-status-table::MPT
+Running Changeset: META-INF/db-changelog/73-add-guardrails-duration-and-load-column.xml::73-add-guardrails-duration-and-load-column::MPT
+```
+
 ## Releases
 
 The released packages can be found in [ghcr](https://github.com/defenseunicorns/uds-package-confluence/pkgs/container/packages%2Fuds%2Fconfluence).

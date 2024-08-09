@@ -61,9 +61,6 @@ confluence:
     enabled: true
   clustering:
     enabled: true 
-  license:  # Convenience to reduce clickops
-    secretName: "confluence-license"
-    secretKey: "license-key"
   tomcatConfig:
     generateByHelm: true
   seraphConfig:
@@ -71,11 +68,11 @@ confluence:
   resources:
     container:
       requests:
-        cpu: "500m"
-        memory: "2Gi"
+        cpu: "2"
+        memory: "4Gi"
       limits:
-        cpu: "6"
-        memory: "6Gi"
+        cpu: "4"
+        memory: "8Gi"
     jvm:
       minHeap: "2g"
       maxHeap: "4g"
