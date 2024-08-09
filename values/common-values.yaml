@@ -60,7 +60,7 @@ confluence:
   hazelcastService:
     enabled: true
   clustering:
-    enabled: true 
+    enabled: true
   tomcatConfig:
     generateByHelm: true
   seraphConfig:
