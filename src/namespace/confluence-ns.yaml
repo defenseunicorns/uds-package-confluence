@@ -1,4 +1,9 @@
+---
+# Namespace must be created ahead of time so postgre-operator
+# can put the secret in an existing namespace.
 kind: Namespace
 apiVersion: v1
 metadata:
   name: confluence
+  labels:
+    istio-injection: enabled

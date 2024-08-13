@@ -107,3 +107,12 @@ confluence:
     - "--add-opens java.base/sun.nio.ch=ALL-UNNAMED"
     - "--add-opens java.management/sun.management=ALL-UNNAMED"
     - "--add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED"
+
+openshift:
+  # -- When set to true, the containers will run with a restricted Security Context Constraint (SCC).
+  # See: https://docs.openshift.com/container-platform/4.14/authentication/managing-security-context-constraints.html
+  # This configuration property unsets pod's SecurityContext, nfs-fixer init container (which runs as root), and mounts server
+  # configuration files as ConfigMaps.
+  #
+  # Lesson Learned: DO NOT ENABLE THIS - it is DOA
+  runWithRestrictedSCC: false

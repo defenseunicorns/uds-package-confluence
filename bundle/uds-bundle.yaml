@@ -10,10 +10,9 @@ packages:
   - name: dev-namespace
     path: ../
     ref: 0.1.0
-
   - name: postgres-operator
     repository: ghcr.io/defenseunicorns/packages/uds/postgres-operator
-    ref: 1.10.1-uds.4-upstream
+    ref: 1.12.2-uds.2-upstream
     overrides:
       postgres-operator:
         uds-postgres-config:
