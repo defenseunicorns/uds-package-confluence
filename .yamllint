@@ -2,7 +2,11 @@ yaml-files:
   - '**/*.y*ml'
   - '.yamllint'
 
+ignore:
+  - '**/chart/templates**'
+
 rules:
+  anchors: enable
   braces: enable
   brackets: enable
   colons: enable
@@ -16,6 +20,7 @@ rules:
     level: warning
   empty-lines: enable
   empty-values: disable
+  float-values: disable
   hyphens: enable
   indentation: enable
   key-duplicates: enable
