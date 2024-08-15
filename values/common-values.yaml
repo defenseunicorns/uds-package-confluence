@@ -76,7 +76,7 @@ confluence:
         memory: "8Gi"
     jvm:
       minHeap: "2g"
-      maxHeap: "4g"
+      maxHeap: "6g" # https://www.alibabacloud.com/help/en/sae/use-cases/best-practices-for-jvm-heap-size-configuration#:~:text=No%2C%20you%20cannot%20set%20the,sufficient%20memory%20for%20system%20components.
 
   securityContext:
     fsGroup: 2002
