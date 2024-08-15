@@ -1,6 +1,6 @@
 image:
   repository: atlassian/confluence
-  tag: "8.5.12"
+  tag: "9.0.2"
 
 monitoring:
   jmxExporterImageRepo: bitnami/jmx-exporter
