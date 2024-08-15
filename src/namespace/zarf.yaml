@@ -1,3 +1,4 @@
+---
 kind: ZarfPackageConfig
 metadata:
   name: dev-namespace

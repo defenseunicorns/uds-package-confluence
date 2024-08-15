@@ -1,3 +1,4 @@
+---
 apiVersion: uds.dev/v1alpha1
 kind: Package
 metadata:
@@ -47,12 +48,6 @@ spec:
         port: 80
         targetPort: 8090
     allow:
-      - direction: Ingress
-        remoteGenerated: IntraNamespace
-
-      - direction: Egress
-        remoteGenerated: IntraNamespace
-
       - direction: Egress
         remoteNamespace: keycloak
         remoteSelector:
@@ -81,7 +76,8 @@ spec:
         remoteGenerated: Anywhere
         {{- end }}
         description: "Confluence Postgres"
-
+        
+      {{ if .Values.clustering_enabled }}
       - direction: Egress
         selector:
           app.kubernetes.io/name: confluence
@@ -94,7 +90,9 @@ spec:
         remoteSelector:
           app.kubernetes.io/name: confluence
         remoteNamespace: {{ .Release.Namespace }}
-        port: 5701 # To enable Hazelcast clustering
+        port: 5701
+        description: "Allows Hazelcast to communicate between pods"
+      {{ end }}
 
       # Custom rules for unanticipated scenarios
       {{- range .Values.custom }}

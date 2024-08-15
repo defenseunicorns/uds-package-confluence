@@ -1,9 +1,18 @@
 ---
-# Namespace must be created ahead of time so postgre-operator
-# can put the secret in an existing namespace.
+# Namespace must be created ahead of time so postgre-operator can put the secret in an
+# existing namespace. Failure to do so will cause the postgre cluster to fail and the
+# UDS install will fail as the postgre cluster fails to enter the "Running" status.
 kind: Namespace
 apiVersion: v1
 metadata:
   name: confluence
   labels:
+    # Pre-enabling Istio injection prevents the first confluence node from restarting
+    # shortly after creation when Pepr changes this to "enabled". This is important as
+    # the first confluence node being restarted part-way through the setup process can
+    # bork the install, requiring you to delete the shared-home and local-home PVCs and
+    # start over.
+    #
+    # Note, changing this to "disabled" will not prevent Pepr from making it "enabled" once
+    # a UDS package is deployed to this namespace.
     istio-injection: enabled

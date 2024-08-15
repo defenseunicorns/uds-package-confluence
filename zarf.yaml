@@ -17,6 +17,9 @@ variables:
     default: "uds.dev"
   - name: CONFLUENCE_DB_ENDPOINT
     default: "postgres"
+  - name: CONFLUENCE_CLUSTERING_ENABLED
+    default: "false"  # Clustering does not work with Istio enabled, see docs/clustering.md for more details.
+    pattern: ^(true|false)$
 
 components:
   - name: confluence

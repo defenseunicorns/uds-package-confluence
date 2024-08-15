@@ -22,7 +22,7 @@ volumes:
           storage: 10Gi
   sharedHome:
     persistentVolumeClaim:
-      create: true  # To enable clustering
+      create: "###ZARF_VAR_CONFLUENCE_CLUSTERING_ENABLED###"
       resources:
         requests:
           storage: 10Gi
@@ -57,10 +57,11 @@ serviceAccount:
 confluence:
   service:
     type: ClusterIP  # Use this whether doing a standalone server or a clustered setup
+    sessionAffinity: None  # Change this to `ClientIP` if clustering is enabled and Istio injection is not enabled and no other system exists to provide sticky sessions
   hazelcastService:
-    enabled: true
+    enabled: "###ZARF_VAR_CONFLUENCE_CLUSTERING_ENABLED###"
   clustering:
-    enabled: true
+    enabled: "###ZARF_VAR_CONFLUENCE_CLUSTERING_ENABLED###"
   tomcatConfig:
     generateByHelm: true
   seraphConfig:
@@ -91,9 +92,9 @@ confluence:
     runAsUser: 2002
     runAsGroup: 2002
 
-# replicaCount: 1 - bring this up manually, one-by-one.
-
-# TODO: get Synchrony's clustering setup too
+  # If clustering, do not add replicas until after node-0 is fully configured (you're through the setup wizard, able to create pages).
+  # Then add them one at a time. See docs/clustering.md for more information.
+  replicaCount: 1
 
   # At minimum we support v1.2, may change to support only v1.3: https://github.com/defenseunicorns/uds-core/blob/main/src/istio/chart/values.yaml#L28
   additionalJvmArgs:

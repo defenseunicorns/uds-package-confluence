@@ -6,7 +6,7 @@ This is a list of error messages and the information used to fix them previously
 
 **Webpage error**. Tab title is: "Oops - an error has occured".
 
-> logo System Error
+> **[logo]** System Error
 > A system error has occurred — our apologies!
 > 
 > For immediate troubleshooting, consult our knowledge base for a solution.
@@ -35,93 +35,35 @@ This confluence document explains the potential causes: <https://confluence.atla
 
 ### Incident Aug 8, 2024
 
-I deployed the bundle, saw it succeeded but was missing the clusterrole, so I added the clusterrole and binding and then restarted the pod. That caused this error.
+I deployed the bundle, saw it succeeded but was missing the clusterrole, so I added the clusterrole and binding and then restarted the pod. I suspect this resulted in cause #12 from the above link: _restarting part way through the Setup Wizard_.
 
-I suspected error #12, _restarting part way through the Setup Wizard_ so erased the namespaces for Confluence and the Postgre DB, then redeployed.
+To fix, I erased the namespaces for Confluence and the Postgre DB, then redeployed. Be forwarned, in production clusters the confluence namespace may hang during deletion due to a finalizer. After leaving it alone for 24 hours it eventualy finished deleting.
 
-## Set up error
+## "Set up error"
 
-Occurs during Setup Wizard in the Web UI. See confluence doc: <https://community.atlassian.com/t5/Confluence-questions/Got-quot-Set-up-step-error-quot-after-going-back-a-step/qaq-p/685763>
+This cccurs during Setup Wizard in the Web UI. See confluence doc: <https://community.atlassian.com/t5/Confluence-questions/Got-quot-Set-up-step-error-quot-after-going-back-a-step/qaq-p/685763>
 
 ### Incident Aug 8, 2024 #2
 
-Seemed to happen because I accessed the new install at the URL auto-filled by the browser, which may have skipped a setup step. So, only access it at <https://confluence.uds.dev>.
+Seemed to happen because I accessed the new install at the URL auto-filled by the browser, which may have skipped a setup step or caused them to execute out of order. Either way, it can cause the "Set up error.
 
-I shelled into the container, deleted `confluence.cfg.xml` as recommended and restarted the pod. It took a while to start up, but worked. Going straight to that URL seems to have avoided a repeat error.
+To avoid: only access confluence by it's boring base URL during setup. During development, that'd be <https://confluence.uds.dev>.
 
-## Hazelcast instance is not active - trying to scaleup from 1
+To fix: I shelled into the container, deleted `confluence.cfg.xml` as recommended in the above URL and restarted the pod. It took a while to start up, but worked. Going straight to that base URL as suggested above avoided a repeat "Set up error".
 
-After starting a second node, `node-1` (vs `node-0`), it creates a cluster of 1, and if you wait about a few minutes, `node-0` dies to a miserable death of repeated java stack traces like this:
+## Hazelcast instance is not active - trying to scale up from 1
 
-```txt
-08-Aug-2024 16:45:16.520 SEVERE [http-nio-8090-exec-7] org.apache.catalina.core.StandardHostValve.custom Exception Processing [ErrorPage[errorCode=500, location=/500page.jsp]]
-	org.springframework.transaction.CannotCreateTransactionException: Could not open Hibernate Session for transaction; nested exception is com.hazelcast.core.HazelcastInstanceNotActiveException: Hazelcast instance is not active!
-		at org.springframework.orm.hibernate5.HibernateTransactionManager.doBegin(HibernateTransactionManager.java:600)
-		at com.atlassian.confluence.impl.hibernate.ConfluenceHibernateTransactionManager.doBegin(ConfluenceHibernateTransactionManager.java:31)
-		at org.springframework.transaction.support.AbstractPlatformTransactionManager.startTransaction(AbstractPlatformTransactionManager.java:400)
-		at org.springframework.transaction.support.AbstractPlatformTransactionManager.getTransaction(AbstractPlatformTransactionManager.java:373)
-		at jdk.internal.reflect.GeneratedMethodAccessor213.invoke(Unknown Source)
-		at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-		at java.base/java.lang.reflect.Method.invoke(Method.java:569)\
-        ...
-	Caused by: com.hazelcast.core.HazelcastInstanceNotActiveException: Hazelcast instance is not active!
-		at com.hazelcast.instance.HazelcastInstanceProxy.getOriginal(HazelcastInstanceProxy.java:321)
-		at com.hazelcast.instance.HazelcastInstanceProxy.getCluster(HazelcastInstanceProxy.java:219)
-		at jdk.internal.reflect.GeneratedMethodAccessor123.invoke(Unknown Source)
-		at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-		at java.base/java.lang.reflect.Method.invoke(Method.java:569)
-		at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
-		at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:234)
-		...
-```
+This problem has not been totally resolved. If you remove Istio injection from the namespace entirely, and enable clustering via the Zarf var, it should work. If Istio injection is enabled, some quasi-fixes have been found but it never actually is able to form a cluster. See [docs/clustering.md](docs/clustering.md) for the full write up.
 
-If you restart `node-0` it'll recreate a cluster of 1, and then `node-1` will die in similar fashion after a few moments.
+## ZONE_AWARE feature is disabled
 
-### Incident Aug 8, 2024 #3
-
-<https://community.atlassian.com/t5/Confluence-questions/Node02-unable-to-join-cluster-after-upgrade-from-7-13-0-to-7-13/qaq-p/2056253> recommended checking that the authentication settings to the cluster were the same
-between the pods, they were.
-
-<https://confluence.atlassian.com/stashkb/stash-become-unresponsive-with-hazelcast-instance-is-not-active-726369931.html> suggested an OOM error, that wasn't the problem. I confirmed by observing the memory requests during
-a repeat of this error and it never went above 2G with a 6G limit. Also, I grepped `logs/atlassian-log.log` for "OutOfMemory" and it returned nothing.
-
-I suspect this is related to errors I'm seeing earlier on from Hazelcast during the initial startup.
-
-I added the java args Hazelcast was requesting and while that prevented that warning, it didn't fix it.
-
-[This guy](https://github.com/atlassian/data-center-helm-charts/issues/224) seemed to have exactly the same problem. Atlassian's guess was that it was an issue with the cluster.
-
-It is unknown what is causing this at present.
-
-#### Checking cause of these logs
-
-Perhaps this warning is the predecessor to the problem.
-
-```
-2024-08-08 20:03:12,224 WARN [Catalina-utility-1] [atlassian.hazelcast.micrometer.JmxBinder] bind No objects found for pattern com.hazelcast:type=HazelcastInstance.ConnectionManager,*
-2024-08-08 20:03:12,224 WARN [Catalina-utility-1] [atlassian.hazelcast.micrometer.JmxBinder] bind No objects found for pattern com.hazelcast:type=HazelcastInstance.EventService,*
-2024-08-08 20:03:12,224 WARN [Catalina-utility-1] [atlassian.hazelcast.micrometer.JmxBinder] bind No objects found for pattern com.hazelcast:type=HazelcastInstance.OperationService,*
-2024-08-08 20:03:12,225 WARN [Catalina-utility-1] [atlassian.hazelcast.micrometer.JmxBinder] bind No objects found for pattern com.hazelcast:type=HazelcastInstance.PartitionServiceMBean,*
-2024-08-08 20:03:12,225 WARN [Catalina-utility-1] [atlassian.hazelcast.micrometer.JmxBinder] bind No objects found for pattern com.hazelcast:type=HazelcastInstance.ManagedExecutorService,*
-```
-
-- https://jira.atlassian.com/browse/CONFSERVER-81025  The problem but w/o any help
-
----
-
-I wonder if my problem is that I'm not explicitly giving permission on the hazelcast port.
-Added that and it still breaks.
-
-https://docs.hazelcast.com/hazelcast/5.5/kubernetes/kubernetes-auto-discovery#hide-nav is where you can get info on Hazelcast's setup for K8s autodiscover. I've tried running Hazelcast solo
-and it works - so it's less likely it's a cluster problem, and more likely it has to do with how it's included in Confluence.
-
-## Warning Logs That Don't Matter
+This is a log message:
 
 ```txt
 Cannot fetch the current zone, ZONE_AWARE feature is disabled
 ```
 
-Not an issue: https://github.com/hazelcast/hazelcast-kubernetes/issues/196 - it should've been downgraded to "info" not "warning".
+It is not a problem. Per https://github.com/hazelcast/hazelcast-kubernetes/issues/196 it should've been downgraded to "info" not "warning" anyway.
 
 If you attempt to fix it per these instructions: <https://confluence.atlassian.com/confkb/confluence-unable-to-locate-hazelcast-members-after-adding-outbound-http-https-proxy-to-kubernetes-deployment-1387866874.html>
 by adding `-Dhttp.nonProxyHosts='confluence.uds.dev|kubernetes.default.svc'` to the java args it'll make no difference. We don't have a proxy issue causing this.

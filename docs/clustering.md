@@ -1,71 +1,56 @@
 # Atlassian Confluence Node Clustering in Kubernetes
 
-The Atlassian products were not made for the containerized Kubernetes world. These Java applications date from the first half of the 2000s, and are stateful. In kubernetes, they're a statefulset. This complicates horizontal scaling.
+**Status:** Clustering works in Kubernetes _only_ if you disable Istio injection. Note that Big Bang also [disables Istio](https://repo1.dso.mil/big-bang/product/community/confluence/-/blob/7a6569baedd147b3b09620beb4ea9cb917e0b88d/chart/values.yaml#L1642) for their confluence deployment.
 
-In a made-for-k8s or cloud-native application, each "server instance" or container runs statelessly with the stateful info cached somewhere like Redis. This means a client's requests can be served by multiple different backends without
-inconsistency in the final result. In this case, scaling is simple. Duplicate the pods and let k8s load-balance across them.
+## Enabling Clustering
 
-## Sticky Sessions
+If you wish to enable clustering, consider the following steps and decisions to be made:
 
-Because Confluence is a stateful application (like most if not all the other Atlassian products), every request from a client must go to the same cluster node. If a client's traffic is diverted to a different node, they'll have to restart the whole conversation or workflow. This requires Sticky Sessions.
+1. Set the Zarf variable `CONFLUENCE_CLUSTERING_ENABLED` to `true`. This will cause multiple flags between the main confluence helm chart and the "helper" chart (see the `chart/` directory) to create clustering-relevant resources.
+2. Search for that variable, and then understand the helm values it is setting, to get an idea what is created for an Istio-injected clustering scenario (which does not work).
+3. Decide to go forward with Istio - in this case you'll need to find a way to get it to work, or without Istio.
 
-The [Confluence Helm Chart values](https://github.com/atlassian/data-center-helm-charts/blob/main/src/main/charts/confluence/values.yaml#L560)
-`confluence.service.sessionAffinity` and `confluence.service.sessionAffinityConfig` allow us to setup [ClientIP based session affinity.](https://kubernetes.io/docs/reference/networking/virtual-ips/#session-affinity)
-This tells the k8s proxy which performs service routing to send all traffic from a given client IP address to the same pod. We don't use this
-feature for two reasons:
+There are a number of challenges involved in Confluence clustering. You'll get to the current status if you:
 
-1. This affinity is based on the _visible_ client IP. If a sizable portion of the user-base is behind a proxy, all those users will have the
-same clientIP. Consequently, they will all go to the same pod. This provides consistent state but risk significant load-balancing problems.
-2. It is possible for a user to change their IP part way through a session, say someone on their cellphone switching from airport wifi to cellular.
-This too would cause the clientIP based session affinity to not preserve state and potentially put the user on a new pod.
+- Install with just one replica
+- Move through the setup wizard
+- Increase replication to 2 _only after_ you've finished setup on Node-0.
+- Tail the logs from poth nodes (pods `confluence-1` and `confluence-2`), note that `confluence-2` will error out after failing cluster authentication.
 
-Instead of ClientIP based session affinity, we're using an Istio Destination Rule to re-route packets at the side-car level after they've reached
-the destination pod assigned to them by k8s round-robin load-balancing. Istio reroutes the traffic based on the session cookie. This preserves state
-while allowing us to load-balance on a per-user basis.
+Moving forward, you can go with or without Istio.
 
-Per the [K8s documentation]((https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#limitations)),
-if you're using a statefulset with replication, you need to use a [headless service](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services)
-to prevent round-robin load-balancing from destroying your stateful access. The Confluence Helm Chart doens't expose this option,
-and we don't need it. That's because Istio's Destination Rule based routing happens after the k8s service routing. So, though
-k8s is routing the traffic as though this were a stateless app, that's not an issue because Istio fixes it afterwards.
+### Clustering w/ Istio
 
-We could turn on ClientIP based session affinity in an attempt to reduce the frequency with which Istio has to re-route a packet. In the event all the users
-are behind the same proxy, however, this could cause a single Istio side-car to be responsible for re-routing all user traffic. I think it's more robust
-to accept the constant cost of Istio re-routing instead though some users, depending on their network topology, may want to turn it on.
+If you choose to cluster with Istio, you have the following **advantages:**
 
-## Clustering
+1. There is a [Istio Destination Rule](chart/templates/destination-rule.yaml) to provide sticky sessions. This should load-balance across the nodes fairly evenly as it can load-balance on a per-user basis (unlike ClientIP based session affinity. See discussion of challenges with the w/o Istio approach).
+2. You enjoy the full security of a typical UDS setup and easily connect into the larger ecosystem in the ways expected.
 
-The big thing to understand about Confluence node clusters in Kubernetes is that we aren't using any of the clustering options which show up on the server setup-page
-after install. We don't use TCP/IP, that fails because IPs change all the time. We don't use Multicast, that only works with specific CNIs. We don't use the AWS based
-option because we're in Kubernetes. Confluence uses [HazelCast](https://docs.hazelcast.com/home/) to automatically build the cluster if the Helm Values are properly configured.
+**Challenges**:
 
-Hazelcast comes as a Java dependency baked into Confluence. If enabled, it runs as a parallel service in the container. To turn it on:
+1. The confluence nodes (pods) want to speak to each other in terms of bare IP addresses instead of pod-names, which are DNS host names resolvable in-cluster. Istio does not "like" pods doing this, and it is suspected to be a contributing factor to the inability of the clustering to work with Istio. Note, Hazelcast as built into Confluence is using K8s API based node discovery. [This is one of two Hazelcast supported methods](https://docs.hazelcast.com/hazelcast/latest/kubernetes/kubernetes-auto-discovery#discovering-members). It could also find other nodes by resolving their DNS pod names to an IP. If in this mode Hazelcast would be sending messages to `confluence-0` instead of `10.42.0.36` it might play better with Istio. Injecting Hazelcast settings to alter the node discovery method and/or further work on Istio Destination Rules are offered as two approaches that might lead to success.
 
-1. Set the sharedHome PVC to be created
-1. Enable the creation of a service account. Hazelcast needs that to talk to the k8s API to discover nodes.
-1. Enable the hazelcast service
-1. Enable clustering
+### Clustering w/o Istio
 
+If you choose to cluster without Istio injection enabled, you have the following **advantages:**
 
-Here's the relevant excerpt from a values.yaml file:
+1. You're operating in the set of circumstances where clustering has been known to work.
 
-```yaml
-volumes:
-  sharedHome:
-    persistentVolumeClaim:
-      create: true
-serviceAccount:
-  create: true
-  role:
-    create: true
-confluence:
-  hazelcastService:
-    enabled: true
-  clustering:
-    enabled: true
-```
+**Challenges**:
 
-With this done, you can deploy a single node cluster first, and then once it comes up and is working, expand it _one node at a time_ by scaling up the replica count for the statefulset.
+1. Without some other proxy/load-balancer added in, you're stuck with ClientIP based session affinity. In an on-prem scenario, this could lead to massive portions of the load all being sent to the same pod for reason of being behind a common proxy (one visible `ClientIP`).
+2. It's unknown to this writer whether or not you'd be able to use the Istio Virtual Service to expose Confluence. If not, you'll need to bring something else in - which may break a lot of stuff.
+3. Anything else Confluence speaks to in-cluster will need `PERMISSIVE` settings to receive your communications degrading the cluster's overall security posture.
+4. UDS does not (as of this writing) have a "disable Istio" setting. This means you'll need to deploy confluence as a non-UDS package (remove the UDS-package resource from `chart/templates`), set Istio injection to disabled in the namespace, and provide your own ingress if Istio Virtual Services do not work without Istio injection (I don't know).
 
-If everything is setup correctly you will never be asked in the UI on server startup whether
-this should be configured as a standalone node or cluster.
+Experimentally, this was shown to work. To convert an existing Istio-based install to a non-Istio install take the following steps:
+
+- Delete the `confluence` `package` from the cluster. This `package` resource causes the UDS Operator in Pepr to enforce Istio injection rules in the `confluence` `namespace`.
+- Edit the `confluence namespace` to be labeled: `istio-injection: disabled`.
+- Setup a PeerAuthentication policy for postgre to so mTLS is `PERMISSIVE`.
+- Scale down the `confluence statefulset` to 0. This will remove the pods with Istio injected.
+- Scale the the `confluence statefulset` back to 1, and then when 1 is running (and you've completed the setup wizard), to 2.
+
+Inspect the confluence pods, they should not have the Istio sidecars, and provided they're able to access the postgre db, they should quickly form a cluster of two.
+
+Do not use these steps as-is for configuring a production environment. If using this in production, alter the IaC so you are deploying from yaml what was reached imperatively here. This is just for easy testing to see that clustering works without Istio.

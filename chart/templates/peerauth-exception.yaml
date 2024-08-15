@@ -1,4 +1,9 @@
+{{ if .Values.clustering_enabled }}
 ---
+# In theory, this peer auth policy prevents the second node from failing to talk to the first node instantly.
+# Instead, as of this writing, it fails over the course of a timeout. In both cases, it gets the same root error,
+# the cluster authentication attempt fails because the second node (`confluence-1`) receives unexpected bytes back
+# from the first node (`confluence-0`). 
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
@@ -9,7 +14,8 @@ spec:
     mode: STRICT
   portLevelMtls:
     5701:
-      mode: PERMISSIVE
+      mode: DISABLE
   selector:
     matchLabels:
       app.kubernetes.io/name: confluence
+{{ end }}
