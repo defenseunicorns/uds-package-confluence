@@ -69,8 +69,8 @@ confluence:
   resources:
     container:
       requests:
-        cpu: "2"
-        memory: "4Gi"
+        cpu: "500m"
+        memory: "2.5Gi"
       limits:
         cpu: "4"
         memory: "8Gi"
