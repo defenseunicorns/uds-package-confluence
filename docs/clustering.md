@@ -24,16 +24,16 @@ Moving forward, you can go with or without Istio.
 
 If you choose to cluster with Istio, you have the following **advantages:**
 
-1. There is a [Istio Destination Rule](chart/templates/destination-rule.yaml) to provide sticky sessions. This should load-balance across the nodes fairly evenly as it can load-balance on a per-user basis (unlike ClientIP based 
+1. There is a [Istio Destination Rule](chart/templates/destination-rule.yaml) to provide sticky sessions. This should load-balance across the nodes fairly evenly as it can load-balance on a per-user basis (unlike ClientIP based
 session affinity. See discussion of challenges with the w/o Istio approach).
 2. You enjoy the full security of a typical UDS setup and easily connect into the larger ecosystem in the ways expected.
 
 **Challenges**:
 
-1. The confluence nodes (pods) want to speak to each other in terms of bare IP addresses instead of pod-names, which are DNS host names resolvable in-cluster. Istio does not "like" pods doing this, and it is suspected to be a 
+1. The confluence nodes (pods) want to speak to each other in terms of bare IP addresses instead of pod-names, which are DNS host names resolvable in-cluster. Istio does not "like" pods doing this, and it is suspected to be a
 contributing factor to the inability of the clustering to work with Istio. Note, Hazelcast as built into Confluence is using K8s API based node discovery. 
-[This is one of two Hazelcast supported methods](https://docs.hazelcast.com/hazelcast/latest/kubernetes/kubernetes-auto-discovery#discovering-members). It could also find other nodes by resolving their DNS pod names to an IP. If in 
-this mode Hazelcast would be sending messages to `confluence-0` instead of `10.42.0.36`, it might play better with Istio. Injecting Hazelcast settings to alter the node discovery method and/or further work on Istio Destination 
+[This is one of two Hazelcast supported methods](https://docs.hazelcast.com/hazelcast/latest/kubernetes/kubernetes-auto-discovery#discovering-members). It could also find other nodes by resolving their DNS pod names to an IP. If in
+this mode Hazelcast would be sending messages to `confluence-0` instead of `10.42.0.36`, it might play better with Istio. Injecting Hazelcast settings to alter the node discovery method and/or further work on Istio Destination
 Rules are offered as two approaches that might lead to success.
 
 This url may also help resolve the pod-IP access problem: <https://discuss.istio.io/t/istio-mtls-and-pod-ip-port/7537>.
@@ -46,13 +46,13 @@ If you choose to cluster without Istio injection enabled, you have the following
 
 **Challenges**:
 
-1. Without some other proxy/load-balancer added in, you're stuck with ClientIP based session affinity. In an on-prem scenario, this could lead to massive portions of the load all being sent to the same pod for reason of 1/2 or even 
-all the users being behind a common proxy (one visible `ClientIP` if you're the K8s CNI plugin). Alternatively, you can use a [Headless Service](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services) 
-and an external load-balancer to route the load to the pods. If you use a typical `ClusterIP` style service, it will round-robin each request across the pods destroying user's ability to do anything as each change in backend pod 
+1. Without some other proxy/load-balancer added in, you're stuck with ClientIP based session affinity. In an on-prem scenario, this could lead to massive portions of the load all being sent to the same pod for reason of 1/2 or even
+all the users being behind a common proxy (one visible `ClientIP` if you're the K8s CNI plugin). Alternatively, you can use a [Headless Service](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services)
+and an external load-balancer to route the load to the pods. If you use a typical `ClusterIP` style service, it will round-robin each request across the pods destroying user's ability to do anything as each change in backend pod
 resets their application to the starting state.
 2. It's unknown to this writer whether or not you'd be able to use the Istio Virtual Service to expose Confluence. If not, you'll need to bring something else in like an Nginx Ingress controller.
 3. Anything else Confluence speaks to in-cluster will need `PERMISSIVE` settings to receive your communications degrading the cluster's overall security posture.
-4. UDS does not (as of this writing) have a "disable Istio" setting. This means you'll need to deploy confluence as a non-UDS package (remove the UDS-package resource from `chart/templates`), set Istio injection to disabled in the 
+4. UDS does not (as of this writing) have a "disable Istio" setting. This means you'll need to deploy confluence as a non-UDS package (remove the UDS-package resource from `chart/templates`), set Istio injection to disabled in the
 namespace, and provide your own ingress if Istio Virtual Services do not work without Istio injection (I don't know).
 
 Experimentally, this was shown to work. To convert an existing Istio-based install to a non-Istio install take the following steps:
@@ -65,5 +65,5 @@ Experimentally, this was shown to work. To convert an existing Istio-based insta
 
 Inspect the confluence pods, they should not have the Istio sidecars, and provided they're able to access the postgre db, they should quickly form a cluster of two.
 
-Do not use these steps as-is for configuring a production environment. If using this in production, alter the IaC so you are deploying from yaml what was reached imperatively here. This is just for easy testing to see that 
+Do not use these steps as-is for configuring a production environment. If using this in production, alter the IaC so you are deploying from yaml what was reached imperatively here. This is just for easy testing to see that
 clustering works without Istio.
