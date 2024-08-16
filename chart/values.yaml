@@ -17,7 +17,7 @@ sso:
 
 # Do not manually set this value. It toggles on/off multiple resources based on the desire to cluster in concert
 # with the main confluence chart. It is unlikely that you will be benefited by bypassing this var.
-clustering_enabled: "###ZARF_VAR_CONFLUENCE_CLUSTERING_ENABLED###"
+clustering_enabled: false  # If clustering, make true
 
 # Session Affinity settings for Istio Destination Rule. Only applies when clustering is enabled.
 sessionAffinity:

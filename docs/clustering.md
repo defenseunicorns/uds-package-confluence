@@ -7,7 +7,7 @@
 
 If you wish to enable clustering, consider the following steps and decisions to be made:
 
-1. Set the Zarf variable `CONFLUENCE_CLUSTERING_ENABLED` to `true`. This will cause multiple flags between the main confluence helm chart and the "helper" chart (see the `chart/` directory) to create clustering-relevant resources.
+1. Search for `# If clustering, make true` and make the suggested change. This can't be handled through a Zarf var because Zarf vars only handle strings, and `"false"` is truthy as `true` in helm.
 2. Search for that variable, and then understand the helm values it is setting, to get an idea what is created for an Istio-injected clustering scenario (which does not work).
 3. Decide to go forward with Istio - in this case you'll need to find a way to get it to work, or without Istio.
 
@@ -35,6 +35,8 @@ contributing factor to the inability of the clustering to work with Istio. Note,
 [This is one of two Hazelcast supported methods](https://docs.hazelcast.com/hazelcast/latest/kubernetes/kubernetes-auto-discovery#discovering-members). It could also find other nodes by resolving their DNS pod names to an IP. If in 
 this mode Hazelcast would be sending messages to `confluence-0` instead of `10.42.0.36`, it might play better with Istio. Injecting Hazelcast settings to alter the node discovery method and/or further work on Istio Destination 
 Rules are offered as two approaches that might lead to success.
+
+This url may also help resolve the pod-IP access problem: <https://discuss.istio.io/t/istio-mtls-and-pod-ip-port/7537>.
 
 ### Clustering w/o Istio
 

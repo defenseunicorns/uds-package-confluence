@@ -22,7 +22,7 @@ volumes:
           storage: 10Gi
   sharedHome:
     persistentVolumeClaim:
-      create: "###ZARF_VAR_CONFLUENCE_CLUSTERING_ENABLED###"
+      create: false  # If clustering, make true
       resources:
         requests:
           storage: 10Gi
@@ -59,9 +59,9 @@ confluence:
     type: ClusterIP  # Use this whether doing a standalone server or a clustered setup
     sessionAffinity: None  # Change this to `ClientIP` if clustering is enabled and Istio injection is not enabled and no other system exists to provide sticky sessions
   hazelcastService:
-    enabled: "###ZARF_VAR_CONFLUENCE_CLUSTERING_ENABLED###"
+    enabled: false  # If clustering, make true
   clustering:
-    enabled: "###ZARF_VAR_CONFLUENCE_CLUSTERING_ENABLED###"
+    enabled: false  # If clustering, make true
   tomcatConfig:
     generateByHelm: true
   seraphConfig:
@@ -70,7 +70,7 @@ confluence:
     container:
       requests:
         cpu: "500m"
-        memory: "2.5Gi"
+        memory: "3Gi"
       limits:
         cpu: "4"
         memory: "8Gi"
