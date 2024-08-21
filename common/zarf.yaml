@@ -10,7 +10,7 @@ components:
     charts:
       - name: uds-confluence-config
         namespace: confluence
-        version: 0.2.0
+        version: 0.1.0
         localPath: ../chart
       # renovate: datasource=helm
       - name: confluence
