@@ -1,18 +1,44 @@
 tasks:
+  - name: all
+    actions:
+      - task: health-check
+      - task: ingress
+      - task: ui
+
+  # Ensure application deploys successfully and becomes available
   - name: health-check
     actions:
-      - description: confluence StatefulSet Health Check
+      - description: Confluence Health Check
         wait:
           cluster:
             kind: StatefulSet
             name: confluence
             namespace: confluence
+      - description: OpenSearch Health Check
+        wait:
+          cluster:
+            kind: StatefulSet
+            name: opensearch-cluster-master
+            namespace: confluence
 
   - name: ingress
     actions:
-      - description: confluence UI Health Check
-        wait:
-          network:
-            protocol: https
-            address: confluence.uds.dev/setup/setuplicense.action
-            code: 200
+      - description: Confluence UI Status Check
+        maxRetries: 30
+        cmd: |
+          STATUS=$(curl -s 'https://confluence.uds.dev/status' | ./uds zarf tools yq '.state')
+          echo "confluence system status: ${STATUS}"
+          if [ $STATUS != "RUNNING" ]; then
+            sleep 10
+            exit 1
+          fi
+
+  - name: ui
+    description: Confluence UI Checks
+    actions:
+      - cmd: npm ci
+        dir: tests
+      - cmd: npx playwright install --with-deps
+        dir: tests
+      - cmd: npx playwright test
+        dir: tests
