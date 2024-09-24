@@ -12,11 +12,11 @@ components:
         namespace: confluence
         version: 0.1.0
         localPath: ../chart
-      # renovate: datasource=helm
       - name: confluence
         namespace: confluence
         url: https://atlassian.github.io/data-center-helm-charts
-        version: "1.21.0"
+        gitPath: chart
+        version: "1.21.3"
         repoName: confluence
         releaseName: confluence
         valuesFiles:
@@ -24,6 +24,14 @@ components:
     actions:
       onDeploy:
         after:
+          - wait:
+              cluster:
+                kind: Job
+                name: confluence-setup-sso
+                condition: "'{.status.succeeded}'=1"
+                namespace: confluence
+            maxTotalSeconds: 120
+            description: Confluence Setup SSO job succeeded
           - description: Validate Confluence Package
             maxTotalSeconds: 300
             wait:

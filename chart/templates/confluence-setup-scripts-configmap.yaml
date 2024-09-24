@@ -1,0 +1,119 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: confluence-setup-scripts
+  namespace: {{ .Release.Namespace }}
+data:
+  properties-setup-script.sh: |
+    #!/bin/sh
+    CONFLUENCE_USERNAME=$(cat /initial-admin-password/{{ .Values.setup.initialAdminSecret.usernameKey }})
+    CONFLUENCE_PASSWORD=$(cat /initial-admin-password/{{ .Values.setup.initialAdminSecret.passwordKey }})
+    ADMIN_EMAIL=$(cat /initial-admin-password/{{ .Values.setup.initialAdminSecret.emailKey }})
+    ADMIN_DISPLAY_NAME=$(cat /initial-admin-password/{{ .Values.setup.initialAdminSecret.displayNameKey }})
+
+    CONFLUENCE_PROPERTIES_FILE="/shared-home/confluence-init.properties"
+
+    if [ ! -f "$CONFLUENCE_PROPERTIES_FILE" ]; then
+      mkdir -p $(dirname $CONFLUENCE_PROPERTIES_FILE)
+      echo "$CONFLUENCE_PROPERTIES_FILE file not found, populating contents..."
+
+      cat <<EOF > $CONFLUENCE_PROPERTIES_FILE
+    setup.displayName=${{ .Values.setup.instanceDisplayName }}
+    setup.baseUrl=https://confluence.{{ .Values.domain }}
+    setup.sysadmin.username=${CONFLUENCE_USERNAME}
+    setup.sysadmin.password=${CONFLUENCE_PASSWORD}
+    setup.sysadmin.displayName=${ADMIN_DISPLAY_NAME}
+    setup.sysadmin.emailAddress=${ADMIN_EMAIL}
+    server.port=8090
+    server.secure=true
+    server.scheme=https
+    server.proxy-port=443
+    server.proxy-name=confluence.{{ .Values.domain }}
+    EOF
+
+      echo "done!"
+    else
+      echo "$CONFLUENCE_PROPERTIES_FILE file already exists, not populating contents"
+    fi
+  sso-setup-script.sh: |
+    #!/bin/sh
+    CONFLUENCE_USERNAME=$(cat /initial-admin-password/{{ .Values.setup.initialAdminSecret.usernameKey }})
+    CONFLUENCE_PASSWORD=$(cat /initial-admin-password/{{ .Values.setup.initialAdminSecret.passwordKey }})
+    CONFLUENCE_URL="http://confluence.confluence.svc.cluster.local"
+
+    {{- if eq .Values.sso.enabled true }}
+
+    while ! curl -s -o /dev/null -w "%{http_code}" "${CONFLUENCE_URL}/status" | grep -q "200"; do
+      echo "Waiting for 200 OK response from Confluence..."
+      sleep 5
+    done
+  
+    json=$(curl -s -u "${CONFLUENCE_USERNAME}:${CONFLUENCE_PASSWORD}" "${CONFLUENCE_URL}/rest/authconfig/1.0/idps")
+    size=$(echo "$json" | grep -o '"size":[0-9]*' | awk -F':' '{print $2}')
+
+    if [ -z "${size}" ]; then
+      echo "unable to fetch number of configured idps"
+      exit 1
+    fi
+
+    if [ "$size" -eq 0 ]; then
+
+      {{- if eq .Values.sso.protocol "saml" }}
+      SAML_IDP_CERTIFICATE=$(cat /sso-secret/samlIdpCertificate)
+
+    IFS='' read -r -d '' idps_json_data <<EOF
+    {
+        "name": "UDS Identity Service",
+        "sso-type": "SAML",
+        "sso-issuer": "https://sso.{{ .Values.domain }}/realms/uds",
+        "sso-url": "https://sso.{{ .Values.domain }}/realms/uds/protocol/saml",
+        "certificate": "${SAML_IDP_CERTIFICATE}",
+        "username-attribute": "\${{ "{" }}{{ .Values.sso.attributes.username }}{{ "}" }}",
+        "enable-remember-me": true,
+        "enabled": true,
+        "button-text": "Confluence Login",
+        "idp-type": "GENERIC",
+        "jit-configuration": {
+            "user-provisioning-enabled": true,
+            "mapping-email": "\${{ "{" }}{{ .Values.sso.attributes.email }}{{ "}" }}",
+            "mapping-groups": "{{ .Values.sso.attributes.groups }}",
+            "mapping-display-name": "\${{ "{" }}{{ .Values.sso.attributes.firstname }}{{ "}" }} \${{ "{" }}{{ .Values.sso.attributes.lastname }}{{ "}" }}"
+        }
+    }
+    EOF
+      
+      curl -f -X POST "${CONFLUENCE_URL}/rest/authconfig/1.0/idps" \
+        -H "Content-Type: application/json" \
+        -u "${CONFLUENCE_USERNAME}:${CONFLUENCE_PASSWORD}" \
+        -d "${idps_json_data}"
+
+      {{- range $g := .Values.sso.groups }}
+      curl -f -X POST "${CONFLUENCE_URL}/rest/api/1.0/admin/groups?name={{ urlquery $g }}" \
+        -H "Content-Type: application/json" \
+        -u "${CONFLUENCE_USERNAME}:${CONFLUENCE_PASSWORD}"
+      {{- end }}
+      
+      {{- range $g := .Values.sso.groupPermissions }}
+      curl -f -X PUT "${CONFLUENCE_URL}/rest/api/1.0/admin/permissions/groups?permission={{ urlquery $g.permission }}&name={{ urlquery $g.groupName }}" \
+        -H "Content-Type: application/json" \
+        -u "${CONFLUENCE_USERNAME}:${CONFLUENCE_PASSWORD}"
+      {{- end }}
+
+      curl -f -X PATCH "${CONFLUENCE_URL}/rest/authconfig/1.0/sso" \
+        -H "Content-Type: application/json" \
+        -u "${CONFLUENCE_USERNAME}:${CONFLUENCE_PASSWORD}" \
+        -d '{"show-login-form": false,"enable-authentication-fallback": false}'
+
+      echo "SSO has been successfully configured!"
+      exit 0
+
+      {{- else }}
+      echo "SSO protocol {{ .Values.sso.protocol }} not supported"
+      exit 1
+      {{- end }}
+
+    else
+      echo "SSO already configured; skipping..."
+      exit 0
+    fi
+    {{- end }}

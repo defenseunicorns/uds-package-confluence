@@ -10,10 +10,48 @@ postgres:
   namespace: postgres
   port: 5432
 
+persistence:
+  confluenceInitProperties:
+    storageClassName: local-path
+
+setup:
+  instanceDisplayName: Confluence
+  generateRandomAdminPassword:
+    # Set to false to provide your own initialAdminSecret
+    enabled: true
+    username: admin
+    email: admin@uds.dev
+    displayName: Instance Admin
+  initialAdminSecret:
+    secretName: confluence-initial-admin-password
+    usernameKey: username
+    passwordKey: password
+    emailKey: email
+    displayNameKey: displayName
+  license:
+    generateSecret: true
+    secretName: confluence-license
+    licenseKeyData: ""
+
 sso:
   enabled: true
-  # Options: "saml", "openid_connect"
-  protocol: "saml"
+  # Options: "saml"
+  protocol: saml
+  groups:
+    - /uds core
+    - /uds core/admin
+    - /uds core/auditor
+  groupPermissions:
+    - groupName: /uds core/admin
+      permission: SYS_ADMIN
+    - groupName: /uds core
+      permission: LICENSED_USER
+  attributes:
+    username: name
+    firstname: first_name
+    lastname: last_name
+    email: email
+    groups: groups
 
 # custom:
 #    # Notice no `remoteGenerated` field here on custom internal rule

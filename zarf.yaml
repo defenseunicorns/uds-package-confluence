@@ -21,13 +21,11 @@ variables:
 components:
   - name: confluence
     required: true
-    description: "Deploy confluence"
+    description: "Deploy Confluence"
     import:
       path: common
     only:
       flavor: upstream
-      cluster:
-        architecture: amd64
     charts:
       - name: confluence
         valuesFiles:
@@ -35,6 +33,7 @@ components:
     images:
       - atlassian/confluence:9.0.2
       - bitnami/jmx-exporter:1.0.1
+      - registry.access.redhat.com/ubi9:9.4-1214.1725849297
 
   - name: confluence
     required: true

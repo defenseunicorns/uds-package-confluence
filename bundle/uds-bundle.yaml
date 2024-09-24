@@ -37,3 +37,9 @@ packages:
           values:
             - path: database.credentials.secretName
               value: confluence.confluence.pg-cluster.credentials.postgresql.acid.zalan.do
+        uds-confluence-config:
+          variables:
+            - name: CONFLUENCE_LICENSE_KEY
+              path: setup.license.licenseKeyData
+              description: Confluence license data base64 encoded
+              default: ""
