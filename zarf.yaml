@@ -52,4 +52,4 @@ components:
     images:
       - registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node:9.0.3
       # TODO: Pending an upstream pr to fix jar file location to not be hardcoded:
-      # - registry1.dso.mil/ironbank/opensource/prometheus/jmx-exporter:0.20.0
+      # - registry1.dso.mil/ironbank/opensource/prometheus/jmx-exporter:1.0.1
