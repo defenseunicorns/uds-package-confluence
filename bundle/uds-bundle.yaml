@@ -13,7 +13,7 @@ packages:
 
   - name: postgres-operator
     repository: ghcr.io/defenseunicorns/packages/uds/postgres-operator
-    ref: 1.13.0-uds.1-upstream
+    ref: 1.10.1-uds.4-upstream
     overrides:
       postgres-operator:
         uds-postgres-config:
@@ -37,3 +37,9 @@ packages:
           values:
             - path: database.credentials.secretName
               value: confluence.confluence.pg-cluster.credentials.postgresql.acid.zalan.do
+        uds-confluence-config:
+          variables:
+            - name: CONFLUENCE_LICENSE_KEY
+              path: setup.license.licenseKeyData
+              description: Confluence license data base64 encoded
+              default: ""

@@ -8,18 +8,33 @@ spec:
   sso:
     - name: Confluence Login
     {{- if eq .Values.sso.protocol "saml" }}
-      clientId: uds-package-confluence-saml
+      clientId: "https://confluence.{{ .Values.domain }}"
       protocol: saml
+      secretName: sso-client-uds-package-confluence-saml
 
       redirectUris:
-        - "https://confluence.{{ .Values.domain }}/plugins/servlet/oidc/callback"
+        - "https://confluence.{{ .Values.domain }}/plugins/servlet/samlconsumer"
 
       defaultClientScopes:
         - "mapper-saml-email-email"
         - "mapper-saml-firstname-first_name"
         - "mapper-saml-lastname-last_name"
-        - "mapper-saml-grouplist-groups"
         - "mapper-saml-username-name"
+      protocolMappers:
+      - name: Group list
+        protocol: saml
+        consentRequired: false
+        protocolMapper: "saml-group-membership-mapper"
+        config:
+          single: "true"
+          attribute.nameformat: "Basic"
+          full.path: "true"
+          friendly.name: "Groups"
+          attribute.name: "groups"
+      attributes:
+        saml.client.signature: "false"
+        saml_assertion_consumer_url_post: "https://confluence.{{ .Values.domain }}/plugins/servlet/samlconsumer"
+        saml.assertion.signature: "true"
     {{- else if eq .Values.sso.protocol "openid_connect"  }}
       clientId: uds-package-confluence-openid-connect
       protocol: openid-connect

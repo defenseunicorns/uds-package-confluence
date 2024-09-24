@@ -12,6 +12,33 @@ monitoring:
   jmxExporterInitContainer:
     runAsRoot: false
 
+additionalInitContainers:
+  - name: init-confluence-properties
+    image: registry.access.redhat.com/ubi9:9.4-1214.1725849297
+    command: ["sh", "/properties-setup-script.sh"]
+    env:
+      - name: POSTGRES_URL
+        value: "jdbc:postgresql://###ZARF_VAR_CONFLUENCE_DB_ENDPOINT###:5432/###ZARF_VAR_CONFLUENCE_DB_NAME###"
+    volumeMounts:
+      - mountPath: /confluence-init-properties/confluence-init.properties
+        subPath: confluence-init.properties
+        name: confluence-init-properties
+      - name: confluence-setup-scripts-volume
+        mountPath: /properties-setup-script.sh
+        subPath: properties-setup-script.sh
+        readOnly: true
+      - mountPath: "/initial-admin-password"
+        name: initial-admin-password
+        readOnly: true
+    securityContext:
+      runAsNonRoot: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      runAsUser: 2003
+      runAsGroup: 2003
+
 volumes:
   localHome:
     persistentVolumeClaim:
@@ -21,8 +48,24 @@ volumes:
         requests:
           storage: 10Gi
   sharedHome:
+    persistentVolumeClaim:
+      create: true
+      # storageClassName: your-storage-class-here
+    resources:
+      requests:
+        storage: 1Gi
     nfsPermissionFixer:
       enabled: false
+  additional:
+    - name: confluence-setup-scripts-volume
+      configMap:
+        name: confluence-setup-scripts
+    - name: initial-admin-password
+      secret:
+        secretName: confluence-initial-admin-password
+    - name: confluence-init-properties
+      persistentVolumeClaim:
+        claimName: confluence-init-properties
 
 ingress:
   nginx: false
@@ -55,3 +98,10 @@ confluence:
         - ALL
     runAsUser: 2002
     runAsGroup: 2002
+  license:
+    secretName: confluence-license
+    secretKey: license
+  additionalVolumeMounts:
+    - mountPath: /opt/atlassian/confluence/confluence/WEB-INF/classes/confluence-init.properties
+      subPath: confluence-init.properties
+      name: confluence-init-properties

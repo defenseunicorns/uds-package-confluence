@@ -1,0 +1,52 @@
+{{- if eq (default .Values.sso.enabled false) true }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: confluence-setup-sso
+  namespace: {{ .Release.Namespace }}
+spec:
+  template:
+    spec:
+      containers:
+      - name: confluence-setup-sso
+        image: registry.access.redhat.com/ubi9:9.4-1214.1725849297
+        command:
+        - "/bin/sh"
+        - "/sso-setup-script.sh"
+        volumeMounts:
+        - name: confluence-setup-scripts-volume
+          mountPath: /sso-setup-script.sh
+          subPath: sso-setup-script.sh
+          readOnly: true
+        - mountPath: "/sso-secret"
+          name: sso-secret
+          readOnly: true
+        - mountPath: "/initial-admin-password"
+          name: initial-admin-password
+          readOnly: true
+        securityContext:
+          runAsNonRoot: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          runAsUser: 2003
+          runAsGroup: 2003
+      restartPolicy: Never
+      securityContext:
+        fsGroup: 2003
+        runAsNonRoot: true
+        runAsUser: 2003
+        runAsGroup: 2003
+      volumes:
+      - name: confluence-setup-scripts-volume
+        configMap:
+          name: confluence-setup-scripts
+      - name: sso-secret
+        secret:
+          secretName: sso-client-uds-package-confluence-saml
+      - name: initial-admin-password
+        secret:
+          secretName: {{ .Values.setup.initialAdminSecret.secretName }}
+  backoffLimit: 3
+{{- end }}
