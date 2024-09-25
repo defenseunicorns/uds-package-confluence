@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.20.0-uds.4](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.20.0-uds.3...v1.20.0-uds.4) (2024-09-25)
+
+
+### Bug Fixes
+
+* removes arm copy pasta ([ec21af7](https://github.com/defenseunicorns/uds-package-confluence/commit/ec21af7c061ac89de9b8837a7f051a7be48238e0))
+* updated path of intended test action ([05ffb86](https://github.com/defenseunicorns/uds-package-confluence/commit/05ffb867bb1eb94ba15ac01914bccd9ca1787e98))
+
+
+### Miscellaneous
+
+* add codeowners ([0a8c6a4](https://github.com/defenseunicorns/uds-package-confluence/commit/0a8c6a48052dec484151b95fd3c987d69116a617))
+* add digital salmon to codeowners ([b050b0f](https://github.com/defenseunicorns/uds-package-confluence/commit/b050b0f46da6da1a6319d42d9bc9898e197157e6))
+* **deps:** update confluence package dependencies ([5610d7d](https://github.com/defenseunicorns/uds-package-confluence/commit/5610d7d3677abda87600cf243108470e84ad73d2))
+* **deps:** update confluence package dependencies ([0fc167b](https://github.com/defenseunicorns/uds-package-confluence/commit/0fc167bbc00a9837be5487997c5e3cfb17ce695d))
+* **deps:** update confluence package dependencies ([68050fb](https://github.com/defenseunicorns/uds-package-confluence/commit/68050fb890305b700df61ac3294bfd312b772c09))
+* **deps:** update confluence support dependencies ([5077d30](https://github.com/defenseunicorns/uds-package-confluence/commit/5077d308708baaf47d31b78d5a80e854042a2c5e))
+* **deps:** update confluence support dependencies ([2851f21](https://github.com/defenseunicorns/uds-package-confluence/commit/2851f219554e8bee34032ee6d2793efc3484d0aa))
+* **deps:** update support-deps to v38.38.1 ([74e275f](https://github.com/defenseunicorns/uds-package-confluence/commit/74e275f55ad928eb1d93fa83e4f726d4dfbc8fb5))
+
 ## [1.20.0-uds.3](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.20.0-uds.3...v1.20.0-uds.3) (2024-08-02)
 
 
