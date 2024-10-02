@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.20.0-uds.5](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.20.0-uds.4...v1.20.0-uds.5) (2024-10-02)
+
+
+### Bug Fixes
+
+* validate package with full resource name ([2530a43](https://github.com/defenseunicorns/uds-package-confluence/commit/2530a43fade45e9ce7d68d9d0cf7481fa660624d))
+
 ## [1.20.0-uds.4](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.20.0-uds.4...v1.20.0-uds.4) (2024-09-25)
 
 
