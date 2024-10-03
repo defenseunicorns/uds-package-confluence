@@ -1,3 +1,4 @@
+---
 tasks:
   - name: cluster
     actions:

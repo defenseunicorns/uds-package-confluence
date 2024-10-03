@@ -21,13 +21,47 @@ volumes:
         requests:
           storage: 10Gi
   sharedHome:
+    persistentVolumeClaim:
+      create: false  # If clustering, make true
+      resources:
+        requests:
+          storage: 10Gi
     nfsPermissionFixer:
       enabled: false
 
 ingress:
   nginx: false
 
+serviceAccount:
+  create: true
+  name: confluence
+  role:
+    create: true
+
+   # Define permissions
+   # https://kubernetes.io/docs/reference/access-authn-authz/rbac/#role-and-clusterrole
+   #
+  clusterRole:
+
+    # -- Set to 'true' if a ClusterRole should be created, or 'false' if it
+    # already exists.
+    #
+    create: true
+
+    # -- The name of the ClusterRole to be used. If not specified, but
+    # the "serviceAccount.clusterRole.create" flag is set to 'true',
+    # then the ClusterRole name will be auto-generated.
+    #
+    name: confluence
+
 confluence:
+  service:
+    type: ClusterIP  # Use this whether doing a standalone server or a clustered setup
+    sessionAffinity: None  # Change this to `ClientIP` if clustering is enabled and Istio injection is not enabled and no other system exists to provide sticky sessions
+  hazelcastService:
+    enabled: false  # If clustering, make true
+  clustering:
+    enabled: false  # If clustering, make true
   tomcatConfig:
     generateByHelm: true
   seraphConfig:
@@ -36,12 +70,14 @@ confluence:
     container:
       requests:
         cpu: "500m"
-        memory: "2Gi"
+        memory: "3Gi"
       limits:
-        cpu: "6"
-        memory: "6Gi"
+        cpu: "4"
+        memory: "8Gi"
     jvm:
-      maxHeap: "4g"
+      minHeap: "2g"
+      maxHeap: "6g" # https://www.alibabacloud.com/help/en/sae/use-cases/best-practices-for-jvm-heap-size-configuration#:~:text=No%2C%20you%20cannot%20set%20the,sufficient%20memory%20for%20system%20components.
+
   securityContext:
     fsGroup: 2002
     runAsNonRoot: true
@@ -55,3 +91,29 @@ confluence:
         - ALL
     runAsUser: 2002
     runAsGroup: 2002
+
+  # If clustering, do not add replicas until after node-0 is fully configured (you're through the setup wizard, able to create pages).
+  # Then add them one at a time. See docs/clustering.md for more information.
+  replicaCount: 1
+
+  # At minimum we support v1.2, may change to support only v1.3: https://github.com/defenseunicorns/uds-core/blob/main/src/istio/chart/values.yaml#L28
+  additionalJvmArgs:
+    # Prevent TLS reduction to v1.1
+    - "-Dhttps.protocols=TLSv1.2,TLSv1.3"
+    # These additional Args avoid warnings from Hazelcast.
+    - "--add-modules java.se"
+    - "--add-exports java.base/jdk.internal.ref=ALL-UNNAMED"
+    - "--add-opens java.base/java.lang=ALL-UNNAMED"
+    - "--add-opens java.base/java.nio=ALL-UNNAMED"
+    - "--add-opens java.base/sun.nio.ch=ALL-UNNAMED"
+    - "--add-opens java.management/sun.management=ALL-UNNAMED"
+    - "--add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED"
+
+openshift:
+  # -- When set to true, the containers will run with a restricted Security Context Constraint (SCC).
+  # See: https://docs.openshift.com/container-platform/4.14/authentication/managing-security-context-constraints.html
+  # This configuration property unsets pod's SecurityContext, nfs-fixer init container (which runs as root), and mounts server
+  # configuration files as ConfigMaps.
+  #
+  # Lesson Learned: DO NOT ENABLE THIS - it is DOA
+  runWithRestrictedSCC: false
