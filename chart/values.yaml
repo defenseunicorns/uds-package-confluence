@@ -1,5 +1,8 @@
 domain: "###ZARF_VAR_DOMAIN###"
 
+clustering:
+  enabled: false
+
 postgres:
   # Set to false to use external postgres
   internal: true
@@ -14,15 +17,6 @@ sso:
   enabled: true
   # Options: "saml", "openid_connect"
   protocol: "saml"
-
-# Do not manually set this value. It toggles on/off multiple resources based on the desire to cluster in concert
-# with the main confluence chart. It is unlikely that you will be benefited by bypassing this var.
-clustering_enabled: false  # If clustering, make true
-
-# Session Affinity settings for Istio Destination Rule. Only applies when clustering is enabled.
-sessionAffinity:
-  cookieName: seraph.confluence  # https://confluence.atlassian.com/doc/confluence-cookies-160794071.html
-  TTL: 0s  # Ignored unless you substitute in a custom named cookie (that Istio creates)
 
 # custom:
 #    # Notice no `remoteGenerated` field here on custom internal rule

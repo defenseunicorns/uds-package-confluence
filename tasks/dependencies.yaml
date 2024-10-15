@@ -1,4 +1,3 @@
----
 tasks:
   - name: create
     description: Create the Dependency Zarf Packages

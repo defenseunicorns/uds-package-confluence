@@ -1,5 +1,5 @@
-{{ if .Values.clustering_enabled }}
----
+{{ if .Values.clustering.enabled }}
+
 # We need a service account attached to confluence that gives Hazelcast access to Kube API.
 # This is based on what's found here: https://raw.githubusercontent.com/hazelcast/hazelcast/master/kubernetes-rbac.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -33,17 +33,4 @@ rules:
     verbs:
       - get
       - list
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: hazelcast-cluster-role-binding
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: hazelcast-cluster-role
-subjects:
-  - kind: ServiceAccount
-    name: confluence        # This needs to match the name of the ServiceAccount created by the confluence helm chart.
-    namespace: {{ .Release.Namespace }}   # This needs to match the namespace the confluence service account is deployed to.
 {{ end }}

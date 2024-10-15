@@ -22,10 +22,9 @@ volumes:
           storage: 10Gi
   sharedHome:
     persistentVolumeClaim:
-      create: false  # If clustering, make true
-      resources:
-        requests:
-          storage: 10Gi
+      create: true
+      accessModes:
+        - ReadWriteOnce
     nfsPermissionFixer:
       enabled: false
 
@@ -109,11 +108,7 @@ confluence:
     - "--add-opens java.management/sun.management=ALL-UNNAMED"
     - "--add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED"
 
-openshift:
-  # -- When set to true, the containers will run with a restricted Security Context Constraint (SCC).
-  # See: https://docs.openshift.com/container-platform/4.14/authentication/managing-security-context-constraints.html
-  # This configuration property unsets pod's SecurityContext, nfs-fixer init container (which runs as root), and mounts server
-  # configuration files as ConfigMaps.
-  #
-  # Lesson Learned: DO NOT ENABLE THIS - it is DOA
-  runWithRestrictedSCC: false
+# This allows for clustering to work
+podAnnotations:
+  traffic.sidecar.istio.io/excludeOutboundPorts: 5801,5701,25500,54327
+  traffic.sidecar.istio.io/excludeInboundPorts: 5801,5701,25500,54327
