@@ -17,29 +17,30 @@ includes:
 
 tasks:
   - name: default
-    description: Create K3D Cluster with lite UDS-Core + Jaeger
+    description: Create K3D Cluster with lite UDS-Core + Confluence
     actions:
       - task: create-dev-package
       - task: setup:k3d-test-cluster
       - task: create-deploy-test-bundle
 
   - name: default-full
-    description: Create K3D Cluster with full UDS-Core + Jaeger
+    description: Create K3D Cluster with full UDS-Core + Confluence
     actions:
       - task: create-dev-package
       - task: setup:k3d-full-cluster
       - task: create-deploy-test-bundle
 
   - name: create-dev-package
-    description: Create the Jaeger package
+    description: Create the Confluence package
     actions:
       - task: create:package
         with:
           options: "--skip-sbom"
 
   - name: create-deploy-test-bundle
-    description: Test and validate cluster is deployed with Jaeger
+    description: Test and validate cluster is deployed with Confluence
     actions:
+      - task: create-dev-package
       - task: dependencies:create
       - task: create:test-bundle
       - task: deploy:test-bundle
