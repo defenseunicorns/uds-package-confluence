@@ -1,3 +1,6 @@
+# Copyright 2024 Defense Unicorns
+# SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
+
 database:
   type: postgresql
   url: "jdbc:postgresql://###ZARF_VAR_CONFLUENCE_DB_ENDPOINT###:5432/###ZARF_VAR_CONFLUENCE_DB_NAME###"
