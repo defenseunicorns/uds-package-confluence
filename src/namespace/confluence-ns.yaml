@@ -1,4 +1,12 @@
+# Copyright 2024 Defense Unicorns
+# SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
+
+# Namespace must be created ahead of time so postgres-operator can put the secret in an
+# existing namespace. Failure to do so will cause the postgres cluster to fail and the
+# UDS install will fail as the postgres cluster fails to enter the "Running" status.
 kind: Namespace
 apiVersion: v1
 metadata:
   name: confluence
+  labels:
+    istio-injection: enabled
