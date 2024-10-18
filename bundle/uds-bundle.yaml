@@ -6,7 +6,7 @@ metadata:
   name: confluence-test
   description: A UDS bundle for deploying Confluence and it's dependencies on a development cluster
   # x-release-please-start-version
-  version: 1.20.0-uds.4
+  version: 1.20.0-uds.5
   # x-release-please-end
 
 packages:
@@ -32,7 +32,7 @@ packages:
   - name: confluence
     path: ../
     # x-release-please-start-version
-    ref: 1.20.0-uds.4
+    ref: 1.20.0-uds.5
     # x-release-please-end
     overrides:
       confluence:
