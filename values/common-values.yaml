@@ -111,6 +111,42 @@ confluence:
     - "--add-opens java.management/sun.management=ALL-UNNAMED"
     - "--add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED"
 
+  license:
+    secretName: confluence-license
+    secretKey: license
+
+  additionalEnvironmentVariables:
+    - name: SETUP_DISPLAYNAME
+      valueFrom:
+        configMapKeyRef:
+          name: confluence-setup
+          key: setup_displayName
+    - name: SETUP_BASEURL
+      valueFrom:
+        configMapKeyRef:
+          name: confluence-setup
+          key: setup_baseUrl
+    - name: SETUP_SYSADMIN_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: confluence-initial-admin-password
+          key: username
+    - name: SETUP_SYSADMIN_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: confluence-initial-admin-password
+          key: password
+    - name: SETUP_SYSADMIN_DISPLAYNAME
+      valueFrom:
+        secretKeyRef:
+          name: confluence-initial-admin-password
+          key: displayName
+    - name: SETUP_SYSADMIN_EMAILADDRESS
+      valueFrom:
+        secretKeyRef:
+          name: confluence-initial-admin-password
+          key: email
+
 # This allows for clustering to work
 podAnnotations:
   traffic.sidecar.istio.io/excludeOutboundPorts: 5801,5701,25500,54327

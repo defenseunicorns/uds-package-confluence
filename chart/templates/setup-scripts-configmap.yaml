@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: confluence-setup-scripts
+  namespace: {{ .Release.Namespace }}
+data:
+  sso-setup-script.sh: |
+    #!/bin/sh
+    {{- if eq .Values.sso.enabled true }}
+
+    while ! curl -s -o /dev/null -w "%{http_code}" "${CONFLUENCE_URL}/status" | grep -q "200"; do
+      echo "Waiting for 200 OK response from Confluence..."
+      sleep 5
+    done
+  
+    json=$(curl -s -u "${CONFLUENCE_USERNAME}:${CONFLUENCE_PASSWORD}" "${CONFLUENCE_URL}/rest/authconfig/1.0/idps")
+    size=$(echo "$json" | grep -o '"size":[0-9]*' | awk -F':' '{print $2}')
+
+    if [ -z "${size}" ]; then
+      echo "unable to fetch number of configured idps"
+      exit 1
+    fi
+
+    if [ "$size" -eq 0 ]; then
+
+      {{- if eq .Values.sso.protocol "saml" }}
+      SAML_IDP_CERTIFICATE=$(cat /sso-secret/samlIdpCertificate)
+
+    IFS='' read -r -d '' idps_json_data <<EOF
+    {
+        "name": "UDS Identity Service",
+        "sso-type": "SAML",
+        "sso-issuer": "https://sso.{{ .Values.domain }}/realms/uds",
+        "sso-url": "https://sso.{{ .Values.domain }}/realms/uds/protocol/saml",
+        "certificate": "${SAML_IDP_CERTIFICATE}",
+        "username-attribute": "\${{ "{" }}{{ .Values.sso.attributes.username }}{{ "}" }}",
+        "enable-remember-me": true,
+        "enabled": true,
+        "button-text": "CONFLUENCE Login",
+        "idp-type": "GENERIC",
+        "jit-configuration": {
+          "user-provisioning-enabled": true,
+          "mapping-email": "\${{ "{" }}{{ .Values.sso.attributes.email }}{{ "}" }}",
+          "mapping-groups": "{{ .Values.sso.attributes.groups }}",
+          "mapping-display-name": "\${{ "{" }}{{ .Values.sso.attributes.firstname }}{{ "}" }} \${{ "{" }}{{ .Values.sso.attributes.lastname }}{{ "}" }}"
+        }
+    }
+    EOF
+      
+      curl --fail-with-body -X POST "${CONFLUENCE_URL}/rest/authconfig/1.0/idps" \
+        -H "Content-Type: application/json" \
+        -u "${CONFLUENCE_USERNAME}:${CONFLUENCE_PASSWORD}" \
+        -d "${idps_json_data}"
+
+      {{- range $g := .Values.sso.groups }}
+      curl --fail-with-body -X POST "${CONFLUENCE_URL}/rest/api/1.0/admin/groups?name={{ urlquery $g }}" \
+        -H "Content-Type: application/json" \
+        -u "${CONFLUENCE_USERNAME}:${CONFLUENCE_PASSWORD}"
+      {{- end }}
+      
+      {{- range $g := .Values.sso.groupPermissions }}
+      curl --fail-with-body -X PUT "${CONFLUENCE_URL}/rest/api/1.0/admin/permissions/groups?permission={{ urlquery $g.permission }}&name={{ urlquery $g.groupName }}" \
+        -H "Content-Type: application/json" \
+        -u "${CONFLUENCE_USERNAME}:${CONFLUENCE_PASSWORD}"
+      {{- end }}
+
+      curl --fail-with-body -X PATCH "${CONFLUENCE_URL}/rest/authconfig/1.0/sso" \
+        -H "Content-Type: application/json" \
+        -u "${CONFLUENCE_USERNAME}:${CONFLUENCE_PASSWORD}" \
+        -d '{"show-login-form": false,"enable-authentication-fallback": false}'
+
+      echo "SSO has been successfully configured!"
+      exit 0
+
+      {{- else }}
+      echo "SSO protocol {{ .Values.sso.protocol }} not supported"
+      exit 1
+      {{- end }}
+
+    else
+      echo "SSO already configured; skipping..."
+      exit 0
+    fi
+    {{- else }}
+    echo "SSO not enabled; skipping..."
+    exit 0
+    {{- end }}

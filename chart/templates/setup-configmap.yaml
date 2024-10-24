@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: confluence-setup
+  namespace: {{ .Release.Namespace }}
+data:
+  setup_displayName: {{ .Values.setup.instanceDisplayName }}
+  setup_baseUrl: https://confluence.{{ .Values.domain }}

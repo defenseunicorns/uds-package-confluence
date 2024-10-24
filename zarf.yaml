@@ -38,6 +38,7 @@ components:
     images:
       - atlassian/confluence:9.0.3
       - bitnami/jmx-exporter:1.0.1
+      - redhat/ubi9:9.4
 
   - name: confluence
     required: true
