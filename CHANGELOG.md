@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.20.0-uds.5](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.20.0-uds.4...v1.20.0-uds.5) (2024-10-29)
+
+
+### Features
+
+* functioning clustering ([37506d1](https://github.com/defenseunicorns/uds-package-confluence/commit/37506d111cd71c071d74fdee35d42e9a2b0011ba))
+
+
+### Bug Fixes
+
+* validate package with full resource name ([2530a43](https://github.com/defenseunicorns/uds-package-confluence/commit/2530a43fade45e9ce7d68d9d0cf7481fa660624d))
+
+
+### Miscellaneous
+
+* **deps:** update confluence package dependencies ([ce13927](https://github.com/defenseunicorns/uds-package-confluence/commit/ce139278ade48ee83e53e0dc50741897d1d98102))
+* **deps:** update confluence support dependencies ([4d61ba4](https://github.com/defenseunicorns/uds-package-confluence/commit/4d61ba49077ad278f30bacc7df646ae81b1e6281))
+* update CODEOWNERS ([#62](https://github.com/defenseunicorns/uds-package-confluence/issues/62)) ([800e0db](https://github.com/defenseunicorns/uds-package-confluence/commit/800e0db35f635b13de4790ce5ddda94175207cd8))
+
 ## [1.20.0-uds.4](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.20.0-uds.4...v1.20.0-uds.4) (2024-09-25)
 
 
