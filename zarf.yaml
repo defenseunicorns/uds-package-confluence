@@ -1,3 +1,6 @@
+# Copyright 2024 Defense Unicorns
+# SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
+
 # yaml-language-server: $schema=https://raw.githubusercontent.com/defenseunicorns/zarf/main/zarf.schema.json
 kind: ZarfPackageConfig
 metadata:
@@ -33,7 +36,7 @@ components:
         valuesFiles:
           - values/upstream-values.yaml
     images:
-      - atlassian/confluence:9.0.3
+      - atlassian/confluence:9.1.0
       - bitnami/jmx-exporter:1.0.1
 
   - name: confluence
@@ -50,6 +53,6 @@ components:
         valuesFiles:
           - values/registry1-values.yaml
     images:
-      - registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node:9.0.3
+      - registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node:9.1.0
       # TODO: Pending an upstream pr to fix jar file location to not be hardcoded:
       # - registry1.dso.mil/ironbank/opensource/prometheus/jmx-exporter:1.0.1

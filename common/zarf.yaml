@@ -1,3 +1,6 @@
+# Copyright 2024 Defense Unicorns
+# SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
+
 # yaml-language-server: $schema=https://raw.githubusercontent.com/defenseunicorns/zarf/main/zarf.schema.json
 kind: ZarfPackageConfig
 metadata:
@@ -16,7 +19,7 @@ components:
       - name: confluence
         namespace: confluence
         url: https://atlassian.github.io/data-center-helm-charts
-        version: "1.21.3"
+        version: "1.21.4"
         repoName: confluence
         releaseName: confluence
         valuesFiles:
@@ -28,7 +31,7 @@ components:
             maxTotalSeconds: 300
             wait:
               cluster:
-                kind: Packages
+                kind: packages.uds.dev
                 name: confluence
                 namespace: confluence
                 condition: "'{.status.phase}'=Ready"

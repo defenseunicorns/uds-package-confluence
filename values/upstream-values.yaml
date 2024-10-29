@@ -1,6 +1,9 @@
+# Copyright 2024 Defense Unicorns
+# SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
+
 image:
   repository: atlassian/confluence
-  tag: "9.0.3"
+  tag: "9.1.0"
 
 monitoring:
   jmxExporterImageRepo: bitnami/jmx-exporter

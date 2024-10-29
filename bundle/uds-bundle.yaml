@@ -1,3 +1,6 @@
+# Copyright 2024 Defense Unicorns
+# SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
+
 kind: UDSBundle
 metadata:
   name: confluence-test
@@ -13,7 +16,7 @@ packages:
 
   - name: postgres-operator
     repository: ghcr.io/defenseunicorns/packages/uds/postgres-operator
-    ref: 1.13.0-uds.1-upstream
+    ref: 1.13.0-uds.3-upstream
     overrides:
       postgres-operator:
         uds-postgres-config:
@@ -33,7 +36,19 @@ packages:
     # x-release-please-end
     overrides:
       confluence:
+        uds-confluence-config:
+          values:
+            # Values to enable clustering
+            - path: clustering.enabled
+              value: false
         confluence:
           values:
             - path: database.credentials.secretName
               value: confluence.confluence.pg-cluster.credentials.postgresql.acid.zalan.do
+            # Below are values to enable clustering
+            - path: confluence.hazelcastService.enabled
+              value: false # Set to true to enable clustering
+            - path: confluence.clustering.enabled
+              value: false # Set to true to enable clustering
+            - path: confluence.service.sessionAffinity
+              value: "None" # Set to ClientIP to enable clustering
