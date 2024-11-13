@@ -82,7 +82,7 @@ tasks:
 
       - description: Create deploy and test the bundle
         task: create-deploy-test-bundle
-        
+
       - description: Publish the packages
         task: publish:package
         with:
