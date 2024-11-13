@@ -1,0 +1,37 @@
+{
+  "cookies": [
+    {
+      "name": "JSESSIONID",
+      "value": "77F669860BEF49F2342B3534D796B966",
+      "domain": "confluence.uds.dev",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://confluence.uds.dev",
+      "localStorage": [
+        {
+          "name": "latest-theme-preference",
+          "value": "auto"
+        },
+        {
+          "name": "atlassian-analytics.confluence.lock",
+          "value": "null"
+        },
+        {
+          "name": "atst.healthcheck.sensors.page-protocols",
+          "value": "i1ax58"
+        },
+        {
+          "name": "dashboard.doug.route.last",
+          "value": "all-updates"
+        }
+      ]
+    }
+  ]
+}

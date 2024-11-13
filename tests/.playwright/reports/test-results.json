@@ -1,0 +1,220 @@
+{
+  "config": {
+    "configFile": "/home/aicluster/developer/defenseunicorns/appintegration/uds-package-confluence/tests/playwright.config.ts",
+    "rootDir": "/home/aicluster/developer/defenseunicorns/appintegration/uds-package-confluence/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": ".playwright/reports",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": ".playwright/reports/test-results.json",
+          "open": "never"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 15000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/home/aicluster/developer/defenseunicorns/appintegration/uds-package-confluence/tests/.playwright/output",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "setup",
+        "name": "setup",
+        "testDir": "/home/aicluster/developer/defenseunicorns/appintegration/uds-package-confluence/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.setup\\.ts/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/aicluster/developer/defenseunicorns/appintegration/uds-package-confluence/tests/.playwright/output",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/home/aicluster/developer/defenseunicorns/appintegration/uds-package-confluence/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/aicluster/developer/defenseunicorns/appintegration/uds-package-confluence/tests/.playwright/output",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "/home/aicluster/developer/defenseunicorns/appintegration/uds-package-confluence/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "version": "1.47.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "auth.setup.ts",
+      "file": "auth.setup.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "authenticate",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "setup",
+              "projectName": "setup",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 1207,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "Login successful! Reached all-updates page.\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2024-11-13T19:56:17.507Z",
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "17e3fe6f4d9d8bd79c6b-60f085b113a677673906",
+          "file": "auth.setup.ts",
+          "line": 9,
+          "column": 6
+        }
+      ]
+    },
+    {
+      "title": "create-page.spec.ts",
+      "file": "create-page.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "create new confluence page",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "status": "interrupted",
+                  "duration": 17944,
+                  "error": {
+                    "message": "Error: page.waitForSelector: Test ended.\nCall log:\n  \u001b[2m- waiting for locator('iframe.confluence-embedded-page') to be visible\u001b[22m\n",
+                    "stack": "Error: page.waitForSelector: Test ended.\nCall log:\n  \u001b[2m- waiting for locator('iframe.confluence-embedded-page') to be visible\u001b[22m\n\n    at /home/aicluster/developer/defenseunicorns/appintegration/uds-package-confluence/tests/create-page.spec.ts:19:14",
+                    "location": {
+                      "file": "/home/aicluster/developer/defenseunicorns/appintegration/uds-package-confluence/tests/create-page.spec.ts",
+                      "column": 14,
+                      "line": 19
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 17 |\u001b[39m\n \u001b[90m 18 |\u001b[39m   \u001b[90m// Wait for the editor iframe to be ready\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForSelector(\u001b[32m'iframe.confluence-embedded-page'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m   \n \u001b[90m 21 |\u001b[39m   \u001b[90m// Get the editor iframe and interact with its content\u001b[39m\n \u001b[90m 22 |\u001b[39m   \u001b[36mconst\u001b[39m editorFrame \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mframeLocator(\u001b[32m'.confluence-embedded-page'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/home/aicluster/developer/defenseunicorns/appintegration/uds-package-confluence/tests/create-page.spec.ts",
+                        "column": 14,
+                        "line": 19
+                      },
+                      "message": "Error: page.waitForSelector: Test ended.\nCall log:\n  \u001b[2m- waiting for locator('iframe.confluence-embedded-page') to be visible\u001b[22m\n\n\n\u001b[0m \u001b[90m 17 |\u001b[39m\n \u001b[90m 18 |\u001b[39m   \u001b[90m// Wait for the editor iframe to be ready\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForSelector(\u001b[32m'iframe.confluence-embedded-page'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m   \n \u001b[90m 21 |\u001b[39m   \u001b[90m// Get the editor iframe and interact with its content\u001b[39m\n \u001b[90m 22 |\u001b[39m   \u001b[36mconst\u001b[39m editorFrame \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mframeLocator(\u001b[32m'.confluence-embedded-page'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\n\u001b[2m    at /home/aicluster/developer/defenseunicorns/appintegration/uds-package-confluence/tests/create-page.spec.ts:19:14\u001b[22m"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2024-11-13T19:56:19.183Z",
+                  "attachments": [],
+                  "errorLocation": {
+                    "file": "/home/aicluster/developer/defenseunicorns/appintegration/uds-package-confluence/tests/create-page.spec.ts",
+                    "column": 14,
+                    "line": 19
+                  }
+                }
+              ],
+              "status": "skipped"
+            },
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "3d658c29f326c1fa22ad-9b505d3948618706fb76",
+          "file": "create-page.spec.ts",
+          "line": 8,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2024-11-13T19:56:17.213Z",
+    "duration": 20090.940000000002,
+    "expected": 1,
+    "skipped": 2,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

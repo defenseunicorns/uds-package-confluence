@@ -4,44 +4,38 @@
 includes:
   - dependencies: ./tasks/dependencies.yaml
   - test: ./tasks/test.yaml
-  - create: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.2.2/tasks/create.yaml
-  - lint: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.2.2/tasks/lint.yaml
-  - pull: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.2.2/tasks/pull.yaml
-  - deploy: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.2.2/tasks/deploy.yaml
-  - setup: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.2.2/tasks/setup.yaml
-  - actions: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.2.2/tasks/actions.yaml
-  - badge: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.2.2/tasks/badge.yaml
-  - upgrade: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.2.2/tasks/upgrade.yaml
-  - compliance: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.2.2/tasks/compliance.yaml
-  - publish: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.2.2/tasks/publish.yaml
+  - create: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.0/tasks/create.yaml
+  - lint: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.0/tasks/lint.yaml
+  - pull: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.0/tasks/pull.yaml
+  - deploy: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.0/tasks/deploy.yaml
+  - setup: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.0/tasks/setup.yaml
+  - actions: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.0/tasks/actions.yaml
+  - badge: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.0/tasks/badge.yaml
+  - upgrade: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.0/tasks/upgrade.yaml
+  - compliance: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.0/tasks/compliance.yaml
+  - publish: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.0/tasks/publish.yaml
 
 tasks:
   - name: default
-    description: Create K3D Cluster with lite UDS-Core + Confluence
+    description: Setup k3d cluster, deploy package
     actions:
       - task: create-dev-package
       - task: setup:k3d-test-cluster
       - task: create-deploy-test-bundle
 
-  - name: default-full
-    description: Create K3D Cluster with full UDS-Core + Confluence
-    actions:
-      - task: create-dev-package
-      - task: setup:k3d-full-cluster
-      - task: create-deploy-test-bundle
-
   - name: create-dev-package
-    description: Create the Confluence package
+    description: Create the package
     actions:
+      - task: dependencies:create
       - task: create:package
         with:
           options: "--skip-sbom"
 
   - name: create-deploy-test-bundle
-    description: Test and validate cluster is deployed with Confluence
+    description: Test and validate cluster is deployed with the package
     actions:
-      - task: create-dev-package
       - task: dependencies:create
+      - task: create:package
       - task: create:test-bundle
       - task: deploy:test-bundle
       - task: setup:create-doug-user
@@ -62,6 +56,7 @@ tasks:
       - task: create-dev-package
       - task: setup:k3d-test-cluster
       - task: create-deploy-test-bundle
+      - task: compliance:validate
 
   - name: test-upgrade
     description: Test an upgrade from the latest released package to the current branch
@@ -71,7 +66,10 @@ tasks:
           dep_commands: "./uds run dependencies:create"
       - task: setup:k3d-test-cluster
       - task: deploy:test-bundle
+      - task: compliance:validate
       - task: create-deploy-test-bundle
+      - task: compliance:validate
+      - task: compliance:evaluate
 
   - name: publish-package
     description: Build and publish the packages
@@ -84,7 +82,7 @@ tasks:
 
       - description: Create deploy and test the bundle
         task: create-deploy-test-bundle
-
+        
       - description: Publish the packages
         task: publish:package
         with:
