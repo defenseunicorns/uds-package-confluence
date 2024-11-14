@@ -3,7 +3,7 @@
 
 image:
   repository: atlassian/confluence
-  tag: "9.1.0"
+  tag: "9.1.1"
 
 monitoring:
   jmxExporterImageRepo: bitnami/jmx-exporter
