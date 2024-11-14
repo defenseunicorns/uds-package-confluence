@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [8.6.0-uds.0](https://github.com/defenseunicorns/uds-package-confluence/compare/v8.5.16-uds.0...v8.6.0-uds.0) (2024-11-14)
+
+
+### Features
+
+* add ability to change default scopes ([dfb5267](https://github.com/defenseunicorns/uds-package-confluence/commit/dfb5267dbbd7c057e58ed26ce4fc12a0997eb7f9))
+
+
+### Miscellaneous
+
+* **deps:** update confluence package dependencies ([#71](https://github.com/defenseunicorns/uds-package-confluence/issues/71)) ([5e1453c](https://github.com/defenseunicorns/uds-package-confluence/commit/5e1453c29e30ce619cb01690a36c415632732ecd))
+* **deps:** update confluence support dependencies ([#72](https://github.com/defenseunicorns/uds-package-confluence/issues/72)) ([396e291](https://github.com/defenseunicorns/uds-package-confluence/commit/396e291979488981eb51314957eeddec9cfa2884))
+* **deps:** update support-deps to v38.138.0 ([79bc1bc](https://github.com/defenseunicorns/uds-package-confluence/commit/79bc1bc6bea23dda2fe57a44edb6be8db24257a2))
+* **deps:** update support-deps to v38.140.1 ([06fa7aa](https://github.com/defenseunicorns/uds-package-confluence/commit/06fa7aacd5d03631ce529faf2b8abb1f71a01761))
+
 ## [8.5.16-uds.0](https://github.com/defenseunicorns/uds-package-confluence/compare/v1.20.0-uds.4...v8.5.16-uds.0) (2024-10-29)
 
 
