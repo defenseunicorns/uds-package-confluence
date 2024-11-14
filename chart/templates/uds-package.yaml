@@ -18,14 +18,26 @@ spec:
         - "https://confluence.{{ .Values.domain }}/plugins/servlet/oidc/callback"
 
       defaultClientScopes:
+      {{- if .Values.sso.defaultClientScopes }}
+        {{- range .Values.sso.defaultClientScopes }}
+          - "{{ . }}"
+        {{- end }}
+      {{- else }}
         - "mapper-saml-email-email"
         - "mapper-saml-firstname-first_name"
         - "mapper-saml-lastname-last_name"
         - "mapper-saml-grouplist-groups"
         - "mapper-saml-username-name"
+      {{- end }}
     {{- else if eq .Values.sso.protocol "openid_connect"  }}
       clientId: uds-package-confluence-openid-connect
       protocol: openid-connect
+      defaultClientScopes:
+      {{- if .Values.sso.defaultClientScopes }}
+        {{- range .Values.sso.defaultClientScopes }}
+          - "{{ . }}"
+        {{- end }}
+      {{- end }}
 
       redirectUris:
         - "https://confluence.{{ .Values.domain }}/plugins/servlet/oidc/callback"
