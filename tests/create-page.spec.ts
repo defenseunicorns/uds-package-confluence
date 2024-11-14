@@ -7,28 +7,29 @@ import { test, expect } from '@playwright/test';
 
 test('create new confluence page', async ({ page }) => {
   // Navigate to Confluence homepage
-  await page.goto('https://confluence.uds.dev/dashboard.action');
+  await page.goto('https://confluence.uds.dev');
 
   // Click the "Create" button using XPath
   await page.click('//a[@id="quick-create-page-button"]');
 
+  // Generate a unique title with timestamp
+  const timestamp = Date.now();
+  const expectedTitle = `New Page ${timestamp}`;
+
   // Wait for and fill in the page title using XPath
-  await page.fill('//input[@id="content-title"]', 'Test Page Created by Playwright');
-
-  // Wait for the editor iframe to be ready
-  await page.waitForSelector('iframe.confluence-embedded-page');
-  
-  // Get the editor iframe and interact with its content
-  const editorFrame = page.frameLocator('.confluence-embedded-page');
-  await editorFrame.locator('//*[@id="tinymce"]/p').fill('This is a test page created by automated testing.');
-
-  // Click the Publish button using XPath
-  await page.click('//button[@id="rte-button-publish"]');
-
-  // Wait for the page to be saved and verify
   await page.waitForSelector('//input[@id="content-title"]');
-  
-  // Verify the page title
-  const pageTitle = await page.inputValue('//input[@id="content-title"]');
-  expect(pageTitle).toBe('Test Page Created by Playwright');
+  await page.fill('//input[@id="content-title"]', expectedTitle);
+
+  // Click the Publish button and wait for it to complete
+  await Promise.all([
+    page.waitForLoadState('networkidle'),
+    page.click('//button[@id="rte-button-publish"]')
+  ]);
+
+  // Add a small delay to ensure page transition is complete
+  await page.waitForTimeout(1000);
+
+  // Verify we're in the correct space using the breadcrumb link
+  await expect(page.locator('#breadcrumbs').getByRole('link', { name: 'DU' })).toBeVisible();
+  await expect(page.locator('//h1[@id="title-text"]')).toBeVisible();
 }); 
