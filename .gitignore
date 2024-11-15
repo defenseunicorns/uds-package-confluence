@@ -19,6 +19,7 @@ zarf-sbom
 tmp/
 values-*.yaml
 overlay-values-*
+.tool-versions
 
 # Terraform
 test/tf/public-ec2-instance/.test-data
@@ -26,3 +27,10 @@ test/tf/public-ec2-instance/.terraform
 terraform.tfstate
 terraform.tfstate.backup
 .terraform.lock.hcl
+
+# Tests
+node_modules/
+.playwright/
+
+# VSCode
+.vscode/

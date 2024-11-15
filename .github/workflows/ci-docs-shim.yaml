@@ -1,20 +1,35 @@
 # Copyright 2024 Defense Unicorns
 # SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
 
-name: CI Docs Shim
+name: CI Doc Shim
 
 on:
   pull_request:
-    branches: [main]
-    types: [milestoned, opened, synchronize]
+    paths:
+      - "**.md"
+      - "**.jpg"
+      - "**.png"
+      - "**.gif"
+      - "**.svg"
+      - adr/**
+      - docs/**
+      - .gitignore
+      - renovate.json
+      - .release-please-config.json
+      - release-please-config.json
+      - oscal-component.yaml
+      - CODEOWNERS
+      - LICENSE
+      - CONTRIBUTING.md
+      - SECURITY.md
 
 jobs:
   validate:
     strategy:
       matrix:
         type: [install, upgrade]
-        flavor: [upstream, registry1]
-    uses: defenseunicorns/uds-common/.github/workflows/callable-ci-docs-shim.yaml@d59b1c601730bfa7ab76439643242358e529603e # v1.2.2
+        flavor: [upstream, registry1, unicorn]
+    uses: defenseunicorns/uds-common/.github/workflows/callable-ci-docs-shim.yaml@f0164622ffc2007e96a0e1deaa3f5064db04b148 # v1.1.0
     with:
       flavor: ${{ matrix.flavor }}
       type: ${{ matrix.type }}

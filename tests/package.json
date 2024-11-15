@@ -1,0 +1,12 @@
+{
+  "name": "uds-package-confluence",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@playwright/test": "^1.47.2",
+    "@types/node": "^20.16.7",
+    "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "playwright": "^1.48.2"
+  }
+}
