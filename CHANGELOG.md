@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [9.1.1-uds.0](https://github.com/defenseunicorns/uds-package-confluence/compare/v8.5.17-uds.0...v9.1.1-uds.0) (2024-11-18)
+
+
+### Bug Fixes
+
+* change defaultclientscopes from map to list ([5ae6a69](https://github.com/defenseunicorns/uds-package-confluence/commit/5ae6a69ace61c2c8766f528aec57073f2f2a26a1))
+
+
+### Miscellaneous
+
+* **deps:** update confluence support dependencies ([#78](https://github.com/defenseunicorns/uds-package-confluence/issues/78)) ([1fe935c](https://github.com/defenseunicorns/uds-package-confluence/commit/1fe935c840432949343562ae5b3d9a7c90cc1078))
+* **deps:** update package-deps to v1.22.0 ([#77](https://github.com/defenseunicorns/uds-package-confluence/issues/77)) ([c157628](https://github.com/defenseunicorns/uds-package-confluence/commit/c15762829a92f0babab1c8b4cd9c4ed2ae3767db))
+* release 9.1.1-uds.0 ([5c9b647](https://github.com/defenseunicorns/uds-package-confluence/commit/5c9b647809f772e8e0a4ac594ee93d2c2b4db94d))
+
 ## [8.5.17-uds.0](https://github.com/defenseunicorns/uds-package-confluence/compare/v8.5.16-uds.0...v8.5.17-uds.0) (2024-11-14)
 
 
