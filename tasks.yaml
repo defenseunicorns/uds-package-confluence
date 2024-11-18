@@ -1,75 +1,75 @@
 # Copyright 2024 Defense Unicorns
 # SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
 
+# yaml-language-server: $schema=https://raw.githubusercontent.com/defenseunicorns/uds-cli/main/tasks.schema.json
+
 includes:
-  - dependencies: ./tasks/dependencies.yaml
   - test: ./tasks/test.yaml
-  - create: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.0/tasks/create.yaml
-  - lint: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.0/tasks/lint.yaml
-  - pull: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.0/tasks/pull.yaml
-  - deploy: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.0/tasks/deploy.yaml
-  - setup: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.0/tasks/setup.yaml
-  - actions: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.0/tasks/actions.yaml
-  - badge: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.0/tasks/badge.yaml
-  - upgrade: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.0/tasks/upgrade.yaml
-  - compliance: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.0/tasks/compliance.yaml
-  - publish: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.1.0/tasks/publish.yaml
+  - remove: ./tasks/remove.yaml  
+  - dependencies: ./tasks/dependencies.yaml  
+  - actions: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.3.0/tasks/actions.yaml
+  - badge: https://raw.githubusercontent.com/defenseunicorns/uds-common/refs/heads/main/tasks/badge.yaml
+  - create: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.3.0/tasks/create.yaml
+  - deploy: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.3.0/tasks/deploy.yaml
+  - lint: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.3.0/tasks/lint.yaml
+  - publish: https://raw.githubusercontent.com/defenseunicorns/uds-common/refs/tags/v1.3.0/tasks/publish.yaml
+  - pull: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.3.0/tasks/pull.yaml
+  - setup: https://raw.githubusercontent.com/defenseunicorns/uds-common/v1.3.0/tasks/setup.yaml
+  - utils: https://raw.githubusercontent.com/defenseunicorns/uds-common/refs/tags/v1.3.0/tasks/utils.yaml
 
 tasks:
   - name: default
-    description: Setup k3d cluster, deploy package
+    description: Create K3D Cluster with UDS-Core + repo UDS Package
     actions:
-      - task: create-dev-package
       - task: setup:k3d-test-cluster
-      - task: create-deploy-test-bundle
+      - task: create-test-bundle
+      - task: deploy-test-bundle
 
-  - name: create-dev-package
-    description: Create the package
+  - name: create-test-bundle
     actions:
-      - task: dependencies:create
-      - task: create:package
-        with:
-          options: "--skip-sbom"
-
-  - name: create-deploy-test-bundle
-    description: Test and validate cluster is deployed with the package
-    actions:
-      - task: dependencies:create
-      - task: create:package
+      - task: create-uds-package
+      - task: dependencies:create-packages
       - task: create:test-bundle
-      - task: deploy:test-bundle
-      - task: setup:create-doug-user
-      - task: test:all
 
-  - name: dev
-    description: Create and deploy the bundle on an existing cluster (for iteration/dev speed)
+  # Creates the zarf.yaml in isolation of the other packages (used as test dependencies) in the src dir
+  - name: create-uds-package
     actions:
-      - task: create-dev-package
-      - task: create:test-bundle
+      - task: create:package
+
+  - name: create-uds-package-dependencies
+    actions:
+      - task: dependencies:create-packages
+
+  - name: deploy-test-bundle
+    actions:
       - task: deploy:test-bundle
 
-# CI will execute the following (via uds-common/.github/workflows/callable-test.yaml) so they need to be here with these names
+  - name: create-and-deploy
+    actions:
+      - task: create-test-bundle
+      - task: deploy-test-bundle
 
   - name: test-package
-    description: Test deploying the current branch to a new cluster
+    description: Testing the UDS package from the current branch
     actions:
-      - task: create-dev-package
-      - task: setup:k3d-test-cluster
-      - task: create-deploy-test-bundle
-      - task: compliance:validate
+      - task: default
+      - task: test:all
 
   - name: test-upgrade
     description: Test an upgrade from the latest released package to the current branch
     actions:
-      - task: upgrade:create-latest-tag-bundle
-        with:
-          dep_commands: "./uds run dependencies:create"
       - task: setup:k3d-test-cluster
-      - task: deploy:test-bundle
-      - task: compliance:validate
-      - task: create-deploy-test-bundle
-      - task: compliance:validate
-      - task: compliance:evaluate
+      - task: create-latest-release-bundle # Pulls the latest "published" bundle
+      - task: create:test-bundle
+      - task: deploy-test-bundle
+      - task: create-and-deploy
+      - task: test:all
+
+  - name: create-latest-release-bundle
+    description: Create UDS bundle with dependencies based on the latest release
+    actions:
+      - task: pull:latest-package-release
+      - task: dependencies:create-packages
 
   - name: publish-package
     description: Build and publish the packages
@@ -81,7 +81,7 @@ tasks:
         task: setup:k3d-test-cluster
 
       - description: Create deploy and test the bundle
-        task: create-deploy-test-bundle
+        task: create-and-deploy
 
       - description: Publish the packages
         task: publish:package
