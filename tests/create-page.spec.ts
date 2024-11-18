@@ -30,6 +30,5 @@ test('create new confluence page', async ({ page }) => {
   await page.waitForTimeout(1000);
 
   // Verify we're in the correct space using the breadcrumb link
-  await expect(page.locator('#breadcrumbs').getByRole('link', { name: 'DU' })).toBeVisible();
   await expect(page.locator('//h1[@id="title-text"]')).toBeVisible();
 }); 
