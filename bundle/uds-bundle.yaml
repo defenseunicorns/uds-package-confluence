@@ -43,7 +43,7 @@ packages:
               value: false
           variables:
             - name: CONFLUENCE_LICENSE_KEY
-              path: confluence.license.licenseKeyData
+              path: setup.license.licenseKeyData
               description: Confluence license data base64 encoded
               default: ""              
         confluence:
