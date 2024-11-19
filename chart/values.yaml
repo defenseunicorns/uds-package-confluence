@@ -22,6 +22,7 @@ sso:
   protocol: "saml"
   # This will replace the current list of default scopes.
   defaultClientScopes: []
+  requiredGroups: []
 
 # custom:
 #    # Notice no `remoteGenerated` field here on custom internal rule
