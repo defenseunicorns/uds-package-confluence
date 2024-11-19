@@ -41,6 +41,11 @@ packages:
             # Values to enable clustering
             - path: clustering.enabled
               value: false
+          variables:
+            - name: CONFLUENCE_LICENSE_KEY
+              path: confluence.license.licenseKeyData
+              description: Confluence license data base64 encoded
+              default: ""              
         confluence:
           values:
             - path: database.credentials.secretName

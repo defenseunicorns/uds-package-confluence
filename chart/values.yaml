@@ -16,6 +16,18 @@ postgres:
   namespace: postgres
   port: 5432
 
+setup:
+  instanceDisplayName: Confluence
+  generateRandomAdminPassword:
+    # Set to false to provide your own initial admin secret
+    enabled: true
+    username: admin
+    email: admin@uds.dev
+    displayName: Instance Admin
+  license:
+    generateSecret: true
+    licenseKeyData: ""
+
 sso:
   enabled: true
   # Options: "saml", "openid_connect"

@@ -85,6 +85,9 @@ confluence:
     runAsNonRoot: true
     runAsUser: 2002
     runAsGroup: 2002
+  license:
+    secretName: confluence-license
+    secretKey: license
   containerSecurityContext:
     runAsNonRoot: true
     allowPrivilegeEscalation: false

@@ -7,4 +7,3 @@ tasks:
     actions:
       - cmd: uds zarf package create src/namespace/ --confirm --no-progress --architecture="${UDS_ARCH}" --skip-sbom
       - cmd: uds zarf package create src/wait/ --confirm --no-progress --architecture="${UDS_ARCH}" --skip-sbom
-
