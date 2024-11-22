@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [9.1.1-uds.1](https://github.com/defenseunicorns/uds-package-confluence/compare/v9.1.1-uds.0...v9.1.1-uds.1) (2024-11-22)
+
+
+### Features
+
+* add ability to set user groups for access ([#82](https://github.com/defenseunicorns/uds-package-confluence/issues/82)) ([7966f0e](https://github.com/defenseunicorns/uds-package-confluence/commit/7966f0e155df51048ce1d5ee77710d55afc113f4))
+
+
+### Miscellaneous
+
+* **deps:** update confluence support dependencies ([#81](https://github.com/defenseunicorns/uds-package-confluence/issues/81)) ([7ce45d5](https://github.com/defenseunicorns/uds-package-confluence/commit/7ce45d551284fc05626464dc95e6ac41d28ff029))
+* release 9.1.1-uds.1 ([fb6e550](https://github.com/defenseunicorns/uds-package-confluence/commit/fb6e5509d62d0280dbacdcab7d7b64b686a62049))
+
 ## [9.1.1-uds.0](https://github.com/defenseunicorns/uds-package-confluence/compare/v8.5.17-uds.0...v9.1.1-uds.0) (2024-11-18)
 
 
