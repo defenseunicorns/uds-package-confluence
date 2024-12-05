@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [9.1.1-uds.2](https://github.com/defenseunicorns/uds-package-confluence/compare/v9.1.1-uds.1...v9.1.1-uds.2) (2024-12-05)
+
+
+### Miscellaneous
+
+* **deps:** update confluence package dependencies ([#88](https://github.com/defenseunicorns/uds-package-confluence/issues/88)) ([fa1204c](https://github.com/defenseunicorns/uds-package-confluence/commit/fa1204c4904c471f23132dcf7fa945055bf3b89b))
+* **deps:** update confluence support dependencies ([#85](https://github.com/defenseunicorns/uds-package-confluence/issues/85)) ([0884ead](https://github.com/defenseunicorns/uds-package-confluence/commit/0884ead39a6ade37ff311ffbe06d39c28e083d5b))
+* **deps:** update confluence support dependencies ([#87](https://github.com/defenseunicorns/uds-package-confluence/issues/87)) ([1a66a63](https://github.com/defenseunicorns/uds-package-confluence/commit/1a66a63fd3ba257c4d6c058ee4660ae2e4555147))
+* **deps:** update support-deps to v39.49.3 ([#89](https://github.com/defenseunicorns/uds-package-confluence/issues/89)) ([02e95ca](https://github.com/defenseunicorns/uds-package-confluence/commit/02e95ca3cff4ededeaa5d7fdd7de2f9ba6d29519))
+* release 9.1.1-uds.2 ([5da7e23](https://github.com/defenseunicorns/uds-package-confluence/commit/5da7e230bc41f11e289f2f20f5b248c6325c7264))
+
 ## [9.1.1-uds.1](https://github.com/defenseunicorns/uds-package-confluence/compare/v9.1.1-uds.0...v9.1.1-uds.1) (2024-11-22)
 
 
