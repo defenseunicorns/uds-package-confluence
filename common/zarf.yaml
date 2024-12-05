@@ -19,7 +19,7 @@ components:
       - name: confluence
         namespace: confluence
         url: https://atlassian.github.io/data-center-helm-charts
-        version: "1.22.0"
+        version: "1.22.1"
         repoName: confluence
         releaseName: confluence
         valuesFiles:
