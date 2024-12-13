@@ -57,4 +57,4 @@ Confluence is very sensitive to nodes turning off or turning on in any order oth
 2. Deploy the bundle update.
 3. Scale Confluence back up as described above.
 
-If you skip step 1, Kubernetes will replace the highest-ordinal pod, then the next lowest, and so on down. This will cause higher ordered pods to be running while lower-ordered pods are dying and updating. This _might_ work, but is not tested.
+If you skip step 1, Kubernetes will replace the highest-ordinal pod, then the next lowest, and so on down. This will cause higher ordered pods to be running while lower-ordered pods are dying and updating. This _might_ work, but is not tested, and goes contrary to this author's recollection of the Confluence documentation.
