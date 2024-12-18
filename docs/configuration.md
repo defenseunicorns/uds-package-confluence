@@ -47,14 +47,12 @@ It is crucial that only one replica is added to confluence at a time, and that t
 2. Deploy your bundle, (you may use add the `-p confluence` flag to save time).
 3. Return to step 1 above until you've reached the desired number of replicas.
 
-Alternately, you can scale it manually via kubectl `kubectl scale -n confluence statefulset confluence --replicas X`.
+You can replace steps 1 and 2 with the command `kubectl scale -n confluence statefulset confluence --replicas X`. Still scale it one replica at a time, wait until that replica is joined into the confluence node cluster (watch the logs and make a good guess), and add another replica. If you take this approach, be sure to update the `CONFLUENCE_REPLICAS` value in your uds configuration file.
 
 ### Upgrading Clustered Confluence
-
-Confluence is very sensitive to nodes turning off or turning on in any order other than 0, 1, 2, 3 if turning on and 3, 2, 1, 0 if turning off. Fortunately, this is the default behavior for a K8s statefulset during a scaling action. If upgrading Confluence:
 
 1. Scale Confluence down to 1 replica.
 2. Deploy the bundle update.
 3. Scale Confluence back up as described above.
 
-If you skip step 1, Kubernetes will replace the highest-ordinal pod, then the next lowest, and so on down. This will cause higher ordered pods to be running while lower-ordered pods are dying and updating. This _might_ work, but is not tested, and goes contrary to this author's recollection of the Confluence documentation.
+If you skip step 1, Kubernetes will replace the highest-ordinal pod, then the next lowest, and so on down. This will cause higher ordered pods to be running while lower-ordered pods are dying and updating. This _might_ work, but is not tested, and goes contrary to this author's recollection of the Confluence documentation. Confluence tends to care a lot that nodes turn on in the order 0, 1, 2, 3 and turn off in the opposite order.
