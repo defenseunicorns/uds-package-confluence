@@ -3,7 +3,7 @@
 
 image:
   repository: registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node
-  tag: "9.1.1"
+  tag: "9.2.0"
 
 monitoring:
   # TODO: Pending an upstream pr to fix jar file location to not be hardcoded:
