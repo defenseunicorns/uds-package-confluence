@@ -17,7 +17,7 @@ permissions:
 jobs:
   tag-new-version:
     permissions: write-all
-    runs-on: ubuntu-latest
+    runs-on: uds-marketplace-ubuntu-big-boy-4-core
     outputs:
       release_created: ${{ steps.release-flag.outputs.release_created }}
     steps:
@@ -29,7 +29,7 @@ jobs:
 
   publish:
     permissions:
-      contents: read # Allows reading the content of the repository.
+      contents: write # Allows reading the content of the repository.
       packages: write # Allows reading the content of the repository's packages.
       id-token: write
     needs: tag-new-version
