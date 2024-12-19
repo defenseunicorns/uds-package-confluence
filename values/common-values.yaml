@@ -1,6 +1,8 @@
 # Copyright 2024 Defense Unicorns
 # SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Defense-Unicorns-Commercial
 
+# Upstream helm chart: https://github.com/atlassian/data-center-helm-charts/tree/main/src/main/charts/confluence
+
 database:
   type: postgresql
   url: "jdbc:postgresql://###ZARF_VAR_CONFLUENCE_DB_ENDPOINT###:5432/###ZARF_VAR_CONFLUENCE_DB_NAME###"
@@ -113,5 +115,6 @@ confluence:
 
 # This allows for clustering to work
 podAnnotations:
+  # https://confluence.atlassian.com/kb/ports-used-by-atlassian-applications-960136309.html
   traffic.sidecar.istio.io/excludeOutboundPorts: 5801,5701,25500,54327
   traffic.sidecar.istio.io/excludeInboundPorts: 5801,5701,25500,54327

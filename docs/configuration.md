@@ -33,6 +33,8 @@ packages:
 
 Enabling clustering in the `uds-confluence-config` chart causes additional network policies/rules to be created providing things like [cookie-based session affinity through an Istio Destination Rule](../chart/templates/destinationrule.yaml#12) and permission for the Confluence pods to query the KubeAPI so they can locate and talk to each-other.
 
+You may also need to select a different storage class for the Confluence PVCs to enable multiple read/write access, as every pod will connect to a shared PVC. This settings is at the path: `volumes.sharedHome.persistentVolumeClaim.storageClassName`.
+
 ### 2. Deploy Confluence
 
 If this is a new Confluence instance, install with just one replica, and complete the setup wizard before moving on to the next step. Enabling clustering _and_ getting more than one replica running before the setup wizard has completed will break the instance.
