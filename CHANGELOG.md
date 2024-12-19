@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [9.1.1-uds.3](https://github.com/defenseunicorns/uds-package-confluence/compare/v9.1.1-uds.2...v9.1.1-uds.3) (2024-12-19)
+
+
+### Bug Fixes
+
+* adds postgres secret to package ([8156f35](https://github.com/defenseunicorns/uds-package-confluence/commit/8156f35d46a14f440ce8ab57d5fda027eb0a4449))
+* change from ubuntu-latest runner and write perms for publish job ([d7099b2](https://github.com/defenseunicorns/uds-package-confluence/commit/d7099b263d373d4e7624b8fe7e471fb73afadda7))
+
+
+### Miscellaneous
+
+* **deps:** update confluence package dependencies ([#91](https://github.com/defenseunicorns/uds-package-confluence/issues/91)) ([fc61eab](https://github.com/defenseunicorns/uds-package-confluence/commit/fc61eab04b912a5f5e37b8a98184fd8ac7846ac0))
+* **deps:** update confluence support dependencies ([#90](https://github.com/defenseunicorns/uds-package-confluence/issues/90)) ([15f48e1](https://github.com/defenseunicorns/uds-package-confluence/commit/15f48e142ed1b4247ca6bae4405d382a59d17393))
+* **deps:** update support-deps to v39.75.0 ([#95](https://github.com/defenseunicorns/uds-package-confluence/issues/95)) ([35864ce](https://github.com/defenseunicorns/uds-package-confluence/commit/35864cea1a9203ee8712010acadc905f0818945e))
+
 ## [9.1.1-uds.2](https://github.com/defenseunicorns/uds-package-confluence/compare/v9.1.1-uds.1...v9.1.1-uds.2) (2024-12-05)
 
 
