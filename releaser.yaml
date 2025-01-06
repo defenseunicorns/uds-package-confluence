@@ -8,4 +8,3 @@ flavors:
   - name: registry1
     # renovate-uds: datasource=docker depName=registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node
     version: 9.2.0-uds.0
-    
