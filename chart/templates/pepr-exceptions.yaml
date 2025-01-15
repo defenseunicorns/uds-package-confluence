@@ -1,0 +1,18 @@
+{{- if .Values.synchrony.enabled }}
+apiVersion: uds.dev/v1alpha1
+kind: Exemption
+metadata:
+  name: confluence-exceptions
+  namespace: uds-policy-exemptions
+spec:
+  exemptions:
+    - description: exempt synchrony
+      matcher:
+        kind: pod
+        name: ^confluence-synchrony*
+        namespace: confluence
+      policies:
+        - RequireNonRootUser
+        - DropAllCapabilities
+        - DisallowPrivileged
+{{- end }}

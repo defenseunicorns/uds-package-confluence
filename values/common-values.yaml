@@ -30,6 +30,9 @@ volumes:
         - ReadWriteOnce
     nfsPermissionFixer:
       enabled: false
+  synchronyHome:
+    persistentVolumeClaim:
+      create: true
 
 ingress:
   nginx: false
@@ -110,6 +113,14 @@ confluence:
     - "--add-opens java.base/sun.nio.ch=ALL-UNNAMED"
     - "--add-opens java.management/sun.management=ALL-UNNAMED"
     - "--add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED"
+
+synchrony:
+  enabled: false # Enable for collaborative editing
+  securityContext:
+    runAsUser: 2002
+    runAsGroup: 2002
+    runAsNonRoot: true
+    fsGroup: 2002
 
 # This allows for clustering to work
 podAnnotations:
