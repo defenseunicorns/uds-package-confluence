@@ -32,7 +32,7 @@ volumes:
       enabled: false
   synchronyHome:
     persistentVolumeClaim:
-      create: true
+      create: false # Enable for collaborative editing
 
 ingress:
   nginx: false
