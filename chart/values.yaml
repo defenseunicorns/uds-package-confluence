@@ -24,6 +24,9 @@ sso:
   defaultClientScopes: []
   requiredGroups: []
 
+synchrony:
+  enabled: false # Enable for collaborative editing
+
 # custom:
 #    # Notice no `remoteGenerated` field here on custom internal rule
 #   - direction: Ingress

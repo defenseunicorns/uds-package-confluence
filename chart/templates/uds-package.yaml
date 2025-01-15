@@ -69,6 +69,14 @@ spec:
         port: 80
         targetPort: 8090
     allow:
+      {{- if .Values.synchrony.enabled }}
+      - direction: Ingress
+        remoteGenerated: IntraNamespace
+
+      - direction: Egress
+        remoteGenerated: IntraNamespace
+      {{- end }}
+
       - direction: Egress
         remoteNamespace: keycloak
         remoteSelector:
