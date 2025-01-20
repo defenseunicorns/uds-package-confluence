@@ -17,6 +17,7 @@ packages:
   - name: postgres-operator
     repository: ghcr.io/defenseunicorns/packages/uds/postgres-operator
     ref: 1.13.0-uds.3-upstream
+    maxTotalSeconds: 600  # 10 minutes timeout
     overrides:
       postgres-operator:
         uds-postgres-config:
@@ -34,6 +35,15 @@ packages:
     # x-release-please-start-version
     ref: 8.5.16-uds.0
     # x-release-please-end
+    maxTotalSeconds: 900  # 15 minutes timeout
+    actions:
+      onDeploy:
+        before:
+          - wait:
+              cluster:
+                kind: Secret
+                name: confluence.confluence.pg-cluster.credentials.postgresql.acid.zalan.do
+                namespace: confluence
     overrides:
       confluence:
         uds-confluence-config:

@@ -71,10 +71,10 @@ confluence:
   resources:
     container:
       requests:
-        cpu: "500m"
-        memory: "3Gi"
+        cpu: "2000m"
+        memory: "4Gi"
       limits:
-        cpu: "4"
+        cpu: "6"
         memory: "8Gi"
     jvm:
       minHeap: "2g"
@@ -87,7 +87,7 @@ confluence:
     runAsGroup: 2002
   license:
     secretName: confluence-license
-    secretKey: license
+    secretKey: license-key
   containerSecurityContext:
     runAsNonRoot: true
     allowPrivilegeEscalation: false
