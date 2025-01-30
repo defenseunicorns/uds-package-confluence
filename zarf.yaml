@@ -38,6 +38,7 @@ components:
     images:
       - atlassian/confluence:9.1.0
       - bitnami/jmx-exporter:1.0.1
+      - registry.access.redhat.com/ubi9:9.4-1214.1726694543
 
   - name: confluence
     required: true
@@ -73,3 +74,4 @@ components:
     images:
       - atlassian/confluence:9.1.0
       - bitnami/jmx-exporter:1.0.1
+      - registry.access.redhat.com/ubi9:9.4-1214.1726694543

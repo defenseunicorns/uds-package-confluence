@@ -24,8 +24,21 @@ sso:
   defaultClientScopes: {}
 
 
+setup:
+  job:
+    image: registry.access.redhat.com/ubi9:9.4-1214.1726694543
+    backoffLimit: 10
+    activeDeadlineSeconds: 600
+    ttlSecondsAfterFinished: 300
+
 confluence:
   skipSetup: true
+  setup:
+    sysadmin:
+      username: "admin"
+      password: "admin"
+      email: "admin@uds.dev"
+      displayName: "System Administrator"
   license:
     # The license key will be stored in a Kubernetes secret
     key: "AAABkw0ODAoPeNp1klFvmzAUhd/5FZb2sqmisqFAFsnSUiAaUyAZtN1LXoxzGVaJyWxIm/36mTpR20l99D3Hx5+P/ekX7NAPJhEJEAnnfjjHMxRXd8jDXuDECtggepmwAeg0cTFxSegkoLkSh0micS+bbgTJAX02PoZikAOoL9s5So+sG18CnJwJM5XM2NLng1CnN5GeSwJnJThI/YHYWfEBlJ6O9JxqrF8JBjWCww3GdTHua1Dr5l4bJ3WJ80pgXWv1m0mh7SSBZkpF91LwXkltMxgfxBGs3dxtMOvU0HdU9fWef9vZTeN5zzXv9xe870y3NI+f4mV8k+ukVQ/RXz/yBV7qxeaY7fgfHxeLtqx1/pQHwZVXnnx2VZeb5LFtgs3QicWWbqnFOPdxdzpAwfZA43Wep2WcLVZWrwamTM20YZ2GS3tZQldZUqWFu/Jw5Hnh7MapQB1BGeU2zSJ3nS1/umXxtXA9UtzaqOnV7KPZWz/C6dI0CTGO8Mz3ibMZFW+Zhv//wrmjF8iPKzJM9D3XP7qZ0f8wLAIUPASTp1yttZ1d+6/tDT0CN+/ito4CFGS3IG7WGOZ05S9Dfd0Oom992L8HX02jf"
