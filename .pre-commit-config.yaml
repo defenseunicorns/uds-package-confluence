@@ -52,6 +52,6 @@ repos:
     hooks:
       - id: golangci-lint
   - repo: https://github.com/renovatebot/pre-commit-hooks
-    rev: 39.146.1
+    rev: 39.161.0
     hooks:
       - id: renovate-config-validator
