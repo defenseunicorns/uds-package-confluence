@@ -24,7 +24,7 @@ jobs:
       matrix:
         flavor: [upstream, registry1]
         architecture: [amd64]
-    uses: defenseunicorns/uds-common/.github/workflows/callable-publish.yaml@19f816f55f0ddcd424bc51cb4d04e5720818ba5a # v1.8.0
+    uses: defenseunicorns/uds-common/.github/workflows/callable-publish.yaml@840c7a198b6f9299663da92a1f67ebe2b7ac9a5a # v1.9.1
     with:
       flavor: ${{ matrix.flavor }}
       runsOn: uds-marketplace-ubuntu-big-boy-8-core
