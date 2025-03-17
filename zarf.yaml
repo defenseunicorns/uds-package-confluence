@@ -35,7 +35,7 @@ components:
           - values/upstream-values.yaml
     images:
       - atlassian/confluence:9.3.1
-      - bitnami/jmx-exporter:1.1.0
+      - bitnami/jmx-exporter:1.2.0
 
   - name: confluence
     required: true
