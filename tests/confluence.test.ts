@@ -25,6 +25,9 @@ test.describe('Confluence', () => {
     console.log('🔄 Navigating to Confluence setup page...');
     await page.goto(baseURL);
 
+    console.log('🛑 Wait for 10 seconds...');
+    await page.waitForTimeout(10000);
+
     // Wait for the <h1 id="logo"> element
     console.log('⏳ Waiting for the setup page to be visible...');
     // Locate the <h1> element with both classes
