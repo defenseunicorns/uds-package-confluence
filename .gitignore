@@ -26,3 +26,9 @@ test/tf/public-ec2-instance/.terraform
 terraform.tfstate
 terraform.tfstate.backup
 .terraform.lock.hcl
+
+# Tests
+node_modules/
+tests/.playwright/
+tests/screenshots/
+src/populated/*
