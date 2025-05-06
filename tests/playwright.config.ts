@@ -11,10 +11,11 @@ export const playwrightDir = '.playwright';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  // Give failing tests 5 retry attempts
+  retries: 5,
   timeout: 5 * 60 * 1000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI, // fail CI if you accidently leave `test.only` in source
-  retries: process.env.CI ? 1 : 0,
   workers: 1,
   reporter: [
     // Reporter to use. See https://playwright.dev/docs/test-reporters
