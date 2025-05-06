@@ -1,6 +1,6 @@
 {
-  "name": "uds-package-vault",
-  "license": "Apache-2.0",
+  "name": "uds-package-confluence",
+  "license": "AGPL-3.0",
   "devDependencies": {
     "@playwright/test": "^1.52.0",
     "@types/node": "^22.0.0",

@@ -19,6 +19,11 @@ packages:
               description: "Configure postgres using CRs via the uds-postgres-config chart"
               path: postgresql
 
+  - name: dev-wait
+    path: ../
+    ref: 0.1.0
+
+
   - name: confluence
     path: ../
     ref: dev

@@ -21,6 +21,9 @@ tasks:
     actions:
       - task: create-dev-package
       - task: setup:k3d-test-cluster
+        with:
+          options: --set K3D_EXTRA_ARGS="-a=2" --oci-concurrency 1
+          use_checkpoint: "false"
       - task: create-deploy-test-bundle
 
   - name: default-full
