@@ -7,32 +7,59 @@
     "replacements:all",
     "workarounds:all"
   ],
-  "schedule": ["after 7am and before 9am every weekday"],
+  "schedule": [
+    "after 7am and before 9am every weekday"
+  ],
   "packageRules": [
     {
       "groupName": "Confluence Support Dependencies",
-      "labels": ["support-deps"],
+      "labels": [
+        "support-deps"
+      ],
       "commitMessageTopic": "support-deps",
-      "packagePatterns": ["*"]
+      "matchPackageNames": [
+        "*"
+      ]
     },
     {
       "groupName": "Confluence Package Dependencies",
-      "labels": ["package-deps"],
+      "labels": [
+        "package-deps"
+      ],
       "commitMessageTopic": "package-deps",
-      "matchDatasources": ["docker", "helm", "git-tags"],
-      "excludePackagePatterns": ["bitnami/jmx-exporter", "registry1.dso.mil/ironbank/opensource/prometheus/jmx-exporter"]
+      "matchDatasources": [
+        "docker",
+        "helm",
+        "git-tags"
+      ],
+      "matchPackageNames": [
+        "!/bitnami/jmx-exporter/",
+        "!/registry1.dso.mil/ironbank/opensource/prometheus/jmx-exporter/"
+      ]
     },
     {
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["bitnami/jmx-exporter", "registry1.dso.mil/ironbank/opensource/prometheus/jmx-exporter"],
-      "matchUpdateTypes": ["patch"]
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "bitnami/jmx-exporter",
+        "registry1.dso.mil/ironbank/opensource/prometheus/jmx-exporter"
+      ],
+      "matchUpdateTypes": [
+        "patch"
+      ]
     }
   ],
-  "regexManagers": [
+  "customManagers": [
     {
-      "fileMatch": [ "\\.*\\.ya?ml$" ],
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/\\.*\\.ya?ml$/"
+      ],
       "matchStringsStrategy": "recursive",
-      "matchStrings": [ "(?m)jmxExporterImageRepo: (?<depName>.*)\n  jmxExporterImageTag: (?<currentValue>.*)$" ],
+      "matchStrings": [
+        "(?m)jmxExporterImageRepo: (?<depName>.*)\n  jmxExporterImageTag: (?<currentValue>.*)$"
+      ],
       "datasourceTemplate": "docker"
     }
   ]
