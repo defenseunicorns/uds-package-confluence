@@ -3,8 +3,8 @@
 
 flavors:
   - name: upstream
-    # renovate-uds: datasource=docker depName=atlassian/confluence
-    version: 9.2.0-uds.0
+    # renovate-uds: datasource=docker depName=atlassian/confluence versioning=docker
+    version: 9.4.0-uds.1
   - name: registry1
-    # renovate-uds: datasource=docker depName=registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node
-    version: 9.2.0-uds.0
+    # renovate-uds: datasource=docker depName=registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node versioning=docker
+    version: 9.4.0-uds.1

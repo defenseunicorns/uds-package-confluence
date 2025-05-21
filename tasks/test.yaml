@@ -5,7 +5,7 @@ tasks:
   - name: all
     actions:
       - task: health-check
-      - task: ingress
+      - task: ui
 
   - name: health-check
     actions:
@@ -16,11 +16,13 @@ tasks:
             name: confluence
             namespace: confluence
 
-  - name: ingress
+  - name: ui
     actions:
-      - description: confluence UI Health Check
-        wait:
-          network:
-            protocol: https
-            address: confluence.uds.dev/setup/setuplicense.action
-            code: 200
+      - cmd: |
+          docker run --user="$(id -u)" --rm --ipc=host --net=host --mount type=bind,source="$(pwd)",target=/app mcr.microsoft.com/playwright:v1.52.0-jammy sh -c " \
+            export npm_config_cache=/tmp/.npm && \
+            cd app && \
+            npm ci && \
+            npx playwright test \
+            "
+        dir: tests

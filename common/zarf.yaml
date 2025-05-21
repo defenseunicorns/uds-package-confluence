@@ -19,13 +19,20 @@ components:
       - name: confluence
         namespace: confluence
         url: https://atlassian.github.io/data-center-helm-charts
-        version: "1.22.2"
+        version: "2.0.0"
         repoName: confluence
         releaseName: confluence
         valuesFiles:
           - ../values/common-values.yaml
     actions:
       onDeploy:
+        before:
+          - description: Remove istio-injection label if needed
+            cmd: |-
+              if kubectl get namespace confluence; then
+                kubectl label namespace confluence istio-injection-
+              fi
+
         after:
           - description: Validate Confluence Package
             maxTotalSeconds: 300

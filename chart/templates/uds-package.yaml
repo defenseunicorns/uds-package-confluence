@@ -60,6 +60,8 @@ spec:
       description: Metrics
 
   network:
+    serviceMesh:
+      mode: ambient
     expose:
       - service: confluence
         selector:
@@ -69,6 +71,14 @@ spec:
         port: 80
         targetPort: 8090
     allow:
+      {{- if .Values.synchrony.enabled }}
+      - direction: Ingress
+        remoteGenerated: IntraNamespace
+
+      - direction: Egress
+        remoteGenerated: IntraNamespace
+      {{- end }}
+
       - direction: Egress
         remoteNamespace: keycloak
         remoteSelector:
