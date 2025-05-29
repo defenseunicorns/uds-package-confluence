@@ -56,11 +56,11 @@ serviceAccount:
 confluence:
   service:
     type: ClusterIP  # Use this whether doing a standalone server or a clustered setup
-    sessionAffinity: ClientIP  # Change this to `ClientIP` if clustering is enabled
+    sessionAffinity: None  # Change this to `ClientIP` if clustering is enabled
   hazelcastService:
-    enabled: true  # If clustering, make true
+    enabled: false  # If clustering, make true
   clustering:
-    enabled: true  # If clustering, make true
+    enabled: false  # If clustering, make true
   tomcatConfig:
     generateByHelm: true
   seraphConfig:
@@ -71,8 +71,8 @@ confluence:
         cpu: "500m"
         memory: "3Gi"
       limits:
-        cpu: "8"
-        memory: "16Gi"
+        cpu: "4"
+        memory: "8Gi"
     jvm:
       minHeap: "2g"
       maxHeap: "6g" # https://www.alibabacloud.com/help/en/sae/use-cases/best-practices-for-jvm-heap-size-configuration#:~:text=No%2C%20you%20cannot%20set%20the,sufficient%20memory%20for%20system%20components.
