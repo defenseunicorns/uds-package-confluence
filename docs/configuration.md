@@ -25,13 +25,16 @@ packages:
               value: true # Set to true to enable clustering
             - path: confluence.clustering.enabled
               value: true # Set to true to enable clustering
-          variables: 
+          variables:
             - name: CONFLUENCE_REPLICAS
               path: confluence.replicaCount
-              default: 1  # Do not increase this until step 3 below   
+              default: 1  # Do not increase this until step 3 below
 ```
 
 Enabling clustering in the `uds-confluence-config` chart causes additional network policies/rules to be created providing things like [cookie-based session affinity through an Istio Destination Rule](../chart/templates/destinationrule.yaml#12) and permission for the Confluence pods to query the KubeAPI so they can locate and talk to each-other.
+
+> [!NOTE]
+> When clustering is enabled, the pods will be switched to Istio sidecar mode. This is required because Istio Ambient mode does not support the port exclusion mechanisms needed for Hazelcast clustering to function properly.
 
 You may also need to select a different storage class for the Confluence PVCs to enable multiple read/write access, as every pod will connect to a shared PVC. This settings is at the path: `volumes.sharedHome.persistentVolumeClaim.storageClassName`.
 

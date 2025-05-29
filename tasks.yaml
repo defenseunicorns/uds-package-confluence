@@ -21,9 +21,9 @@ tasks:
     actions:
       - task: create-dev-package
       - task: setup:k3d-test-cluster
-        with:
-          options: --set K3D_EXTRA_ARGS="-a=2" --oci-concurrency 1
-          use_checkpoint: "false"
+        # with:
+        #   options: --set K3D_EXTRA_ARGS="-a=2" --oci-concurrency 1
+        #   use_checkpoint: "false"
       - task: create-deploy-test-bundle
 
   - name: default-full
@@ -54,6 +54,7 @@ tasks:
     description: Create and deploy the bundle on an existing cluster (for iteration/dev speed)
     actions:
       - task: create-dev-package
+      - task: dependencies:create
       - task: create:test-bundle
       - task: deploy:test-bundle
 

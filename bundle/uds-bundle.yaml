@@ -10,7 +10,7 @@ metadata:
 packages:
   - name: postgres-operator
     repository: ghcr.io/defenseunicorns/packages/uds/postgres-operator
-    ref: 1.14.0-uds.5-upstream
+    ref: 1.14.0-uds.6-upstream
     overrides:
       postgres-operator:
         uds-postgres-config:
@@ -33,15 +33,15 @@ packages:
           values:
             # Values to enable clustering
             - path: clustering.enabled
-              value: false
+              value: true
         confluence:
           values:
             - path: database.credentials.secretName
               value: confluence.confluence.pg-cluster.credentials.postgresql.acid.zalan.do
             # Below are values to enable clustering
             - path: confluence.hazelcastService.enabled
-              value: false # Set to true to enable clustering
+              value: true # Set to true to enable clustering
             - path: confluence.clustering.enabled
-              value: false # Set to true to enable clustering
+              value: true # Set to true to enable clustering
             - path: confluence.service.sessionAffinity
-              value: "None" # Set to ClientIP to enable clustering
+              value: "ClientIP" # Set to ClientIP to enable clustering

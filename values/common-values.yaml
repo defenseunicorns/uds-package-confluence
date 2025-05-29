@@ -49,26 +49,18 @@ serviceAccount:
    # https://kubernetes.io/docs/reference/access-authn-authz/rbac/#role-and-clusterrole
    #
   clusterRole:
-
-    # -- Set to 'true' if a ClusterRole should be created, or 'false' if it
-    # already exists.
-    #
     create: true
-
-    # -- The name of the ClusterRole to be used. If not specified, but
-    # the "serviceAccount.clusterRole.create" flag is set to 'true',
-    # then the ClusterRole name will be auto-generated.
-    #
+    # -- The name of the ClusterRole to be used. 
     name: confluence
 
 confluence:
   service:
     type: ClusterIP  # Use this whether doing a standalone server or a clustered setup
-    sessionAffinity: None  # Change this to `ClientIP` if clustering is enabled and Istio injection is not enabled and no other system exists to provide sticky sessions
+    sessionAffinity: ClientIP  # Change this to `ClientIP` if clustering is enabled
   hazelcastService:
-    enabled: false  # If clustering, make true
+    enabled: true  # If clustering, make true
   clustering:
-    enabled: false  # If clustering, make true
+    enabled: true  # If clustering, make true
   tomcatConfig:
     generateByHelm: true
   seraphConfig:
@@ -79,8 +71,8 @@ confluence:
         cpu: "500m"
         memory: "3Gi"
       limits:
-        cpu: "4"
-        memory: "8Gi"
+        cpu: "8"
+        memory: "16Gi"
     jvm:
       minHeap: "2g"
       maxHeap: "6g" # https://www.alibabacloud.com/help/en/sae/use-cases/best-practices-for-jvm-heap-size-configuration#:~:text=No%2C%20you%20cannot%20set%20the,sufficient%20memory%20for%20system%20components.
@@ -103,7 +95,6 @@ confluence:
   # Then add them one at a time. See docs/clustering.md for more information.
   replicaCount: 1
 
-  # At minimum we support v1.2, may change to support only v1.3: https://github.com/defenseunicorns/uds-core/blob/main/src/istio/chart/values.yaml#L28
   additionalJvmArgs:
     # Prevent TLS reduction to v1.1
     - "-Dhttps.protocols=TLSv1.2,TLSv1.3"

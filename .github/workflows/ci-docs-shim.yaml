@@ -5,8 +5,22 @@ name: CI Docs Shim
 
 on:
   pull_request:
-    branches: [main]
-    types: [milestoned, opened, synchronize]
+    paths:
+      - "**.md"
+      - "**.jpg"
+      - "**.png"
+      - "**.gif"
+      - "**.svg"
+      - adr/**
+      - docs/**
+      - .gitignore
+      - renovate.json
+      - releaser.yaml
+      - oscal-component.yaml
+      - CODEOWNERS
+      - LICENSE
+      - CONTRIBUTING.md
+      - SECURITY.md
 
 jobs:
   validate:
