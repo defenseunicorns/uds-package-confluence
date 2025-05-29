@@ -50,7 +50,7 @@ serviceAccount:
    #
   clusterRole:
     create: true
-    # -- The name of the ClusterRole to be used. 
+    # -- The name of the ClusterRole to be used.
     name: confluence
 
 confluence:
