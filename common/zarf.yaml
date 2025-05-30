@@ -29,8 +29,10 @@ components:
         before:
           - description: Remove istio-injection label if needed
             cmd: |-
-              if kubectl get namespace confluence; then
-                kubectl label namespace confluence istio-injection-
+              if ./zarf tools kubectl get namespace confluence; then
+                if [[ $(./zarf tools kubectl get package confluence -n confluence -o yaml | ./zarf tools yq '.spec.network.serviceMesh.mode') == "ambient" ]]; then
+                  ./zarf tools kubectl label namespace confluence istio-injection-
+                fi
               fi
 
         after:
