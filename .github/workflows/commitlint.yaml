@@ -10,6 +10,11 @@ on:
     # milestoned is added here so that a PR can be re-triggered if it is milestoned.
     types: [milestoned, opened, edited, synchronize]
 
+# Permissions for the GITHUB_TOKEN used by the workflow.
+permissions:
+  contents: read # Allows reading the content of the repository.
+  pull-requests: read # Allows reading pull requests
+
 jobs:
   run:
     uses: defenseunicorns/uds-common/.github/workflows/callable-commitlint.yaml@2c146b9da5a437da70b2506796b899cd8fa2c03c # v1.15.0
