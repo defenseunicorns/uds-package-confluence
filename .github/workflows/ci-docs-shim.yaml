@@ -5,22 +5,12 @@ name: CI Docs Shim
 
 on:
   pull_request:
-    paths:
-      - "**.md"
-      - "**.jpg"
-      - "**.png"
-      - "**.gif"
-      - "**.svg"
-      - adr/**
-      - docs/**
-      - .gitignore
-      - renovate.json
-      - releaser.yaml
-      - oscal-component.yaml
-      - CODEOWNERS
-      - LICENSE
-      - CONTRIBUTING.md
-      - SECURITY.md
+    branches: [main]
+    types: [milestoned, opened, synchronize]
+
+# Permissions for the GITHUB_TOKEN used by the workflow.
+permissions:
+  contents: read # Allows reading the content of the repository.
 
 jobs:
   validate:
@@ -28,7 +18,7 @@ jobs:
       matrix:
         type: [install, upgrade]
         flavor: [upstream, registry1]
-    uses: defenseunicorns/uds-common/.github/workflows/callable-ci-docs-shim.yaml@2c146b9da5a437da70b2506796b899cd8fa2c03c # v1.15.0
+    uses: defenseunicorns/uds-common/.github/workflows/callable-ci-docs-shim.yaml@16464ce560d1a1423d4ddcf4961bc0354964f785 # v1.15.2
     with:
       flavor: ${{ matrix.flavor }}
       type: ${{ matrix.type }}
