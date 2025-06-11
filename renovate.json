@@ -33,6 +33,7 @@
         "git-tags"
       ],
       "matchPackageNames": [
+        "!/^mcr\\.microsoft\\.com\\/playwright$/",
         "!/bitnami/jmx-exporter/",
         "!/registry1.dso.mil/ironbank/opensource/prometheus/jmx-exporter/"
       ]
