@@ -65,6 +65,7 @@ tasks:
       - task: create-dev-package
       - task: setup:k3d-test-cluster
       - task: create-deploy-test-bundle
+      - task: test:ui
 
   - name: test-upgrade
     description: Test an upgrade from the latest released package to the current branch
@@ -74,6 +75,7 @@ tasks:
           dep_commands: "./uds run dependencies:create"
       - task: setup:k3d-test-cluster
       - task: deploy:test-bundle
+      - task: create-dev-package
       - task: create-deploy-test-bundle
 
   - name: publish-package
