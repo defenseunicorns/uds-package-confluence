@@ -43,7 +43,6 @@ tasks:
   - name: create-deploy-test-bundle
     description: Test and validate cluster is deployed with Confluence
     actions:
-      - task: create-dev-package
       - task: dependencies:create
       - task: create:test-bundle
       - task: deploy:test-bundle
