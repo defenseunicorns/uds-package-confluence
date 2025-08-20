@@ -34,7 +34,7 @@ components:
         valuesFiles:
           - values/upstream-values.yaml
     images:
-      - atlassian/confluence:9.5.2
+      - atlassian/confluence:10.0.2
       - bitnami/jmx-exporter:1.3.0
 
   - name: confluence
@@ -51,6 +51,6 @@ components:
         valuesFiles:
           - values/registry1-values.yaml
     images:
-      - registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node:9.5.2
+      - registry1.dso.mil/ironbank/atlassian/confluence-data-center/confluence-node:10.0.2
       # TODO: Pending an upstream pr to fix jar file location to not be hardcoded:
       # - registry1.dso.mil/ironbank/opensource/prometheus/jmx-exporter:1.0.1
