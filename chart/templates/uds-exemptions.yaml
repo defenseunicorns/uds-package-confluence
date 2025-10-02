@@ -15,15 +15,7 @@ spec:
         namespace: confluence
       policies:
         - RestrictIstioTrafficOverrides
-
-{{- if .Values.synchrony.enabled }}
-apiVersion: uds.dev/v1alpha1
-kind: Exemption
-metadata:
-  name: confluence-synchrony-exemptions
-  namespace: uds-policy-exemptions
-spec:
-  exemptions:
+    {{ if .Values.synchrony.enabled }}
     - description: exempt synchrony
       matcher:
         kind: pod
@@ -33,4 +25,4 @@ spec:
         - RequireNonRootUser
         - DropAllCapabilities
         - DisallowPrivileged
-{{- end }}
+    {{ end }}

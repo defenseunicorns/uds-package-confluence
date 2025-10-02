@@ -6,5 +6,5 @@ image:
   tag: "10.0.3"
 
 monitoring:
-  jmxExporterImageRepo: bitnami/jmx-exporter
+  jmxExporterImageRepo: bitnamilegacy/jmx-exporter
   jmxExporterImageTag: 1.4.0
